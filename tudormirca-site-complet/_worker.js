@@ -1,3 +1,4 @@
+// Versiune: 24.11.2026 — expoziția 16 Zile. 16 Voci. (17 voci)
 /* ==========================================================================
    _worker.js — SERVERUL MIC DIN SPATELE SITE-ULUI (Cloudflare Pages)
 
