@@ -52,16 +52,20 @@
   main.innerHTML = `
     <article class="voce-pagina" aria-labelledby="titlu-voce">
       <div class="voce__foto">
-        <figure class="voce__cadru">
-          <img src="${escapa(cale(v.foto))}" srcset="${escapa(cale(v.fotoMica))} 760w, ${escapa(cale(v.foto))} 1400w" sizes="(max-width: 760px) 94vw, 46vw" alt="${escapa(v.alt || "")}" width="1400" height="2008" fetchpriority="high">
+        ${v.foto
+          ? `<figure class="voce__cadru">
+          <img src="${escapa(cale(v.foto))}" srcset="${escapa(cale(v.fotoMica || v.foto))} 760w, ${escapa(cale(v.foto))} 1400w" sizes="(max-width: 760px) 94vw, 46vw" alt="${escapa(v.alt || "")}" width="1400" height="2008" fetchpriority="high">
           <span class="voce__index">${douaCifre(index + 1)}</span>
-        </figure>
+        </figure>`
+          : `<div class="voce__cadru gol" role="img" aria-label="Fotografia va fi adăugată în curând">
+          <span class="gol__nr" aria-hidden="true">${douaCifre(index + 1)}</span>
+          <span class="gol__text" aria-hidden="true">Fotografia vine în curând</span>
+        </div>`}
       </div>
       <div class="voce__text">
-        <p class="voce__nr eticheta">Vocea ${douaCifre(index + 1)}</p>
         <h1 class="voce__titlu negru" id="titlu-voce">${escapa(v.titlu)}</h1>
         <p class="voce__ro">${escapa(v.titluRo || "")}</p>
-        <p class="voce__etichete">${escapa(v.etichete || "")}</p>
+        ${v.etichete ? `<p class="voce__etichete">${escapa(v.etichete)}</p>` : ""}
         <div class="blocuri">
           <div class="bloc"><span class="bloc__nr">01</span><div><h2 class="h3">Ce este</h2><p>${escapa(v.descriere)}</p>${v.descriereEn ? `<p class="en" lang="en">${escapa(v.descriereEn)}</p>` : ""}</div></div>
           <div class="bloc bloc--accent"><span class="bloc__nr">02</span><div><h2 class="h3">Ce poate lăsa violența în urmă</h2><p>${escapa(v.efect)}</p></div></div>
@@ -77,4 +81,17 @@
         </nav>` : ""}
       </div>
     </article>`;
+
+  // Titlul mare nu iese niciodată din coloană, oricât de lung e cuvântul
+  const titlu = document.getElementById("titlu-voce");
+  function potriveste() {
+    titlu.style.fontSize = "";
+    const r = document.createRange();
+    r.selectNodeContents(titlu);
+    const lat = r.getBoundingClientRect().width;
+    if (lat > titlu.clientWidth) titlu.style.fontSize = `${parseFloat(getComputedStyle(titlu).fontSize) * (titlu.clientWidth / lat) * 0.99}px`;
+  }
+  potriveste();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(potriveste);
+  window.addEventListener("resize", potriveste);
 })();

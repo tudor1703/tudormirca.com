@@ -38,6 +38,11 @@ export default {
     const cale = url.pathname;
     try {
       if (cale === "/data.js") return await trimiteDate(request, env, url);
+      // Adrese scrise invers sau fără „/” la final duc tot la expoziție
+      const gresit = cale.match(/^\/(16zile16voci|16voci16zile)(\/.*)?$/i);
+      if (gresit && (gresit[1] !== "16voci16zile" || !gresit[2])) {
+        return Response.redirect(url.origin + "/16voci16zile" + (gresit[2] || "/") + url.search, 301);
+      }
       if (cale.startsWith("/16voci16zile/")) return await paginaVoce(request, env, url, cale);
       if (cale.startsWith("/files/")) return await trimiteFisier(request, env, cale.slice(7), url);
       if (cale.startsWith("/api/")) return await api(request, env, url);

@@ -40,7 +40,13 @@
   $("#concept-text").innerHTML = (concept.text || []).map((p) => `<p>${escapa(p)}</p>`).join("");
 
   $("#cifre").innerHTML = (E.cifre || [])
-    .map((c) => `<li><strong data-numar="${Number(c.valoare) || 0}" data-sufix="${escapa(c.sufix || "")}">${miscareRedusa ? escapa(c.valoare + (c.sufix || "")) : "0"}</strong><span>${escapa(c.eticheta)}</span></li>`)
+    .map((c) => (c.valoare === "voci" ? { ...c, valoare: voci.length } : c))
+    .map((c) =>
+      // Numerele cresc la scroll; un text (ex: „PM266”) apare așa cum e
+      isNaN(Number(c.valoare))
+        ? `<li><strong class="cifre__text">${escapa(c.valoare)}</strong><span>${escapa(c.eticheta)}</span></li>`
+        : `<li><strong data-numar="${Number(c.valoare) || 0}" data-sufix="${escapa(c.sufix || "")}">${miscareRedusa ? escapa(c.valoare + (c.sufix || "")) : "0"}</strong><span>${escapa(c.eticheta)}</span></li>`
+    )
     .join("");
   $("#etape").innerHTML = (E.etape || []).map((e) => `<li><time>${escapa(e.data)}</time><span>${escapa(e.titlu)}</span></li>`).join("");
 
@@ -70,7 +76,7 @@
     const grup = rand
       .map(
         (v, k) => `<a class="perete__voce" href="${escapa(v.slug)}/" ${k >= voci.length ? 'tabindex="-1" aria-hidden="true"' : ""}>
-          <img src="${escapa(v.fotoMica || v.foto)}" alt="" loading="lazy" width="760" height="1090">
+          ${v.fotoMica || v.foto ? `<img src="${escapa(v.fotoMica || v.foto)}" alt="" loading="lazy" width="760" height="1090">` : `<span class="gol" aria-hidden="true"><span class="gol__nr">${douaCifre(voci.indexOf(v) + 1)}</span></span>`}
           <span class="perete__nume"><small>Vocea ${douaCifre(voci.indexOf(v) + 1)}</small>${escapa(v.titlu)}</span></a>`
       )
       .join("");
@@ -82,29 +88,37 @@
   }
 
   /* ---------- vocile ---------- */
+  // Cât timp fotografia lipsește, rămâne un loc gol cu numărul vocii
+  const golFoto = (i) => `<div class="voce__cadru gol" role="img" aria-label="Fotografia va fi adăugată în curând">
+            <span class="gol__nr" aria-hidden="true">${douaCifre(i + 1)}</span>
+            <span class="gol__text" aria-hidden="true">Fotografia vine în curând</span>
+          </div>`;
+  const alteLimbi = (v) =>
+    (v.descriereEn ? `<p class="en" lang="en">${escapa(v.descriereEn)}</p>` : "");
   $("#lista-voci").innerHTML = voci
     .map(
       (v, i) => `
       <article class="voce" id="voce-${escapa(v.slug)}" aria-labelledby="titlu-${escapa(v.slug)}">
         <div class="voce__foto" data-apare>
-          <button class="voce__cadru" type="button" data-poster="${i}" aria-label="Vezi posterul ${escapa(v.titlu)}">
-            <img src="${escapa(v.foto)}" srcset="${escapa(v.fotoMica)} 760w, ${escapa(v.foto)} 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="${escapa(v.alt || "")}" loading="lazy" width="1400" height="2008">
+          ${v.foto
+            ? `<button class="voce__cadru" type="button" data-poster="${i}" aria-label="Vezi posterul ${escapa(v.titlu)}">
+            <img src="${escapa(v.foto)}" srcset="${escapa(v.fotoMica || v.foto)} 760w, ${escapa(v.foto)} 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="${escapa(v.alt || "")}" loading="lazy" width="1400" height="2008">
             <span class="voce__index">${douaCifre(i + 1)}</span>
-          </button>
+          </button>`
+            : golFoto(i)}
         </div>
         <div class="voce__text" data-apare>
-          <p class="voce__nr eticheta">Vocea ${douaCifre(i + 1)}</p>
           <h3 class="voce__titlu negru" id="titlu-${escapa(v.slug)}">${escapa(v.titlu)}</h3>
           <p class="voce__ro">${escapa(v.titluRo || "")}</p>
-          <p class="voce__etichete">${escapa(v.etichete || "")}</p>
+          ${v.etichete ? `<p class="voce__etichete">${escapa(v.etichete)}</p>` : ""}
           <div class="blocuri">
-            <div class="bloc"><span class="bloc__nr">01</span><div><h3>Ce este</h3><p>${escapa(v.descriere)}</p>${v.descriereEn ? `<p class="en" lang="en">${escapa(v.descriereEn)}</p>` : ""}</div></div>
+            <div class="bloc"><span class="bloc__nr">01</span><div><h3>Ce este</h3><p>${escapa(v.descriere)}</p>${alteLimbi(v)}</div></div>
             <div class="bloc bloc--accent"><span class="bloc__nr">02</span><div><h3>Ce poate lăsa violența în urmă</h3><p>${escapa(v.efect)}</p></div></div>
             <div class="bloc"><span class="bloc__nr">03</span><div><h3>De ce contează în campanie</h3><p>${escapa(v.relevanta)}</p></div></div>
           </div>
           <div class="voce__actiuni">
             <a class="buton" href="${escapa(v.slug)}/">${iconita("i-qr")} Pagina vocii</a>
-            <button class="buton buton--gol" type="button" data-poster="${i}">Vezi posterul</button>
+            ${v.poster || v.foto ? `<button class="buton buton--gol" type="button" data-poster="${i}">Vezi posterul</button>` : ""}
           </div>
         </div>
       </article>`
@@ -135,7 +149,9 @@
 
   /* ---------- echipa, pe departamente ---------- */
   const studentiPlan = departamente.reduce((s, d) => s + (Number(d.studenti) || 0), 0);
-  $("#echipa-intro").textContent = `${studentiPlan || 46} de studenți pe grupă, în ${departamente.length} departamente: de la cercetare și concept până la fotografie, design și promovare.`;
+  const studenti = Number(E.studenti) || studentiPlan;
+  const grupa = E.grupa ? `grupa ${E.grupa}` : "grupă";
+  $("#echipa-intro").textContent = `${studenti} de studenți din ${grupa}, în ${departamente.length} departamente: de la cercetare și concept până la fotografie, design și promovare.`;
 
   const silueta = `<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-om"></use></svg>`;
   $("#departamente").innerHTML = departamente
@@ -164,9 +180,9 @@
   $("#departamente").insertAdjacentHTML(
     "beforeend",
     `<article class="departament departament--total" data-departament="total" data-apare>
-      <p class="departament__sus"><span>Total</span><span>× 2 grupe</span></p>
-      <div><strong>${studentiPlan || 46}<span>.</span></strong>
-      <p>studenți pe grupă, în ${departamente.length} departamente. PM265 și PM266: ${(studentiPlan || 46) * 2} de oameni, o singură expoziție.</p></div>
+      <p class="departament__sus"><span>Total</span><span>${escapa(E.grupa || "")}</span></p>
+      <div><strong>${studenti}<span>.</span></strong>
+      <p>studenți din ${escapa(grupa)}, în ${departamente.length} departamente. O singură expoziție.</p></div>
     </article>`
   );
   $("#echipa-nota").textContent = echipa.length
@@ -222,6 +238,20 @@
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(potrivesteTitlul);
   window.addEventListener("resize", potrivesteTitlul);
 
+  /* ---------- titlurile vocilor: niciodată mai late decât coloana ---------- */
+  function potrivesteVocile() {
+    document.querySelectorAll(".voce__titlu").forEach((el) => {
+      el.style.fontSize = "";
+      const r = document.createRange();
+      r.selectNodeContents(el);
+      const lat = r.getBoundingClientRect().width;
+      if (lat > el.clientWidth) el.style.fontSize = `${parseFloat(getComputedStyle(el).fontSize) * (el.clientWidth / lat) * 0.99}px`;
+    });
+  }
+  potrivesteVocile();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(potrivesteVocile);
+  window.addEventListener("resize", potrivesteVocile);
+
   /* ---------- scroll lin ---------- */
   if (!miscareRedusa && typeof Lenis === "function") {
     lenis = new Lenis({ lerp: 0.1, anchors: { offset: -64 } });
@@ -249,7 +279,7 @@
   } else apare.forEach((el) => el.classList.add("vizibil"));
 
   /* ---------- cifrele care cresc ---------- */
-  const cifre = $$("#cifre strong");
+  const cifre = $$("#cifre strong[data-numar]");
   let cifreCrescute = miscareRedusa;
   function cresteCifrele() {
     cifreCrescute = true;
