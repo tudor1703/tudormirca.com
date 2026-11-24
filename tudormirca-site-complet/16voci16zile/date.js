@@ -420,7 +420,26 @@ const EXPOZITIE = {
          rol: "Site-ul expoziției și paginile QR", foto: "img/echipa/tudor-mirca.jpg" },
      Până se completează lista, grila arată locuri gri (câte studenți sunt în total).
      ------------------------------------------------------------------------ */
-  echipa: [],
+  // numele și rolul se pot completa oricând; până atunci apare doar fotografia
+  echipa: [
+    { nume: "", rol: "", foto: "img/echipa/student-01.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-02.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-03.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-04.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-05.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-06.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-07.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-08.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-09.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-10.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-11.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-12.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-13.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-14.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-15.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-16.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-17.jpg" },
+  ],
 
   sprijin: [
     {

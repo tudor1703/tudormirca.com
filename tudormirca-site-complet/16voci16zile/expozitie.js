@@ -163,8 +163,8 @@
     echipa
       .map(
         (m) => `<li class="om">
-          <div class="om__foto">${m.foto ? `<img src="${escapa(m.foto)}" alt="${escapa(m.nume)}" loading="lazy">` : silueta}</div>
-          <p class="om__nume">${escapa(m.nume)}</p>
+          <div class="om__foto">${m.foto ? `<img src="${escapa(m.foto)}" alt="${escapa(m.nume || "Membru al echipei")}" loading="lazy">` : silueta}</div>
+          ${m.nume ? `<p class="om__nume">${escapa(m.nume)}</p>` : ""}
           ${m.rol ? `<p class="om__rol">${escapa(m.rol)}</p>` : ""}</li>`
       )
       .join("") +
