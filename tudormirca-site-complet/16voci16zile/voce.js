@@ -2,7 +2,7 @@
    16voci16zile/voce.js — PAGINA UNEI VOCI (aici duce codul QR)
 
    Află vocea din adresă (/16voci16zile/<slug>/ sau ?v=<slug>) și arată
-   doar fotografia și povestea ei, plus linia de sprijin.
+   doar fotografia și povestea ei.
    ========================================================================== */
 
 "use strict";
@@ -11,7 +11,6 @@
   const E = typeof EXPOZITIE !== "undefined" ? EXPOZITIE : {};
   const voci = Array.isArray(E.voci) ? E.voci : [];
   const $ = (s) => document.querySelector(s);
-  const douaCifre = (n) => String(n).padStart(2, "0");
 
   function escapa(v) {
     const m = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
@@ -43,9 +42,8 @@
   }
 
   document.title = `${v.titlu} — 16 Zile. 16 Voci.`;
-  $("#pozitie").textContent = `Vocea ${douaCifre(index + 1)} / ${douaCifre(voci.length)}`;
+  $("#pozitie").textContent = `Vocea ${index + 1} / ${voci.length}`;
 
-  const sprijin = (E.sprijin || [])[0];
   const anterior = voci[(index - 1 + voci.length) % voci.length];
   const urmator = voci[(index + 1) % voci.length];
 
@@ -53,14 +51,13 @@
     <article class="voce-pagina" aria-labelledby="titlu-voce">
       <div class="voce__foto">
         ${v.oglinda && window.Oglinda
-          ? window.Oglinda.cadru(douaCifre(index + 1))
+          ? window.Oglinda.cadru(index + 1)
           : v.foto
           ? `<figure class="voce__cadru">
           <img src="${escapa(cale(v.foto))}" srcset="${escapa(cale(v.fotoMica || v.foto))} 760w, ${escapa(cale(v.foto))} 1400w" sizes="(max-width: 760px) 94vw, 46vw" alt="${escapa(v.alt || "")}" width="1400" height="2008" fetchpriority="high">
-          <span class="voce__index">${douaCifre(index + 1)}</span>
         </figure>`
           : `<div class="voce__cadru gol" role="img" aria-label="Fotografia va fi adăugată în curând">
-          <span class="gol__nr" aria-hidden="true">${douaCifre(index + 1)}</span>
+          <span class="gol__nr" aria-hidden="true">${index + 1}</span>
           <span class="gol__text" aria-hidden="true">Fotografia vine în curând</span>
         </div>`}
       </div>
@@ -71,12 +68,8 @@
         <div class="blocuri">
           <div class="bloc"><span class="bloc__nr">01</span><div><h2 class="h3">Ce este</h2><p>${escapa(v.descriere)}</p>${v.descriereEn ? `<p class="en" lang="en">${escapa(v.descriereEn)}</p>` : ""}</div></div>
           <div class="bloc bloc--accent"><span class="bloc__nr">02</span><div><h2 class="h3">Ce poate lăsa violența în urmă</h2><p>${escapa(v.efect)}</p></div></div>
-          <div class="bloc"><span class="bloc__nr">03</span><div><h2 class="h3">De ce contează în campanie</h2><p>${escapa(v.relevanta)}</p></div></div>
+          <div class="bloc"><span class="bloc__nr">03</span><div><h2 class="h3">De ce contează</h2><p>${escapa(v.relevanta)}</p></div></div>
         </div>
-        ${sprijin ? `<aside class="ajutor" aria-label="Sprijin">
-          <p><strong>Ai nevoie să vorbești cu cineva?</strong> ${escapa(sprijin.nume)}. ${escapa(sprijin.detalii || "")}</p>
-          <a href="tel:${escapa(sprijin.tel || sprijin.numar)}">${escapa(sprijin.numar)}</a>
-        </aside>` : ""}
         ${voci.length > 1 ? `<nav class="voce-pagina__nav" aria-label="Alte voci">
           <a href="${radacina}${escapa(anterior.slug)}/">← Vocea anterioară<strong>${escapa(anterior.titlu)}</strong></a>
           <a href="${radacina}${escapa(urmator.slug)}/">Vocea următoare →<strong>${escapa(urmator.titlu)}</strong></a>

@@ -39,15 +39,8 @@ const EXPOZITIE = {
     { valoare: 16, eticheta: "voci" },
   ],
 
-  etape: [
-    { data: "09–13.11", titlu: "Concept și planificare" },
-    { data: "20.11", titlu: "Fotosesia PM266" },
-    { data: "23–27.11", titlu: "Editare și print" },
-    { data: "30.11", titlu: "Lansarea la Mediacor" },
-  ],
-
   /* ------------------------------------------------------------------------
-     VOCILE — câte un poster fiecare, în ordinea din expoziție
+     VOCILE — câte un poster fiecare, în ordinea din expoziție: întâi fobiile, apoi maniile
        slug          adresa paginii (ce e scris în QR)
        alias         opțional: alte adrese care duc tot aici
        titlu         titlul mare de pe poster
@@ -63,24 +56,24 @@ const EXPOZITIE = {
      ------------------------------------------------------------------------ */
   voci: [
     {
-      slug: "lalophobia",
-      alias: ["lalofobia"],
-      titlu: "LALOPHOBIA",
-      titluRo: "Lalofobia",
-      etichete: "fear of speaking / anxiety / avoidance of verbal communication",
+      slug: "haphephobia",
+      alias: ["hafefobia"],
+      titlu: "HAPHEPHOBIA",
+      titluRo: "Hafefobia",
+      etichete: "fear of touch / anxiety / avoidance of physical contact",
       descriere:
-        "Lalofobia este frica intensă de a vorbi sau de a rosti cuvinte. Poate fi provocată de teama de a nu se bâlbâi, de a pronunța greșit sau de a fi judecat de ceilalți.",
+        "Hafefobia este frica intensă de a fi atins de alte persoane, chiar și prin gesturi delicate sau afectuoase. Aceasta poate provoca anxietate, disconfort și nevoia de a evita contactul fizic.",
       descriereEn:
-        "Lalophobia is an intense fear of speaking or talking. It can be caused by the fear of stuttering, mispronouncing words, or being judged by others.",
+        "Haphephobia is an intense fear of being touched by other people, even through gentle or affectionate gestures. It can cause anxiety, discomfort, and a need to avoid physical contact.",
       efect:
-        "Violența psihologică îl învață pe om că vocea lui e periculoasă: fiecare cuvânt poate fi luat în râs, întors împotriva lui sau pedepsit. După abuz, multe supraviețuitoare tac din rușine, din frica de a nu fi crezute sau de răzbunare. Tăcerea poate rămâne și după ce abuzul s-a oprit, ca teamă de a vorbi chiar și în situații obișnuite.",
+        "După violența fizică sau sexuală, atingerea își poate pierde sensul de grijă. Corpul își amintește: o mână pe umăr, o îmbrățișare sau chiar un consult medical pot aduce frică, îngheț sau dorința de a se retrage. Mulți supraviețuitori simt că propriul corp nu mai e un loc sigur.",
       relevanta:
-        "Violența se ascunde în tăcere. Lalofobia arată de ce întrebarea „De ce n-ai spus nimic?” rănește: uneori, a vorbi e cel mai greu pas. „16 Voci” înseamnă să facem loc acestor voci și să le ascultăm fără să judecăm.",
-      poster: "img/lalophobia-poster.jpg",
-      posterMic: "img/lalophobia-poster-mic.jpg",
-      foto: "img/lalophobia-foto.jpg",
-      fotoMica: "img/lalophobia-foto-mic.jpg",
-      alt: "O tânără cu privirea întoarsă își îndeasă în gură un ghem de cabluri albe și roșii.",
+        "Hafefobia vorbește despre consimțământ și despre timp: încrederea se reconstruiește doar cu respect pentru limitele celuilalt. Campania cere exact asta — să credem, să susținem și să nu forțăm apropierea.",
+      poster: "",
+      posterMic: "",
+      foto: "img/haphephobia-foto.jpg",
+      fotoMica: "img/haphephobia-foto-mic.jpg",
+      alt: "Fotografie alb-negru: mai multe mâini apasă pe fața unei tinere cu buzele roșii, trăgându-i pleoapele și gura.",
     },
     {
       slug: "phonophobia",
@@ -96,31 +89,31 @@ const EXPOZITIE = {
         "Țipetele, ușile trântite și obiectele sparte sunt adesea limbajul violenței în familie. După traumă, corpul poate rămâne în alertă: un zgomot puternic aduce tresărire, panică sau dorința de a fugi, chiar și după ani. Tresărirea exagerată la sunete este una dintre reacțiile cunoscute ale stresului posttraumatic.",
       relevanta:
         "Fonofobia arată că intimidarea și strigătele lasă urme reale, chiar și fără nicio lovitură. Iar copiii care cresc printre țipete le poartă cu ei. Campania ne amintește că și violența psihologică este violență — și că se poate cere ajutor.",
-      poster: "img/phonophobia-poster.jpg",
-      posterMic: "img/phonophobia-poster-mic.jpg",
+      poster: "",
+      posterMic: "",
       foto: "img/phonophobia-foto.jpg",
       fotoMica: "img/phonophobia-foto-mic.jpg",
       alt: "Fotografie alb-negru: o persoană cu părul creț țipă cu ochii închiși, cu palmele lipite de obraji.",
     },
     {
-      slug: "haphephobia",
-      alias: ["hafefobia"],
-      titlu: "HAPHEPHOBIA",
-      titluRo: "Hafefobia",
-      etichete: "fear of touch / anxiety / avoidance of physical contact",
+      slug: "lalophobia",
+      alias: ["lalofobia"],
+      titlu: "LALOPHOBIA",
+      titluRo: "Lalofobia",
+      etichete: "fear of speaking / anxiety / avoidance of verbal communication",
       descriere:
-        "Hafefobia este frica intensă de a fi atins de alte persoane, chiar și prin gesturi delicate sau afectuoase. Aceasta poate provoca anxietate, disconfort și nevoia de a evita contactul fizic.",
+        "Lalofobia este frica intensă de a vorbi sau de a rosti cuvinte. Poate fi provocată de teama de a nu se bâlbâi, de a pronunța greșit sau de a fi judecat de ceilalți.",
       descriereEn:
-        "Haphephobia is an intense fear of being touched by other people, even through gentle or affectionate gestures. It can cause anxiety, discomfort, and a need to avoid physical contact.",
+        "Lalophobia is an intense fear of speaking or talking. It can be caused by the fear of stuttering, mispronouncing words, or being judged by others.",
       efect:
-        "După violența fizică sau sexuală, atingerea își poate pierde sensul de grijă. Corpul își amintește: o mână pe umăr, o îmbrățișare sau chiar un consult medical pot aduce frică, îngheț sau dorința de a se retrage. Mulți supraviețuitori simt că propriul corp nu mai e un loc sigur.",
+        "Violența psihologică îl învață pe om că vocea lui e periculoasă: fiecare cuvânt poate fi luat în râs, întors împotriva lui sau pedepsit. După abuz, multe supraviețuitoare tac din rușine, din frica de a nu fi crezute sau de răzbunare. Tăcerea poate rămâne și după ce abuzul s-a oprit, ca teamă de a vorbi chiar și în situații obișnuite.",
       relevanta:
-        "Hafefobia vorbește despre consimțământ și despre timp: încrederea se reconstruiește doar cu respect pentru limitele celuilalt. Campania cere exact asta — să credem, să susținem și să nu forțăm apropierea.",
-      poster: "img/haphephobia-poster.jpg",
-      posterMic: "img/haphephobia-poster-mic.jpg",
-      foto: "img/haphephobia-foto.jpg",
-      fotoMica: "img/haphephobia-foto-mic.jpg",
-      alt: "Fotografie alb-negru: mai multe mâini apasă pe fața unei tinere cu buzele roșii, trăgându-i pleoapele și gura.",
+        "Violența se ascunde în tăcere. Lalofobia arată de ce întrebarea „De ce n-ai spus nimic?” rănește: uneori, a vorbi e cel mai greu pas. „16 Voci” înseamnă să facem loc acestor voci și să le ascultăm fără să judecăm.",
+      poster: "",
+      posterMic: "",
+      foto: "img/lalophobia-foto.jpg",
+      fotoMica: "img/lalophobia-foto-mic.jpg",
+      alt: "O tânără cu privirea întoarsă își îndeasă în gură un ghem de cabluri albe și roșii.",
     },
     {
       slug: "atelophobia",
@@ -138,9 +131,9 @@ const EXPOZITIE = {
         "Atelofobia arată cum violența psihologică mută vina pe victimă: „dacă aș fi fost mai bună, nu s-ar fi întâmplat”. Nimeni nu provoacă abuzul prin greșelile sale. Campania amintește că umilirea constantă este violență, chiar dacă nu lasă urme pe corp.",
       poster: "", // img/atelophobia-poster.jpg
       posterMic: "",
-      foto: "", // img/atelophobia-foto.jpg
-      fotoMica: "",
-      alt: "",
+      foto: "img/atelophobia-foto.jpg",
+      fotoMica: "img/atelophobia-foto-mic.jpg",
+      alt: "Picioare în ciorapi albi cu stele albastre, întinse pe o folie, presărate cu sclipici albastru și roz.",
     },
     {
       slug: "algophobia",
@@ -158,9 +151,9 @@ const EXPOZITIE = {
         "Algofobia arată că violența fizică doare și după ce vânătăile dispar. Frica de durere ține oamenii în tăcere și supunere. Campania spune că nimeni nu trebuie să trăiască așteptând următoarea lovitură — și că există ajutor.",
       poster: "", // img/algophobia-poster.jpg
       posterMic: "",
-      foto: "", // img/algophobia-foto.jpg
-      fotoMica: "",
-      alt: "",
+      foto: "img/algophobia-foto.jpg",
+      fotoMica: "img/algophobia-foto-mic.jpg",
+      alt: "Prim-plan cu jumătate de chip în lacrimi; o bandă verticală în culoare arată pielea înroșită de sub ochi.",
     },
     {
       slug: "autophobia",
@@ -178,9 +171,9 @@ const EXPOZITIE = {
         "Izolarea este un instrument de control. Autofobia ne cere să nu-i lăsăm singuri pe cei care trec prin violență: un mesaj, un apel sau o vizită pot conta enorm. Campania amintește că nimeni nu trebuie să treacă singur prin asta.",
       poster: "", // img/autophobia-poster.jpg
       posterMic: "",
-      foto: "", // img/autophobia-foto.jpg
-      fotoMica: "",
-      alt: "",
+      foto: "img/autophobia-foto.jpg",
+      fotoMica: "img/autophobia-foto-mic.jpg",
+      alt: "Fotografie alb-negru: o tânără cu chipul estompat, cu cămașa căzută de pe umăr și mâna la gât.",
     },
     {
       slug: "erotophobia",
@@ -198,9 +191,9 @@ const EXPOZITIE = {
         "Erotofobia vorbește despre consimțământ: intimitatea fără acord este violență, inclusiv într-un cuplu sau într-o căsnicie. Vindecarea cere timp și respect pentru ritmul fiecăruia. Campania ne amintește că vina nu este niciodată a victimei.",
       poster: "", // img/erotophobia-poster.jpg
       posterMic: "",
-      foto: "", // img/erotophobia-foto.jpg
-      fotoMica: "",
-      alt: "",
+      foto: "img/erotophobia-foto.jpg",
+      fotoMica: "img/erotophobia-foto-mic.jpg",
+      alt: "Fotografie alb-negru: un tânăr ține strâns bărbia unei tinere cu ochii închiși și buzele întredeschise.",
     },
     {
       slug: "scopophobia",
@@ -218,29 +211,29 @@ const EXPOZITIE = {
         "Scopofobia arată violența care nu atinge corpul: supravegherea, urmărirea și umilirea online. Și acestea sunt forme de violență în bază de gen. Campania ne cere să nu distribuim, să nu comentăm și să nu judecăm, ci să-i sprijinim pe cei expuși.",
       poster: "", // img/scopophobia-poster.jpg
       posterMic: "",
-      foto: "", // img/scopophobia-foto.jpg
-      fotoMica: "",
-      alt: "",
+      foto: "img/scopophobia-foto.jpg",
+      fotoMica: "img/scopophobia-foto-mic.jpg",
+      alt: "O tânără cu fața acoperită de zeci de ochi de jucărie privește speriată spre cameră.",
     },
     {
-      slug: "reimania",
-      alias: ["reimanie", "objectification", "obiectificare", "depersonalization", "depersonalizare"],
-      titlu: "REIMANIA",
-      titluRo: "Reimanie",
+      slug: "nymphomania",
+      alias: ["nimfomania"],
+      titlu: "NYMPHOMANIA",
+      titluRo: "Nimfomania",
       etichete: "", // rândul mic de sub titlu, de pe poster
       descriere:
-        "O obsesie intensă sau o compulsie de a reduce oamenii, emoțiile sau propria persoană la simple obiecte fizice, eliminând identitatea, umanitatea și profunzimea emoțională în favoarea obiectificării și a depersonalizării.",
+        "Nimfomania este termenul istoric pentru hipersexualitate sau comportamentul sexual compulsiv la femei. Dincolo de dorință, este un impuls necontrolat folosit ca mecanism de apărare pentru a masca trauma, anxietatea sau un gol interior.",
       descriereEn:
-        "An intense obsession or compulsion to reduce people, emotions, or oneself into mere physical objects, stripping away personhood, agency, and emotional depth in favor of cold objectification and depersonalization.",
+        "Nymphomania is the historical term for hypersexuality or compulsive sexual behavior in women. Beyond desire, it is an uncontrollable urge used as a coping mechanism to mask underlying trauma, anxiety, or a deep inner void.",
       efect:
-        "În abuzul psihologic, persoana este tratată ca o proprietate: i se controlează banii, hainele, prietenii și deciziile. Ca să supraviețuiască, mintea se poate detașa, iar omul simte că își privește viața din afară, ca și cum corpul nu ar mai fi al lui. Depersonalizarea este o reacție cunoscută la trauma care se repetă.",
+        "După abuz, unii oameni ajung la comportamente sexuale compulsive: nu din dorință, ci ca să amorțească durerea, să recapete o iluzie de control sau să umple un gol. Cercetările găsesc o legătură între abuzul sexual din copilărie și hipersexualitate. Termenul „nimfomanie” a fost folosit istoric ca să judece și să rușineze femeile.",
       relevanta:
-        "Gelozia și controlul sunt adesea confundate cu dragostea. Acest poster spune clar că un om nu aparține nimănui. Campania vorbește despre dreptul fiecăruia de a decide pentru sine și de a-și aparține.",
-      poster: "", // img/reimania-poster.jpg
+        "Acest poster contrazice o idee periculoasă: că felul în care se poartă o femeie ar justifica violența. Comportamentul cuiva nu înseamnă niciodată consimțământ. Campania ne cere să privim dincolo de etichete și să vedem rana.",
+      poster: "", // img/nymphomania-poster.jpg
       posterMic: "",
-      foto: "", // img/reimania-foto.jpg
-      fotoMica: "",
-      alt: "",
+      foto: "img/nymphomania-foto.jpg",
+      fotoMica: "img/nymphomania-foto-mic.jpg",
+      alt: "Fotografie alb-negru: spatele gol al unui tânăr, de care se agață două mâini de femeie.",
     },
     {
       slug: "alexithymia",
@@ -278,29 +271,9 @@ const EXPOZITIE = {
         "Lipemania arată violența care continuă în tăcere, în interior. Depresia de după abuz se poate trata, iar a cere ajutor este un pas de curaj, nu de rușine. Campania amintește că nimeni nu trebuie să ducă singur această greutate.",
       poster: "", // img/lypemania-poster.jpg
       posterMic: "",
-      foto: "", // img/lypemania-foto.jpg
-      fotoMica: "",
-      alt: "",
-    },
-    {
-      slug: "nymphomania",
-      alias: ["nimfomania"],
-      titlu: "NYMPHOMANIA",
-      titluRo: "Nimfomania",
-      etichete: "", // rândul mic de sub titlu, de pe poster
-      descriere:
-        "Nimfomania este termenul istoric pentru hipersexualitate sau comportamentul sexual compulsiv la femei. Dincolo de dorință, este un impuls necontrolat folosit ca mecanism de apărare pentru a masca trauma, anxietatea sau un gol interior.",
-      descriereEn:
-        "Nymphomania is the historical term for hypersexuality or compulsive sexual behavior in women. Beyond desire, it is an uncontrollable urge used as a coping mechanism to mask underlying trauma, anxiety, or a deep inner void.",
-      efect:
-        "După abuz, unii oameni ajung la comportamente sexuale compulsive: nu din dorință, ci ca să amorțească durerea, să recapete o iluzie de control sau să umple un gol. Cercetările găsesc o legătură între abuzul sexual din copilărie și hipersexualitate. Termenul „nimfomanie” a fost folosit istoric ca să judece și să rușineze femeile.",
-      relevanta:
-        "Acest poster contrazice o idee periculoasă: că felul în care se poartă o femeie ar justifica violența. Comportamentul cuiva nu înseamnă niciodată consimțământ. Campania ne cere să privim dincolo de etichete și să vedem rana.",
-      poster: "", // img/nymphomania-poster.jpg
-      posterMic: "",
-      foto: "", // img/nymphomania-foto.jpg
-      fotoMica: "",
-      alt: "",
+      foto: "img/lypemania-foto.jpg",
+      fotoMica: "img/lypemania-foto-mic.jpg",
+      alt: "Negativ fotografic: o siluetă albă, ghemuită, își strânge brațul, pe un fundal roz și verde.",
     },
     {
       slug: "dipsomania",
@@ -318,29 +291,9 @@ const EXPOZITIE = {
         "Dipsomania arată un cerc vicios: durerea duce la băutură, iar băutura aduce și mai multă durere. Alcoolul nu este niciodată o scuză pentru violență, iar dependența victimei nu o face vinovată. Campania vorbește despre ajutor fără judecată.",
       poster: "", // img/dipsomania-poster.jpg
       posterMic: "",
-      foto: "", // img/dipsomania-foto.jpg
-      fotoMica: "",
-      alt: "",
-    },
-    {
-      slug: "megalomania",
-      alias: [],
-      titlu: "MEGALOMANIA",
-      titluRo: "Megalomania",
-      etichete: "", // rândul mic de sub titlu, de pe poster
-      descriere:
-        "Megalomania este o stare psihologică marcată de convingeri exagerate despre propria putere, grandoare și superioritate. În spatele acestei nevoi obsesive de a domina se ascunde adesea o fragilitate profundă și teama de a fi nesemnificativ.",
-      descriereEn:
-        "Megalomania is a psychological state marked by exaggerated beliefs about one’s own power, grandeur, and superiority. Behind this obsessive need to dominate others often lies a deep fragility and an unconscious fear of insignificance.",
-      efect:
-        "Lângă cineva care are nevoie să domine, celălalt învață să se facă mic: să nu contrazică, să nu iasă în evidență, să nu ceară nimic. Violența în bază de gen se sprijină pe ideea că un om are dreptul să-l controleze pe altul. Cine a trăit așa poate continua mult timp să-și ceară voie pentru propria existență.",
-      relevanta:
-        "Megalomania arată rădăcina multor abuzuri: dorința de putere și de control. În spatele ei stau adesea fragilitatea și frica de a nu conta, dar nimic din toate acestea nu scuză violența. Campania cere relații construite pe egalitate, nu pe dominare.",
-      poster: "", // img/megalomania-poster.jpg
-      posterMic: "",
-      foto: "", // img/megalomania-foto.jpg
-      fotoMica: "",
-      alt: "",
+      foto: "img/dipsomania-foto.jpg",
+      fotoMica: "img/dipsomania-foto-mic.jpg",
+      alt: "Sub lumină albastră, o tânără cu machiajul întins își sprijină de frunte o sticlă goală.",
     },
     {
       slug: "trichotillomania",
@@ -358,9 +311,49 @@ const EXPOZITIE = {
         "Tricotilomania arată că urmele violenței pot fi ascunse chiar sub ochii noștri. În loc de remarci sau glume, persoana are nevoie de înțelegere și de sprijin specializat. Campania ne învață să observăm și să întrebăm cu grijă.",
       poster: "", // img/trichotillomania-poster.jpg
       posterMic: "",
-      foto: "", // img/trichotillomania-foto.jpg
-      fotoMica: "",
-      alt: "",
+      foto: "img/trichotillomania-foto.jpg",
+      fotoMica: "img/trichotillomania-foto-mic.jpg",
+      alt: "Fotografie mișcată, în mov și verde: o tânără își prinde părul cu ambele mâini, cu gura deschisă.",
+    },
+    {
+      slug: "megalomania",
+      alias: [],
+      titlu: "MEGALOMANIA",
+      titluRo: "Megalomania",
+      etichete: "", // rândul mic de sub titlu, de pe poster
+      descriere:
+        "Megalomania este o stare psihologică marcată de convingeri exagerate despre propria putere, grandoare și superioritate. În spatele acestei nevoi obsesive de a domina se ascunde adesea o fragilitate profundă și teama de a fi nesemnificativ.",
+      descriereEn:
+        "Megalomania is a psychological state marked by exaggerated beliefs about one’s own power, grandeur, and superiority. Behind this obsessive need to dominate others often lies a deep fragility and an unconscious fear of insignificance.",
+      efect:
+        "Lângă cineva care are nevoie să domine, celălalt învață să se facă mic: să nu contrazică, să nu iasă în evidență, să nu ceară nimic. Violența în bază de gen se sprijină pe ideea că un om are dreptul să-l controleze pe altul. Cine a trăit așa poate continua mult timp să-și ceară voie pentru propria existență.",
+      relevanta:
+        "Megalomania arată rădăcina multor abuzuri: dorința de putere și de control. În spatele ei stau adesea fragilitatea și frica de a nu conta, dar nimic din toate acestea nu scuză violența. Campania cere relații construite pe egalitate, nu pe dominare.",
+      poster: "", // img/megalomania-poster.jpg
+      posterMic: "",
+      foto: "img/megalomania-foto.jpg",
+      fotoMica: "img/megalomania-foto-mic.jpg",
+      alt: "Privit de sus, un tânăr în cămașă albă stă pe o scară metalică, înconjurat de siluete mișcate; pe podea arde o urmă de lumină.",
+    },
+    {
+      slug: "reimania",
+      alias: ["reimanie", "objectification", "obiectificare", "depersonalization", "depersonalizare"],
+      titlu: "REIMANIA",
+      titluRo: "Reimanie",
+      etichete: "", // rândul mic de sub titlu, de pe poster
+      descriere:
+        "O obsesie intensă sau o compulsie de a reduce oamenii, emoțiile sau propria persoană la simple obiecte fizice, eliminând identitatea, umanitatea și profunzimea emoțională în favoarea obiectificării și a depersonalizării.",
+      descriereEn:
+        "An intense obsession or compulsion to reduce people, emotions, or oneself into mere physical objects, stripping away personhood, agency, and emotional depth in favor of cold objectification and depersonalization.",
+      efect:
+        "În abuzul psihologic, persoana este tratată ca o proprietate: i se controlează banii, hainele, prietenii și deciziile. Ca să supraviețuiască, mintea se poate detașa, iar omul simte că își privește viața din afară, ca și cum corpul nu ar mai fi al lui. Depersonalizarea este o reacție cunoscută la trauma care se repetă.",
+      relevanta:
+        "Gelozia și controlul sunt adesea confundate cu dragostea. Acest poster spune clar că un om nu aparține nimănui. Campania vorbește despre dreptul fiecăruia de a decide pentru sine și de a-și aparține.",
+      poster: "", // img/reimania-poster.jpg
+      posterMic: "",
+      foto: "img/reimania-foto.jpg",
+      fotoMica: "img/reimania-foto-mic.jpg",
+      alt: "Picioare în ciorapi subțiri, cu cărți de joc, o bancnotă, un cutter și un ruj prinse sub ciorap; lângă ele, un pantof negru.",
     },
     {
       slug: "pseudomania",
@@ -378,9 +371,9 @@ const EXPOZITIE = {
         "Pseudomania ne amintește că violența nu se vede întotdeauna din afară, iar un zâmbet nu înseamnă că totul e bine. Campania ne cere să fim atenți la cei din jur și să creăm spații în care masca poate fi dată jos în siguranță.",
       poster: "", // img/pseudomania-poster.jpg
       posterMic: "",
-      foto: "", // img/pseudomania-foto.jpg
-      fotoMica: "",
-      alt: "",
+      foto: "img/pseudomania-foto.jpg",
+      fotoMica: "img/pseudomania-foto-mic.jpg",
+      alt: "O siluetă ascunsă sub o folie translucidă, luminată din spate, pe o scenă întunecată.",
     },
     {
       slug: "eisoptrophobia",
@@ -419,13 +412,13 @@ const EXPOZITIE = {
   ],
 
   /* ------------------------------------------------------------------------
-     ECHIPA — câte un rând pentru fiecare student
-       nume, grupa ("PM266"),
-       departament (exact ca în lista de mai sus), rol, foto (din img/echipa/)
+     ECHIPA — câte un rând pentru fiecare student: nume, rol, foto (din img/echipa/)
+       Pe site apar toți într-o singură grilă („Meet the team”), fără departamente.
+       Câmpurile grupa și departament pot rămâne, dar nu se afișează.
      Exemplu:
        { nume: "Tudor Mirca", grupa: "PM266", departament: "Comunicare și documentare",
          rol: "Site-ul expoziției și paginile QR", foto: "img/echipa/tudor-mirca.jpg" },
-     Cât timp lista e goală, fiecare departament arată locuri libere.
+     Până se completează lista, grila arată locuri gri (câte studenți sunt în total).
      ------------------------------------------------------------------------ */
   echipa: [],
 

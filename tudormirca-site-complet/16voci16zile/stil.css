@@ -24,6 +24,18 @@
   --linie: rgba(10, 10, 10, 0.12);
   --oranj: #ff5a1f; /* oranjul campaniei „16 zile” */
   --oranj-inchis: #d9420c;
+  --oranj-umbra: rgba(255, 90, 31, 0.18);
+
+  /* textul de pe un fundal plin (cerneală sau accent) */
+  --pe-cerneala: #ffffff;
+  --pe-oranj: #ffffff;
+  /* suprafețe care rămân închise în ambele teme: peretele, sprijinul, oglinda, locurile goale */
+  --bloc: #0a0a0a;
+  --pe-bloc: #ffffff;
+  --hartie-3: #eceae5;
+  --silueta: #d9d6cf;
+  --cuvant-stins: #d6d6d6;
+  --bara-fundal: rgba(255, 255, 255, 0.88);
 
   --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --latime: 1440px;
@@ -31,6 +43,28 @@
 
   --lin: cubic-bezier(0.22, 1, 0.36, 1);
   color-scheme: light;
+}
+
+/* Tema întunecată: hârtia întoarsă pe dos. Fără oranj: accentul e mov. */
+html[data-tema="intunecat"] {
+  --hartie: #0b0b0b;
+  --hartie-2: #171717;
+  --hartie-3: #1f1f1f;
+  --cerneala: #f2f2f2;
+  --gri: #a8a8a8;
+  --gri-deschis: #6e6e6e;
+  --linie: rgba(255, 255, 255, 0.14);
+  --oranj: #a97bff; /* accentul mov al temei întunecate */
+  --oranj-inchis: #a97bff;
+  --oranj-umbra: rgba(169, 123, 255, 0.22);
+  --pe-cerneala: #0b0b0b;
+  --pe-oranj: #0b0b0b;
+  --bloc: #161616;
+  --pe-bloc: #ffffff;
+  --silueta: #3a3a3a;
+  --cuvant-stins: #383838;
+  --bara-fundal: rgba(11, 11, 11, 0.86);
+  color-scheme: dark;
 }
 
 /* ---------- 2. BAZĂ ------------------------------------------------------ */
@@ -105,7 +139,7 @@ ol {
 
 ::selection {
   background: var(--oranj);
-  color: #fff;
+  color: var(--pe-oranj);
 }
 
 .doar-cititor {
@@ -124,7 +158,7 @@ ol {
   z-index: 100;
   padding: 10px 16px;
   background: var(--cerneala);
-  color: #fff;
+  color: var(--pe-cerneala);
   font-weight: 700;
   text-decoration: none;
   transform: translateY(-160%);
@@ -163,7 +197,7 @@ ol {
   padding: 0 20px;
   border: 2px solid var(--cerneala);
   background: var(--cerneala);
-  color: #fff;
+  color: var(--pe-cerneala);
   font-size: 0.95rem;
   font-weight: 700;
   text-decoration: none;
@@ -181,7 +215,7 @@ ol {
 }
 
 .buton--gol:hover {
-  color: #fff;
+  color: var(--pe-oranj);
 }
 
 .buton svg {
@@ -195,7 +229,7 @@ ol {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(255, 255, 255, 0.88);
+  background: var(--bara-fundal);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
@@ -258,7 +292,41 @@ ol {
   margin-right: 8px;
   border-radius: 50%;
   background: var(--oranj);
-  box-shadow: 0 0 0 4px rgba(255, 90, 31, 0.18);
+  box-shadow: 0 0 0 4px var(--oranj-umbra);
+}
+
+.tema-buton {
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin: 0;
+  padding: 0;
+  border: 2px solid var(--cerneala);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--cerneala);
+  cursor: pointer;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.tema-buton:hover {
+  background: var(--cerneala);
+  color: var(--pe-cerneala);
+}
+
+.tema-buton svg {
+  width: 16px;
+  height: 16px;
+}
+
+.tema-buton .tema__soare,
+html[data-tema="intunecat"] .tema-buton .tema__luna {
+  display: none;
+}
+
+html[data-tema="intunecat"] .tema-buton .tema__soare {
+  display: block;
 }
 
 /* ---------- 4. HERO ȘI CELE 16 ZILE -------------------------------------- */
@@ -374,7 +442,7 @@ ol {
   gap: 8px;
   padding: 6px 10px;
   background: var(--oranj);
-  color: #fff;
+  color: var(--pe-oranj);
   font-size: 0.78rem;
   font-weight: 800;
   white-space: nowrap;
@@ -420,7 +488,7 @@ ol {
   margin-top: clamp(48px, 7vw, 96px);
   overflow: hidden;
   border-block: 2px solid var(--cerneala);
-  background: var(--cerneala);
+  background: var(--bloc);
 }
 
 .perete__pista {
@@ -505,7 +573,7 @@ ol {
 }
 
 .declaratie .cuvant {
-  color: #d6d6d6;
+  color: var(--cuvant-stins);
   transition: color 0.35s ease;
 }
 
@@ -545,6 +613,7 @@ ol {
 }
 
 .cifre {
+  container-type: inline-size;
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   border-top: 2px solid var(--cerneala);
@@ -566,19 +635,12 @@ ol {
 
 .cifre strong {
   display: block;
-  font-size: clamp(3rem, 7vw, 6.2rem);
+  /* aceeași mărime pentru toate; nu mai mare decât încape „PM266” într-o celulă */
+  font-size: min(clamp(3rem, 7vw, 6.2rem), calc((50cqi - 26px) / 3.4));
   font-weight: 900;
   font-variant-numeric: tabular-nums;
   letter-spacing: -0.04em;
   line-height: 0.9;
-}
-
-/* Un text în loc de număr (ex: „PM266”): încape în celulă, pe aceeași înălțime */
-.cifre strong.cifre__text {
-  display: flex;
-  align-items: flex-end;
-  height: calc(clamp(3rem, 7vw, 6.2rem) * 0.9);
-  font-size: clamp(1.9rem, 4vw, 3.6rem);
 }
 
 .cifre span {
@@ -586,53 +648,6 @@ ol {
   margin-top: 10px;
   color: var(--gri);
   font-weight: 700;
-}
-
-.etape {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 0;
-  margin-top: 32px;
-}
-
-.etape li {
-  position: relative;
-  padding: 18px 12px 0 0;
-  border-top: 2px solid var(--cerneala);
-}
-
-.etape li::before {
-  content: "";
-  position: absolute;
-  top: -7px;
-  left: 0;
-  width: 12px;
-  height: 12px;
-  background: var(--cerneala);
-}
-
-.etape li:last-child {
-  border-top-color: var(--oranj);
-}
-
-.etape li:last-child::before {
-  background: var(--oranj);
-}
-
-.etape time {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 900;
-  font-variant-numeric: tabular-nums;
-}
-
-.etape span {
-  display: block;
-  margin-top: 4px;
-  color: var(--gri);
-  font-size: 0.85rem;
-  font-weight: 600;
-  line-height: 1.3;
 }
 
 /* ---------- 8. VOCILE ---------------------------------------------------- */
@@ -710,8 +725,8 @@ ol {
   aspect-ratio: 3749 / 5378;
   background:
     repeating-linear-gradient(135deg, transparent 0 18px, rgba(255, 255, 255, 0.035) 18px 19px),
-    var(--cerneala);
-  color: #fff;
+    var(--bloc);
+  color: var(--pe-bloc);
   container-type: inline-size;
   cursor: default;
 }
@@ -744,18 +759,6 @@ ol {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-.voce__index {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  padding: 6px 10px;
-  background: var(--cerneala);
-  color: #fff;
-  font-size: 0.8rem;
-  font-weight: 900;
-  font-variant-numeric: tabular-nums;
 }
 
 .voce__text {
@@ -844,7 +847,6 @@ ol {
   color: var(--oranj-inchis);
 }
 
-
 .voce__actiuni {
   display: flex;
   flex-wrap: wrap;
@@ -899,7 +901,7 @@ ol {
 
 .filtru[aria-pressed="true"] {
   background: var(--cerneala);
-  color: #fff;
+  color: var(--pe-cerneala);
 }
 
 .filtru span {
@@ -927,8 +929,8 @@ ol {
 /* Ultima celulă: totalul, alb pe negru */
 .departament--total {
   justify-content: space-between;
-  background: var(--cerneala);
-  color: #fff;
+  background: var(--bloc);
+  color: var(--pe-bloc);
 }
 
 .departament--total strong {
@@ -1035,13 +1037,73 @@ ol {
 .om--liber .om__foto {
   display: grid;
   place-items: end center;
-  background: repeating-linear-gradient(135deg, var(--hartie-2) 0 6px, #eceae5 6px 12px);
+  background: repeating-linear-gradient(135deg, var(--hartie-2) 0 6px, var(--hartie-3) 6px 12px);
 }
 
 .om--liber svg {
   width: 72%;
   height: auto;
-  fill: #d9d6cf;
+  fill: var(--silueta);
+}
+
+/* Departamentele: doar o listă, nu butoane */
+.dep-lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 32px;
+}
+
+.dep-lista li {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 2px solid var(--cerneala);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+/* Meet the team: toți studenții într-o singură grilă */
+.echipa__grila {
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  gap: 22px 10px;
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 2px solid var(--cerneala);
+}
+
+.echipa__grila .om__nume {
+  margin-top: 8px;
+  font-size: 0.82rem;
+}
+
+/* 45 = 9 × 5: pe ecrane mici 5 pe rând, ca să nu rămână nimeni singur pe ultimul rând */
+@media (max-width: 1000px) {
+  .echipa__grila {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .echipa__grila {
+    gap: 14px 6px;
+  }
+
+  .echipa__grila .om__nume {
+    font-size: 0.7rem;
+  }
+
+  .echipa__grila .om__rol {
+    font-size: 0.64rem;
+  }
+
+  .dep-lista li {
+    min-height: 34px;
+    padding: 0 10px;
+    font-size: 0.78rem;
+  }
 }
 
 .echipa__nota {
@@ -1053,8 +1115,8 @@ ol {
 
 /* ---------- 10. SPRIJIN -------------------------------------------------- */
 .sprijin {
-  background: var(--cerneala);
-  color: #fff;
+  background: var(--bloc);
+  color: var(--pe-bloc);
 }
 
 .sprijin .cutie {
@@ -1179,7 +1241,7 @@ ol {
   width: 100%;
   max-height: 90vh;
   object-fit: contain;
-  background: #fff;
+  background: var(--hartie);
 }
 
 .fereastra__inchide {
@@ -1192,7 +1254,7 @@ ol {
   height: 48px;
   border: 0;
   background: var(--oranj);
-  color: #fff;
+  color: var(--pe-oranj);
 }
 
 .fereastra__inchide svg {
@@ -1250,37 +1312,6 @@ ol {
 
 .voce-pagina__nav a:last-child {
   text-align: right;
-}
-
-.ajutor {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 14px 20px;
-  margin-top: 28px;
-  padding: 18px 20px;
-  background: var(--cerneala);
-  color: #fff;
-}
-
-.ajutor p {
-  color: #d4d4d4;
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.4;
-}
-
-.ajutor strong {
-  color: #fff;
-}
-
-.ajutor a {
-  color: var(--oranj);
-  font-size: clamp(1.3rem, 3vw, 1.7rem);
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  text-decoration: none;
-  white-space: nowrap;
 }
 
 .negasit {
@@ -1349,7 +1380,6 @@ ol {
     gap: 4px 10px;
   }
 
-
   /* Filtrele echipei: un singur rând care se derulează lateral */
   .filtre {
     flex-wrap: nowrap;
@@ -1405,37 +1435,7 @@ ol {
     top: 0;
   }
 
-  .etape {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0;
-  }
-
-  .etape li {
-    display: grid;
-    grid-template-columns: 96px minmax(0, 1fr);
-    padding: 14px 0 14px 22px;
-    border-top: 0;
-    border-left: 2px solid var(--cerneala);
-  }
-
-  .etape li::before {
-    top: 18px;
-    left: -7px;
-  }
-
-  .etape li:last-child {
-    border-left-color: var(--oranj);
-  }
-
-  .etape span {
-    margin-top: 0;
-  }
-
   .subsol__grila {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .ajutor {
     grid-template-columns: minmax(0, 1fr);
   }
 }
@@ -1478,8 +1478,8 @@ ol {
   display: block;
   overflow: hidden;
   aspect-ratio: 3749 / 5378;
-  background: var(--cerneala);
-  color: #fff;
+  background: var(--bloc);
+  color: var(--pe-bloc);
   container-type: inline-size;
   cursor: default;
 }
@@ -1535,7 +1535,7 @@ ol {
   padding: 6cqi;
   background:
     repeating-linear-gradient(135deg, transparent 0 18px, rgba(255, 255, 255, 0.035) 18px 19px),
-    var(--cerneala);
+    var(--bloc);
 }
 
 .oglinda--pornita .oglinda__repaus {
@@ -1552,14 +1552,14 @@ ol {
 .oglinda__repaus .buton {
   border-color: #fff;
   background: #fff;
-  color: var(--cerneala);
+  color: #0a0a0a;
 }
 
 .oglinda__repaus .buton:hover,
 .oglinda__repaus .buton:focus-visible {
   background: var(--oranj);
   border-color: var(--oranj);
-  color: #fff;
+  color: var(--pe-oranj);
 }
 
 .oglinda__stare {

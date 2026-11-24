@@ -48,7 +48,6 @@
         : `<li><strong data-numar="${Number(c.valoare) || 0}" data-sufix="${escapa(c.sufix || "")}">${miscareRedusa ? escapa(c.valoare + (c.sufix || "")) : "0"}</strong><span>${escapa(c.eticheta)}</span></li>`
     )
     .join("");
-  $("#etape").innerHTML = (E.etape || []).map((e) => `<li><time>${escapa(e.data)}</time><span>${escapa(e.titlu)}</span></li>`).join("");
 
   /* ---------- cele 16 zile: 25.11 → 10.12, fiecare o bară de voce ---------- */
   const zile = [];
@@ -76,8 +75,8 @@
     const grup = rand
       .map(
         (v, k) => `<a class="perete__voce" href="${escapa(v.slug)}/" ${k >= voci.length ? 'tabindex="-1" aria-hidden="true"' : ""}>
-          ${v.fotoMica || v.foto ? `<img src="${escapa(v.fotoMica || v.foto)}" alt="" loading="lazy" width="760" height="1090">` : `<span class="gol" aria-hidden="true"><span class="gol__nr">${douaCifre(voci.indexOf(v) + 1)}</span></span>`}
-          <span class="perete__nume"><small>Vocea ${douaCifre(voci.indexOf(v) + 1)}</small>${escapa(v.titlu)}</span></a>`
+          ${v.fotoMica || v.foto ? `<img src="${escapa(v.fotoMica || v.foto)}" alt="" loading="lazy" width="760" height="1090">` : `<span class="gol" aria-hidden="true"><span class="gol__nr">${voci.indexOf(v) + 1}</span></span>`}
+          <span class="perete__nume"><small>Vocea ${voci.indexOf(v) + 1}</small>${escapa(v.titlu)}</span></a>`
       )
       .join("");
     const pista = $("#perete");
@@ -90,7 +89,7 @@
   /* ---------- vocile ---------- */
   // Cât timp fotografia lipsește, rămâne un loc gol cu numărul vocii
   const golFoto = (i) => `<div class="voce__cadru gol" role="img" aria-label="Fotografia va fi adăugată în curând">
-            <span class="gol__nr" aria-hidden="true">${douaCifre(i + 1)}</span>
+            <span class="gol__nr" aria-hidden="true">${i + 1}</span>
             <span class="gol__text" aria-hidden="true">Fotografia vine în curând</span>
           </div>`;
   const alteLimbi = (v) =>
@@ -101,11 +100,10 @@
       <article class="voce" id="voce-${escapa(v.slug)}" aria-labelledby="titlu-${escapa(v.slug)}">
         <div class="voce__foto" data-apare>
           ${v.oglinda && window.Oglinda
-            ? window.Oglinda.cadru(douaCifre(i + 1))
+            ? window.Oglinda.cadru(i + 1)
             : v.foto
             ? `<button class="voce__cadru" type="button" data-poster="${i}" aria-label="Vezi posterul ${escapa(v.titlu)}">
             <img src="${escapa(v.foto)}" srcset="${escapa(v.fotoMica || v.foto)} 760w, ${escapa(v.foto)} 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="${escapa(v.alt || "")}" loading="lazy" width="1400" height="2008">
-            <span class="voce__index">${douaCifre(i + 1)}</span>
           </button>`
             : golFoto(i)}
         </div>
@@ -116,7 +114,7 @@
           <div class="blocuri">
             <div class="bloc"><span class="bloc__nr">01</span><div><h3>Ce este</h3><p>${escapa(v.descriere)}</p>${alteLimbi(v)}</div></div>
             <div class="bloc bloc--accent"><span class="bloc__nr">02</span><div><h3>Ce poate lăsa violența în urmă</h3><p>${escapa(v.efect)}</p></div></div>
-            <div class="bloc"><span class="bloc__nr">03</span><div><h3>De ce contează în campanie</h3><p>${escapa(v.relevanta)}</p></div></div>
+            <div class="bloc"><span class="bloc__nr">03</span><div><h3>De ce contează</h3><p>${escapa(v.relevanta)}</p></div></div>
           </div>
           <div class="voce__actiuni">
             <a class="buton" href="${escapa(v.slug)}/">${iconita("i-qr")} Pagina vocii</a>
@@ -139,7 +137,7 @@
     if (!buton) return;
     const v = voci[Number(buton.dataset.poster)];
     if (!v) return;
-    imgFereastra.src = v.poster || v.foto;
+    imgFereastra.src = v.foto || v.poster; // doar fotografia, fără textul de pe poster
     imgFereastra.alt = `Posterul ${v.titlu}: ${v.descriere}`;
     if (typeof fereastra.showModal === "function") fereastra.showModal();
     if (lenis) lenis.stop();
@@ -152,62 +150,25 @@
     if (lenis) lenis.start();
   });
 
-  /* ---------- echipa, pe departamente ---------- */
+  /* ---------- echipa: toți într-o grilă, departamentele doar ca listă ---------- */
   const studentiPlan = departamente.reduce((s, d) => s + (Number(d.studenti) || 0), 0);
   const studenti = Number(E.studenti) || studentiPlan;
   const grupa = E.grupa ? `grupa ${E.grupa}` : "grupă";
   $("#echipa-intro").textContent = `${studenti} de studenți din ${grupa}, în ${departamente.length} departamente: de la cercetare și concept până la fotografie, design și promovare.`;
+  $("#dep-lista").innerHTML = departamente.map((d) => `<li>${escapa(d.nume)}</li>`).join("");
 
   const silueta = `<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-om"></use></svg>`;
-  $("#departamente").innerHTML = departamente
-    .map((d, i) => {
-      const membri = echipa.filter((m) => (m.departament || "").trim() === d.nume);
-      const libere = Math.max(0, (Number(d.studenti) || 0) - membri.length);
-      const oameni =
-        membri
-          .map(
-            (m) => `<li class="om">
-              <div class="om__foto">${m.foto ? `<img src="${escapa(m.foto)}" alt="${escapa(m.nume)}" loading="lazy">` : silueta}</div>
-              <p class="om__nume">${escapa(m.nume)}</p>
-              <p class="om__rol">${escapa([m.rol, m.grupa].filter(Boolean).join(" · "))}</p></li>`
-          )
-          .join("") +
-        Array.from({ length: libere }, () => `<li class="om om--liber" aria-hidden="true"><div class="om__foto">${silueta}</div></li>`).join("");
-      return `<article class="departament" data-departament="${i}" data-apare style="--i:${i % 3}">
-          <p class="departament__sus"><span>${douaCifre(i + 1)}</span><span>${Number(d.studenti) || membri.length} studenți</span></p>
-          <h3>${escapa(d.nume)}</h3>
-          <p>${escapa(d.responsabilitati)}</p>
-          <ul class="oameni">${oameni}</ul>
-        </article>`;
-    })
-    .join("");
-  // Ultima celulă din grilă: totalul pe grupă
-  $("#departamente").insertAdjacentHTML(
-    "beforeend",
-    `<article class="departament departament--total" data-departament="total" data-apare>
-      <p class="departament__sus"><span>Total</span><span>${escapa(E.grupa || "")}</span></p>
-      <div><strong>${studenti}<span>.</span></strong>
-      <p>studenți din ${escapa(grupa)}, în ${departamente.length} departamente. O singură expoziție.</p></div>
-    </article>`
-  );
-  $("#echipa-nota").textContent = echipa.length
-    ? ""
-    : "Fotografiile și rolurile fiecărui student apar aici în curând. Locurile gri arată câți oameni a avut fiecare departament.";
-
-  const filtre = $("#filtre");
-  filtre.innerHTML =
-    `<button class="filtru" type="button" aria-pressed="true" data-filtru="">Toate</button>` +
-    departamente.map((d, i) => `<button class="filtru" type="button" aria-pressed="false" data-filtru="${i}">${escapa(d.nume)}</button>`).join("");
-  filtre.addEventListener("click", (e) => {
-    const b = e.target.closest(".filtru");
-    if (!b) return;
-    $$(".filtru").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-    $$(".departament").forEach((el) => {
-      el.hidden = b.dataset.filtru !== "" && el.dataset.departament !== b.dataset.filtru;
-      if (el.dataset.departament === "total") el.hidden = b.dataset.filtru !== "";
-      if (!el.hidden) el.classList.add("vizibil");
-    });
-  });
+  const libere = Math.max(0, studenti - echipa.length);
+  $("#echipa-grila").innerHTML =
+    echipa
+      .map(
+        (m) => `<li class="om">
+          <div class="om__foto">${m.foto ? `<img src="${escapa(m.foto)}" alt="${escapa(m.nume)}" loading="lazy">` : silueta}</div>
+          <p class="om__nume">${escapa(m.nume)}</p>
+          ${m.rol ? `<p class="om__rol">${escapa(m.rol)}</p>` : ""}</li>`
+      )
+      .join("") +
+    Array.from({ length: libere }, () => `<li class="om om--liber" aria-hidden="true"><div class="om__foto">${silueta}</div></li>`).join("");
 
   /* ---------- sprijin ---------- */
   $("#linii").innerHTML = (E.sprijin || [])

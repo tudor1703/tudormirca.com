@@ -6,6 +6,7 @@
   <title>16 Zile. 16 Voci. — expoziție de fotografie</title>
   <meta name="description" content="Expoziție de fotografie a studenților Producție multimedia (USM), în cadrul campaniei naționale „16 zile de activism împotriva violenței în bază de gen”. Fobii și manii: urmele invizibile ale violenței.">
   <meta name="theme-color" content="#ffffff">
+  <script src="tema.js?v=2"></script>
   <meta property="og:type" content="website">
   <meta property="og:title" content="16 Zile. 16 Voci.">
   <meta property="og:description" content="Fobii și manii: urmele invizibile ale violenței. Expoziție de fotografie, 30 noiembrie 2026, Mediacor.">
@@ -21,12 +22,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..900&display=swap">
-  <link rel="stylesheet" href="stil.css?v=3">
+  <link rel="stylesheet" href="stil.css?v=9">
 
-  <script src="date.js?v=3" defer></script>
+  <script src="date.js?v=6" defer></script>
   <script src="oglinda.js?v=3" defer></script>
   <script src="../vendor/lenis.min.js" defer></script>
-  <script src="expozitie.js?v=3" defer></script>
+  <script src="expozitie.js?v=7" defer></script>
 </head>
 <body>
   <a class="sari" href="#voci">Sari la voci</a>
@@ -47,6 +48,10 @@
         <a class="bara__campanie" href="#voci">Vocile</a>
         <a class="bara__campanie" href="#echipa">Echipa</a>
         <a href="#sprijin"><span class="bara__punct" aria-hidden="true"></span>Ajutor</a>
+        <button class="tema-buton" type="button" data-tema-buton aria-pressed="false" aria-label="Tema întunecată" title="Tema întunecată">
+          <svg class="tema__luna" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+          <svg class="tema__soare" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.6" fill="currentColor"/><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" d="M12 1.8v2.6M12 19.6v2.6M1.8 12h2.6M19.6 12h2.6M4.8 4.8l1.8 1.8M17.4 17.4l1.8 1.8M4.8 19.2l1.8-1.8M17.4 6.6l1.8-1.8"/></svg>
+        </button>
       </nav>
     </div>
   </header>
@@ -94,7 +99,6 @@
       </div>
       <div data-apare>
         <ul class="cifre" id="cifre"></ul>
-        <ol class="etape" id="etape" aria-label="Etapele proiectului"></ol>
       </div>
     </section>
 
@@ -107,15 +111,14 @@
       <div id="lista-voci"></div>
     </section>
 
-    <!-- ECHIPA: studenții, pe departamente -->
+    <!-- ECHIPA: toți studenții într-o singură grilă; departamentele doar ca listă -->
     <section class="echipa cutie" id="echipa" aria-labelledby="titlu-echipa">
       <header class="echipa__antet">
-        <h2 class="negru" id="titlu-echipa">Echipa din spatele vocilor</h2>
+        <h2 class="negru" id="titlu-echipa">Meet the team</h2>
         <p id="echipa-intro"></p>
       </header>
-      <div class="filtre" id="filtre" role="group" aria-label="Filtrează după departament"></div>
-      <div class="departamente" id="departamente"></div>
-      <p class="echipa__nota" id="echipa-nota"></p>
+      <ul class="dep-lista" id="dep-lista" aria-label="Departamentele"></ul>
+      <ul class="echipa__grila" id="echipa-grila" aria-label="Echipa"></ul>
     </section>
 
     <!-- SPRIJIN -->
@@ -144,7 +147,6 @@
         <div>
           <h3>Lansarea</h3>
           <p id="subsol-lansare"></p>
-          <p style="margin-top:10px"><a href="/">tudormirca.com</a></p>
         </div>
       </div>
       <p class="subsol__nota">Fotografiile sunt puneri în scenă artistice, cu modele. Textele nu înlocuiesc un diagnostic sau sfatul unui specialist.</p>

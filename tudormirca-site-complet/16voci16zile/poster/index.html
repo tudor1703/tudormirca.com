@@ -8,6 +8,7 @@
   <title>Vocea — 16 Zile. 16 Voci.</title>
   <meta name="description" content="O voce din expoziția „16 Zile. 16 Voci.”: fobii și manii, urmele invizibile ale violenței.">
   <meta name="theme-color" content="#ffffff">
+  <script src="../tema.js?v=2"></script>
   <meta property="og:type" content="article">
   <meta property="og:title" content="16 Zile. 16 Voci.">
   <meta property="og:description" content="Fobii și manii: urmele invizibile ale violenței.">
@@ -17,11 +18,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400..900&display=swap">
-  <link rel="stylesheet" href="../stil.css?v=3">
+  <link rel="stylesheet" href="../stil.css?v=7">
 
-  <script src="../date.js?v=3" defer></script>
+  <script src="../date.js?v=6" defer></script>
   <script src="../oglinda.js?v=3" defer></script>
-  <script src="../voce.js?v=3" defer></script>
+  <script src="../voce.js?v=5" defer></script>
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -34,7 +35,13 @@
         <svg aria-hidden="true"><use href="#i-stanga"></use></svg>Toată expoziția
       </a>
       <a class="bara__marca" href="../">16 Zile. 16 Voci.</a>
-      <span class="bara__dreapta eticheta" id="pozitie"></span>
+      <div class="bara__dreapta">
+        <span class="eticheta" id="pozitie"></span>
+        <button class="tema-buton" type="button" data-tema-buton aria-pressed="false" aria-label="Tema întunecată" title="Tema întunecată">
+          <svg class="tema__luna" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1z"/></svg>
+          <svg class="tema__soare" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.6" fill="currentColor"/><path fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="square" d="M12 1.8v2.6M12 19.6v2.6M1.8 12h2.6M19.6 12h2.6M4.8 4.8l1.8 1.8M17.4 17.4l1.8 1.8M4.8 19.2l1.8-1.8M17.4 6.6l1.8-1.8"/></svg>
+        </button>
+      </div>
     </div>
   </header>
 
