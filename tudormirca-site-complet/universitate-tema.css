@@ -1,0 +1,516 @@
+/* ==========================================================================
+   universitate-tema.css — PAGINA UNIVERSITATE ÎN STILUL NOU
+
+   Se încarcă după style.css și universitate.css. Nu schimbă structura și nici
+   funcțiile paginii (filtre, căutare, timeline, fereastra de jos), doar
+   aspectul: aceleași culori, butoane-pastilă, sticlă și lumină caldă ca pe
+   pagina principală (site.css).
+   ========================================================================== */
+
+/* ---------- Variabile (aceleași ca în site.css) -------------------------- */
+:root {
+  --accent: #ff6b2c;
+  --accent-deschis: #ffa46b;
+  --accent-glow: rgba(255, 107, 44, 0.5);
+  --pe-accent: #1a0800;
+
+  --fundal: #050507;
+  --suprafata: rgba(255, 255, 255, 0.03);
+  --suprafata-hover: rgba(255, 255, 255, 0.06);
+  --suprafata-opaca: #0b0c10;
+  --camp: rgba(255, 255, 255, 0.035);
+  --linie: rgba(255, 255, 255, 0.075);
+  --linie-tare: rgba(255, 255, 255, 0.14);
+
+  --text: #f4f5f8;
+  --text-gri: #9ca2b0;
+
+  --raza: 16px;
+  --raza-mare: 22px;
+  --lin: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html {
+  background: var(--fundal);
+  color-scheme: dark;
+}
+
+/* Scrollul lin e făcut de Lenis (vezi universitate-tema.js) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html.lenis {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: transparent;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(255, 107, 44, 0.35);
+  color: #fff;
+}
+
+:focus-visible {
+  outline-color: var(--accent-deschis);
+  outline-offset: 3px;
+}
+
+/* ---------- Fundalul: grila fină și lumina caldă de sus ------------------ */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(70vw 50vh at 50% -14%, rgba(255, 107, 44, 0.14), transparent 70%),
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px) 0 0 / 80px 80px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px) 0 0 / 80px 80px;
+  -webkit-mask-image: radial-gradient(90% 70% at 50% 0%, #000 20%, transparent 80%);
+  mask-image: radial-gradient(90% 70% at 50% 0%, #000 20%, transparent 80%);
+}
+
+/* Granulația rămâne, dar statică: una care se mișcă ar încetini scrollul */
+.granulatie::before {
+  opacity: 0.05;
+  animation: none;
+}
+
+/* ---------- Elemente reutilizate ----------------------------------------- */
+.eticheta {
+  letter-spacing: 0.12em;
+}
+
+.de-completat {
+  padding: 0.05em 0.6em;
+  border: 1px dashed rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-gri);
+}
+
+.buton-accent {
+  position: relative;
+  isolation: isolate;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 22px;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ff8a4c, #ff5c1c);
+  color: var(--pe-accent);
+  font-family: var(--font-titlu);
+  font-size: 0.92rem;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 12px 32px -12px var(--accent-glow);
+  transition: transform 0.5s var(--lin), box-shadow 0.5s var(--lin);
+}
+
+.buton-accent::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.5) 50%, transparent 65%);
+  transform: translateX(-110%);
+  transition: transform 0.9s var(--lin);
+}
+
+.buton-accent:hover {
+  background: linear-gradient(180deg, #ff9a63, #ff6224);
+  color: var(--pe-accent);
+  transform: translateY(-2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 18px 44px -12px rgba(255, 107, 44, 0.75), 0 0 0 5px rgba(255, 107, 44, 0.12);
+}
+
+.buton-accent:hover::after {
+  transform: translateX(110%);
+}
+
+.buton-contur {
+  min-height: 46px;
+  padding: 0 18px;
+  border-color: var(--linie-tare);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  font-family: var(--font-titlu);
+  font-weight: 600;
+  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease, transform 0.5s var(--lin);
+}
+
+.buton-contur:hover {
+  border-color: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  transform: translateY(-2px);
+}
+
+.buton-iconita {
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  transition: border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease, transform 0.5s var(--lin);
+}
+
+.buton-iconita:hover {
+  border-color: rgba(255, 107, 44, 0.55);
+  background: rgba(255, 107, 44, 0.1);
+  color: var(--accent-deschis);
+  transform: translateY(-3px);
+}
+
+.taguri li {
+  padding: 0 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.marcaj {
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--culoare);
+}
+
+.toast {
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: rgba(244, 245, 248, 0.95);
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7);
+}
+
+/* ---------- Antetul: bară de sticlă -------------------------------------- */
+.antet {
+  background: rgba(6, 7, 9, 0.62);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  transition: background-color 0.4s ease;
+}
+
+.antet--derulat {
+  background: rgba(6, 7, 9, 0.82);
+}
+
+.marca {
+  border-radius: 50%;
+  background: linear-gradient(140deg, #ff9a5e, #ff5a1a 60%, #e2420a);
+  color: #1a0700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 6px 20px -6px var(--accent-glow);
+  transition: transform 0.6s var(--lin);
+}
+
+.marca:hover {
+  transform: rotate(-12deg) scale(1.05);
+}
+
+.taburi {
+  height: 40px;
+  padding: 3px;
+  border-color: var(--linie);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.taburi__link {
+  padding: 0 14px;
+  border-radius: 999px;
+  font-family: var(--font-titlu);
+  font-size: 0.85rem;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.taburi__link[aria-current="page"] {
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+}
+
+.cautare {
+  padding: 0 14px;
+  border-color: var(--linie);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.cautare__tasta {
+  border-radius: 6px;
+}
+
+.pagina {
+  border-top-color: rgba(255, 255, 255, 0.05);
+}
+
+.pagina__tc {
+  text-shadow: 0 0 16px rgba(255, 107, 44, 0.6);
+}
+
+.sectiune-link {
+  border-top-color: rgba(255, 255, 255, 0.07);
+  background: transparent;
+  font-family: var(--font-titlu);
+  font-size: 0.85rem;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.sectiune-link:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.sectiune-link[aria-current] {
+  border-top-color: var(--accent);
+  background: linear-gradient(180deg, rgba(255, 107, 44, 0.14), rgba(255, 107, 44, 0) 85%);
+}
+
+.cap-redare {
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent), rgba(255, 107, 44, 0.2));
+  box-shadow: 0 0 12px rgba(255, 107, 44, 0.9);
+}
+
+/* ---------- Panourile de sticlă ------------------------------------------ */
+.monitor,
+.despre,
+.parcurs,
+.pool,
+.material,
+.card,
+.subsol__grila > div {
+  border-color: var(--linie);
+  border-radius: var(--raza-mare);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.monitor {
+  position: relative;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06), 0 -20px 80px -40px rgba(255, 107, 44, 0.5), 0 40px 90px -40px rgba(0, 0, 0, 0.9);
+}
+
+.monitor__ecran {
+  margin: 0 8px;
+  width: calc(100% - 16px);
+  border-radius: 14px;
+}
+
+.monitor__sursa::before {
+  border-radius: 50%;
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.monitor__nume {
+  letter-spacing: -0.045em;
+}
+
+.monitor__comenzi {
+  border-top: 0;
+}
+
+.monitor__tc {
+  text-shadow: 0 0 22px rgba(255, 107, 44, 0.55);
+}
+
+.panou {
+  border-color: var(--linie);
+  border-radius: var(--raza-mare);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+}
+
+.material,
+.card {
+  transition: transform 0.7s var(--lin), box-shadow 0.7s var(--lin), border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.material:hover,
+.card:hover,
+.card:focus-visible {
+  border-color: rgba(255, 255, 255, 0.14);
+  transform: translateY(-5px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 30px 60px -32px rgba(255, 107, 44, 0.5);
+}
+
+.material--activ {
+  border-color: rgba(255, 107, 44, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.07), 0 0 0 4px rgba(255, 107, 44, 0.1);
+}
+
+.material__cadru,
+.coperta {
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.filtru {
+  border-radius: 999px;
+  font-family: var(--font-titlu);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+.bin {
+  border-radius: 12px;
+}
+
+/* ---------- Titlurile secțiunilor ---------------------------------------- */
+.sectiune {
+  padding-block: clamp(32px, 5vw, 72px);
+}
+
+.sectiune__antet h2 {
+  font-size: clamp(2.4rem, 5.6vw, 4.5rem);
+  letter-spacing: -0.045em;
+  line-height: 1;
+  padding-bottom: 0.06em;
+  background: linear-gradient(180deg, #ffffff 40%, #9097a5);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------- Footer ------------------------------------------------------- */
+.subsol {
+  margin-top: clamp(20px, 4vw, 56px);
+  padding-top: clamp(40px, 6vw, 80px);
+  overflow: hidden;
+  border-top: 0;
+  background: radial-gradient(70% 90% at 50% 0%, rgba(255, 107, 44, 0.12), transparent 60%);
+}
+
+.subsol::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 107, 44, 0.8) 30%, rgba(255, 200, 160, 0.9) 50%, rgba(255, 107, 44, 0.8) 70%, transparent);
+  box-shadow: 0 0 24px rgba(255, 107, 44, 0.6);
+}
+
+.subsol__grila {
+  gap: 16px;
+}
+
+.subsol__grila > div {
+  position: relative;
+  padding: 22px;
+  border: 1px solid var(--linie);
+}
+
+.subsol__titlu {
+  font-size: clamp(2.4rem, 5.4vw, 4.5rem);
+  letter-spacing: -0.045em;
+  line-height: 1;
+  padding-bottom: 0.06em;
+  background: linear-gradient(120deg, #ffffff 40%, #ffc19b 75%, var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.subsol__link {
+  font-family: var(--font-titlu);
+  font-size: 0.95rem;
+  transition: color 0.3s ease, transform 0.5s var(--lin);
+}
+
+.subsol__link:hover {
+  color: var(--text);
+  transform: translateX(4px);
+}
+
+/* ---------- Fereastra de jos (telefon) ----------------------------------- */
+.sheet {
+  border-top: 0;
+  border-radius: 24px 24px 0 0;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 -30px 80px -20px rgba(0, 0, 0, 0.9);
+}
+
+.sheet::backdrop {
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+/* ---------- Apariția la scroll (universitate-tema.js pune clasele) ------- */
+.js-tema [data-apare] {
+  opacity: 0;
+  transform: translate3d(0, 36px, 0);
+  transition: opacity 1s ease calc(var(--i, 0) * 80ms), transform 1.3s var(--lin) calc(var(--i, 0) * 80ms);
+}
+
+.js-tema [data-apare].vizibil {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Telefon ------------------------------------------------------ */
+@media (max-width: 767px) {
+  body {
+    padding-bottom: calc(86px + env(safe-area-inset-bottom));
+  }
+
+  /* Căutarea ocupă restul rândului, fără să iasă din ecran */
+  .cautare {
+    min-width: 0;
+  }
+
+  .monitor__actiuni {
+    width: 100%;
+  }
+
+  .monitor__actiuni > * {
+    flex: 1 1 auto;
+    justify-content: center;
+  }
+
+  .monitor__ecran {
+    margin: 0 6px;
+    width: calc(100% - 12px);
+  }
+
+  /* Navigarea de jos devine o bară plutitoare de sticlă */
+  .navigare-mobil {
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    left: 12px;
+    padding-bottom: 0;
+    overflow: hidden;
+    border: 1px solid var(--linie-tare);
+    border-radius: 22px;
+    background: rgba(12, 13, 18, 0.78);
+    -webkit-backdrop-filter: blur(18px);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 18px 50px -12px rgba(0, 0, 0, 0.9);
+  }
+
+  .navigare-mobil__progres {
+    top: auto;
+    bottom: 0;
+  }
+
+  .navigare-mobil a {
+    padding: 10px 2px 9px;
+  }
+
+  .toast {
+    bottom: calc(96px + env(safe-area-inset-bottom));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js-tema [data-apare] {
+    opacity: 1;
+    transform: none;
+  }
+}

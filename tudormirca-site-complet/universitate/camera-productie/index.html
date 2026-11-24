@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Camera de producție și accesorii adiționale — Tudor Mirca</title>
+  <meta name="description" content="Prezentare interactivă, cu o cameră 3D: componentele unei camere de producție și accesoriile ei. Mijloace tehnice în multimedia, tema 5.1.">
+  <meta name="theme-color" content="#0f1115">
+  <meta property="og:title" content="Camera de producție și accesorii adiționale">
+  <meta property="og:description" content="Prezentare interactivă cu o cameră 3D. Mijloace tehnice în multimedia, tema 5.1.">
+  <meta property="og:image" content="img/coperta.jpg">
+  <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..700&family=Space+Grotesk:wght@400..700&display=swap">
+
+  <!-- pagina.css copiază aspectul din style.css al site-ului și adaugă ce e nou aici -->
+  <link rel="stylesheet" href="pagina.css">
+  <link rel="preload" href="fonturi/anton-latin-ext-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="model/camera.glb" as="fetch" crossorigin>
+
+  <!-- date.js: textele componentelor. pagina.js: modelul 3D și navigarea (conține Three.js) -->
+  <script src="date.js" defer></script>
+  <script src="pagina.js" defer></script>
+  <!-- efecte.js: animațiile la derulare și banda cu componente (doar aspect) -->
+  <script src="efecte.js" defer></script>
+  <script>document.documentElement.classList.add("cu-js");</script>
+</head>
+<body>
+  <a class="sari-la-continut" href="#continut">Sari la conținut</a>
+
+  <svg style="display: none" aria-hidden="true">
+    <symbol id="i-portofoliu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="13" rx="1"/><path d="M8 21h8M12 17v4"/><path d="M10 8v5.5l4.5-2.75z" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="i-universitate" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <path d="M2 9.5 12 4.5l10 5-10 5z"/><path d="M6 11.5V16c0 1.4 2.7 3 6 3s6-1.6 6-3v-4.5M22 9.5V15"/>
+    </symbol>
+    <symbol id="i-inapoi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+      <path d="M20 12H5m0 0 6-6m-6 6 6 6"/>
+    </symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <rect x="2" y="7" width="13" height="10" rx="1"/><path d="m15 11 6-3v8l-6-3z"/>
+    </symbol>
+    <symbol id="i-diferente" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+    </symbol>
+    <symbol id="i-accesorii" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/>
+    </symbol>
+    <symbol id="i-config" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+      <path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h0"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/>
+    </symbol>
+    <symbol id="i-lumina" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <path d="M2 7l7 5-7 5M9 12h13"/><rect x="15" y="8" width="6" height="8"/>
+    </symbol>
+    <symbol id="i-recap" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.2v.1"/>
+    </symbol>
+    <symbol id="i-explodat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+      <rect x="9" y="9" width="6" height="6"/><path d="M4 4l3 3M20 4l-3 3M4 20l3-3M20 20l-3-3"/>
+    </symbol>
+    <symbol id="i-interior" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <rect x="3" y="5" width="18" height="14" rx="1" stroke-dasharray="3 2.5"/><rect x="9" y="9" width="6" height="6" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="i-play" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M7 4.5v15l12-7.5z"/>
+    </symbol>
+    <symbol id="i-prezinta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <rect x="3" y="4" width="18" height="12" rx="1"/><path d="M12 16v4M8 20.5h8"/><path d="M10.5 7.5v5l4-2.5z" fill="currentColor" stroke="none"/>
+    </symbol>
+    <symbol id="i-puncte" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="4" y="4" width="6" height="6"/><rect x="14" y="14" width="6" height="6"/><path d="M10 7h7v7"/>
+    </symbol>
+    <symbol id="i-reset" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+      <path d="M4 12a8 8 0 1 0 2.4-5.7M4 4v4.5h4.5"/>
+    </symbol>
+    <symbol id="i-stanga" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+      <path d="m15 5-7 7 7 7"/>
+    </symbol>
+    <symbol id="i-dreapta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+      <path d="m9 5 7 7-7 7"/>
+    </symbol>
+    <symbol id="i-inchide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square">
+      <path d="m6 6 12 12M18 6 6 18"/>
+    </symbol>
+    <symbol id="i-3d" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round">
+      <path d="M12 3 4 7.5v9L12 21l8-4.5v-9z"/><path d="M4 7.5 12 12l8-4.5M12 12v9"/>
+    </symbol>
+  </svg>
+
+  <div class="granulatie" aria-hidden="true"></div>
+
+  <!-- ANTET: același ca pe restul site-ului -->
+  <header class="antet">
+    <div class="antet__rand">
+      <a class="marca" href="/index.html" aria-label="TM, mergi la pagina principală">TM</a>
+      <p class="antet__titlu">
+        <span class="antet__nume">Tudor Mirca</span>
+        <span class="antet__fisier">camera-productie.mov</span>
+      </p>
+
+      <nav class="taburi" aria-label="Pagini">
+        <a class="taburi__link" href="/index.html">
+          <svg class="iconita" aria-hidden="true"><use href="#i-portofoliu"></use></svg>
+          <span class="taburi__text">Portofoliu</span>
+        </a>
+        <a class="taburi__link" href="/universitate.html" aria-current="page">
+          <svg class="iconita" aria-hidden="true"><use href="#i-universitate"></use></svg>
+          <span class="taburi__text">Universitate</span>
+        </a>
+      </nav>
+
+      <a class="buton-contur antet__inapoi" href="/universitate.html#materiale">
+        <svg class="iconita" aria-hidden="true"><use href="#i-inapoi"></use></svg>
+        <span>Înapoi la materiale</span>
+      </a>
+    </div>
+
+    <!-- Bara de redare: secțiunile paginii ca niște clipuri, cu capul de redare și timecode-ul -->
+    <nav class="pagina" aria-label="Secțiuni">
+      <p class="pagina__tc" aria-hidden="true" id="tc-pagina">00:00:00:00</p>
+      <div class="pagina__pista">
+        <ul id="lista-sectiuni"></ul>
+        <span class="cap-redare" id="cap-pagina" aria-hidden="true"></span>
+      </div>
+    </nav>
+  </header>
+
+  <main id="continut" tabindex="-1">
+
+    <!-- 1. CAMERA 3D -->
+    <section class="sectiune sectiune--prima" id="camera" aria-labelledby="titlu-pagina">
+      <div class="titlu-tema">
+        <div class="titlu-tema__meta">
+          <p class="eticheta">Mijloace tehnice în multimedia</p>
+          <p class="eticheta"><span class="punct-rec" aria-hidden="true"></span>Tema 5.1 · Laborator</p>
+        </div>
+        <h1 id="titlu-pagina">
+          <span class="titlu-tema__mare">Camera de producție</span>
+          <span class="titlu-tema__sub"><span class="titlu-tema__si">și</span> accesorii adiționale</span>
+        </h1>
+        <div class="titlu-tema__jos">
+          <p class="titlu-tema__detaliu">
+            O cameră profesională construită pentru lucru lung și sigur, plus accesoriile care o adaptează fiecărei filmări.
+            Rotește modelul, apasă pe piese sau pornește modul de prezentare.
+          </p>
+          <ul class="insigne" aria-label="Pe scurt">
+            <li class="insigna insigna--plina"><strong>23</strong><span>piese</span></li>
+            <li class="insigna"><strong>8</strong><span>trăsături</span></li>
+            <li class="insigna"><strong>9</strong><span>grupe</span></li>
+            <li class="insigna"><strong>3</strong><span>config.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="studio">
+        <div class="monitor" id="monitor">
+          <div class="monitor__bara">
+            <span class="monitor__sursa">CAM A</span>
+            <span id="monitor-info">25 fps · 16:9 · 23 componente</span>
+          </div>
+
+          <div class="monitor__ecran" id="ecran-3d">
+            <p class="monitor__fundal" aria-hidden="true">CAM A</p>
+            <canvas id="scena" aria-label="Modelul 3D al camerei de producție. Trage ca să rotești, folosește rotița ca să apropii." role="img"></canvas>
+            <div class="monitor__ghid" aria-hidden="true"></div>
+            <div class="puncte" id="puncte"></div>
+
+            <div class="incarcare" id="incarcare">
+              <p class="eticheta">Se încarcă modelul</p>
+              <span class="incarcare__bara"><span id="incarcare-progres"></span></span>
+            </div>
+
+            <p class="indiciu" id="indiciu">Trage ca să rotești · Rotița apropie · Apasă pe un punct</p>
+
+            <!-- Subtitrarea: apare în modul de prezentare și la formarea imaginii -->
+            <div class="subtitrare" id="subtitrare" hidden>
+              <p class="subtitrare__tc" id="subtitrare-tc"></p>
+              <p class="subtitrare__titlu" id="subtitrare-titlu"></p>
+              <p class="subtitrare__text" id="subtitrare-text"></p>
+            </div>
+
+            <div class="prezentare-comenzi" id="prezentare-comenzi" hidden>
+              <button class="buton-iconita" id="prez-inapoi" type="button" aria-label="Pasul anterior">
+                <svg class="iconita" aria-hidden="true"><use href="#i-stanga"></use></svg>
+              </button>
+              <p class="prezentare-comenzi__pas" id="prez-pas"></p>
+              <button class="buton-iconita" id="prez-inainte" type="button" aria-label="Pasul următor">
+                <svg class="iconita" aria-hidden="true"><use href="#i-dreapta"></use></svg>
+              </button>
+              <button class="buton-iconita" id="prez-iesi" type="button" aria-label="Ieși din prezentare (Esc)">
+                <svg class="iconita" aria-hidden="true"><use href="#i-inchide"></use></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="monitor__comenzi">
+            <p class="monitor__tc" id="tc-monitor">00:00:00:00</p>
+            <div class="monitor__actiuni">
+              <button class="buton-contur" id="btn-explodat" type="button" aria-pressed="false">
+                <svg class="iconita" aria-hidden="true"><use href="#i-explodat"></use></svg><span>Vedere explodată</span>
+              </button>
+              <button class="buton-contur" id="btn-interior" type="button" aria-pressed="false">
+                <svg class="iconita" aria-hidden="true"><use href="#i-interior"></use></svg><span>În interior</span>
+              </button>
+              <button class="buton-contur" id="btn-imagine" type="button" aria-pressed="false">
+                <svg class="iconita" aria-hidden="true"><use href="#i-lumina"></use></svg><span>Formarea imaginii</span>
+              </button>
+              <button class="buton-iconita" id="btn-puncte" type="button" aria-pressed="true" aria-label="Arată sau ascunde punctele" title="Puncte">
+                <svg class="iconita" aria-hidden="true"><use href="#i-puncte"></use></svg>
+              </button>
+              <button class="buton-iconita" id="btn-reset" type="button" aria-label="Readu camera la vederea inițială" title="Vederea inițială">
+                <svg class="iconita" aria-hidden="true"><use href="#i-reset"></use></svg>
+              </button>
+              <button class="buton-accent" id="btn-prezinta" type="button">
+                <svg class="iconita" aria-hidden="true"><use href="#i-prezinta"></use></svg><span>Prezintă</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="monitor__configuratii">
+            <p class="eticheta">Configurație</p>
+            <div class="taburi taburi--config" id="configuratii" role="group" aria-label="Configurația camerei"></div>
+          </div>
+        </div>
+
+        <!-- Panoul din dreapta: componenta selectată și lista tuturor componentelor -->
+        <aside class="panou-componenta" aria-labelledby="titlu-componenta">
+          <div class="despre componenta" id="componenta">
+            <h2 class="eticheta" id="titlu-componenta">Componentă selectată</h2>
+            <div id="componenta-continut"></div>
+            <div class="componenta__navigare">
+              <button class="buton-iconita" id="comp-inapoi" type="button" aria-label="Componenta anterioară">
+                <svg class="iconita" aria-hidden="true"><use href="#i-stanga"></use></svg>
+              </button>
+              <p class="componenta__pozitie" id="comp-pozitie"></p>
+              <button class="buton-iconita" id="comp-inainte" type="button" aria-label="Componenta următoare">
+                <svg class="iconita" aria-hidden="true"><use href="#i-dreapta"></use></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="despre lista-componente">
+            <h2 class="eticheta">Toate componentele</h2>
+            <ol id="lista-componente"></ol>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Banda cu componentele, ca o peliculă (o completează efecte.js) -->
+    <div class="banda" aria-hidden="true"><div class="banda__pista" id="banda-pista"></div></div>
+
+    <!-- 2. CE O DEOSEBEȘTE -->
+    <section class="sectiune" id="diferente" aria-labelledby="titlu-diferente">
+      <div class="sectiune__antet">
+        <p class="sectiune__nr" aria-hidden="true">02</p>
+        <h2 id="titlu-diferente">Ce o deosebește</h2>
+        <p class="sectiune__detaliu">8 trăsături față de o cameră de amator</p>
+      </div>
+      <ul class="grila grila--carduri">
+        <li><button class="card" type="button" data-arata="xlr">
+          <span class="card__antet"><span>D01</span><span class="card__3d">Vezi în 3D</span></span>
+          <span class="card__titlu">Intrări audio XLR</span>
+          <span class="card__detaliu">Două mufe profesionale, cu reglaj manual separat pe fiecare canal.</span>
+        </button></li>
+        <li><button class="card" type="button" data-arata="filtru_nd">
+          <span class="card__antet"><span>D02</span><span class="card__3d">Vezi în 3D</span></span>
+          <span class="card__titlu">Filtre ND încorporate</span>
+          <span class="card__detaliu">Reduci lumina dintr-un buton, fără filtre înșurubate pe obiectiv.</span>
+        </button></li>
+        <li><button class="card" type="button" data-arata="iesiri_video">
+          <span class="card__antet"><span>D03</span><span class="card__3d">Vezi în 3D</span></span>
+          <span class="card__titlu">Ieșiri profesionale</span>
+          <span class="card__detaliu">SDI pe lângă HDMI, intrare și ieșire de timecode, uneori genlock.</span>
+        </button></li>
+        <li><button class="card" type="button" data-arata="sloturi_card">
+          <span class="card__antet"><span>D04</span><span class="card__3d">Vezi în 3D</span></span>
+          <span class="card__titlu">Două sloturi de card</span>
+          <span class="card__detaliu">Înregistrare simultană, ca o copie de siguranță, sau continuă.</span>
+        </button></li>
+        <li><button class="card" type="button" data-arata="procesor">
+          <span class="card__antet"><span>D05</span><span class="card__3d">Vezi în 3D</span></span>
+          <span class="card__titlu">Codecuri profesionale</span>
+          <span class="card__detaliu">10 biți, 4:2:2, profiluri Log sau înregistrare RAW.</span>
+        </button></li>
+        <li><button class="card" type="button" data-arata="ventilator">
+          <span class="card__antet"><span>D06</span><span class="card__3d">Vezi în 3D</span></span>
+          <span class="card__titlu">Răcire activă</span>
+          <span class="card__detaliu">Ventilatorul o ține pornită ore întregi, fără supraîncălzire.</span>
+        </button></li>
+        <li><button class="card" type="button" data-arata="butoane">
+          <span class="card__antet"><span>D07</span><span class="card__3d">Vezi în 3D</span></span>
+          <span class="card__titlu">Butoane fizice</span>
+          <span class="card__detaliu">ISO, ND, balans de alb, nivel audio și butoane programabile.</span>
+        </button></li>
+        <li><button class="card" type="button" data-arata="cusca">
+          <span class="card__antet"><span>D08</span><span class="card__3d">Vezi în 3D</span></span>
+          <span class="card__titlu">Construcție modulară</span>
+          <span class="card__detaliu">Găuri filetate de 1/4″ și 3/8″ pentru orice accesoriu.</span>
+        </button></li>
+      </ul>
+    </section>
+
+    <!-- 3. ACCESORII -->
+    <section class="sectiune" id="accesorii" aria-labelledby="titlu-accesorii">
+      <div class="sectiune__antet">
+        <p class="sectiune__nr" aria-hidden="true">03</p>
+        <h2 id="titlu-accesorii">Accesorii</h2>
+        <p class="sectiune__detaliu">9 grupe · apasă pe un accesoriu marcat cu 3D ca să-l vezi pe cameră</p>
+      </div>
+      <div class="tabel-clipuri" role="table" aria-label="Accesoriile camerei de producție, pe grupe">
+        <div class="tabel-clipuri__antet" role="row">
+          <span role="columnheader">Nr</span>
+          <span role="columnheader">Grupă</span>
+          <span role="columnheader">Accesorii</span>
+          <span role="columnheader">Rol</span>
+        </div>
+        <div class="tabel-clipuri__rand" role="row" style="--culoare: #34d399">
+          <span class="timecode" role="cell">A01</span>
+          <span role="cell"><span class="marcaj"></span>Structură</span>
+          <span role="cell" class="cipuri"><button type="button" data-arata="cusca">Cușcă</button><button type="button" data-arata="maner">Mâner superior</button><button type="button" data-arata="bare">Placă de bază, bare de 15 mm</button></span>
+          <span role="cell">Protejează camera și oferă puncte de montaj pentru celelalte accesorii.</span>
+        </div>
+        <div class="tabel-clipuri__rand" role="row" style="--culoare: #34d399">
+          <span class="timecode" role="cell">A02</span>
+          <span role="cell"><span class="marcaj"></span>Suport</span>
+          <span role="cell" class="cipuri"><button type="button" data-arata="trepied">Trepied cu cap fluid</button><span>Suport de umăr</span><span>Gimbal</span><span>Slider</span></span>
+          <span role="cell">Stabilitate și mișcări line ale camerei.</span>
+        </div>
+        <div class="tabel-clipuri__rand" role="row" style="--culoare: #a78bfa">
+          <span class="timecode" role="cell">A03</span>
+          <span role="cell"><span class="marcaj"></span>Optică</span>
+          <span role="cell" class="cipuri"><button type="button" data-arata="obiectiv">Obiective</button><button type="button" data-arata="matte_box">Matte box</button><span>Filtre ND, polarizare, difuzie</span></span>
+          <span role="cell">Controlul luminii care intră în obiectiv, al reflexiilor și al contrastului.</span>
+        </div>
+        <div class="tabel-clipuri__rand" role="row" style="--culoare: #f472b6">
+          <span class="timecode" role="cell">A04</span>
+          <span role="cell"><span class="marcaj"></span>Focalizare</span>
+          <span role="cell" class="cipuri"><button type="button" data-arata="follow_focus">Follow focus</button><span>Motor wireless</span></span>
+          <span role="cell">Focalizare precisă și repetabilă, făcută de asistentul de cameră.</span>
+        </div>
+        <div class="tabel-clipuri__rand" role="row" style="--culoare: #facc15">
+          <span class="timecode" role="cell">A05</span>
+          <span role="cell"><span class="marcaj"></span>Monitorizare</span>
+          <span role="cell" class="cipuri"><button type="button" data-arata="monitor">Monitor extern</button><span>Monitor-recorder</span><span>Vizor electronic (EVF)</span></span>
+          <span role="cell">Imagine mare pentru focalizare și expunere; înregistrare într-un codec superior.</span>
+        </div>
+        <div class="tabel-clipuri__rand" role="row" style="--culoare: #60a5fa">
+          <span class="timecode" role="cell">A06</span>
+          <span role="cell"><span class="marcaj"></span>Sunet</span>
+          <span role="cell" class="cipuri"><button type="button" data-arata="microfon">Microfon tun</button><button type="button" data-arata="receptor_wireless">Receptor wireless</button><span>Adaptor XLR</span></span>
+          <span role="cell">Sunet de calitate, direct în cameră.</span>
+        </div>
+        <div class="tabel-clipuri__rand" role="row" style="--culoare: #fb7185">
+          <span class="timecode" role="cell">A07</span>
+          <span role="cell"><span class="marcaj"></span>Alimentare</span>
+          <span role="cell" class="cipuri"><button type="button" data-arata="baterie">Baterie V-mount</button><button type="button" data-arata="placa_baterie">Placă de baterie</button><span>NP-F</span><span>Cabluri D-Tap</span></span>
+          <span role="cell">Autonomie de mai multe ore, pentru cameră și accesorii.</span>
+        </div>
+        <div class="tabel-clipuri__rand" role="row" style="--culoare: #a3e635">
+          <span class="timecode" role="cell">A08</span>
+          <span role="cell"><span class="marcaj"></span>Transmisie</span>
+          <span role="cell" class="cipuri"><button type="button" data-arata="transmitator_video">Transmițător video</button><span>Generator de timecode</span></span>
+          <span role="cell">Imagine la regizor fără cablu; sincronizarea camerelor și a sunetului.</span>
+        </div>
+        <div class="tabel-clipuri__rand" role="row" style="--culoare: #38bdf8">
+          <span class="timecode" role="cell">A09</span>
+          <span role="cell"><span class="marcaj"></span>Stocare</span>
+          <span role="cell" class="cipuri"><button type="button" data-arata="sloturi_card">Carduri CFexpress / SD</button><span>SSD</span><span>Cititor de carduri</span></span>
+          <span role="cell">Înregistrare fără întreruperi și descărcare rapidă.</span>
+        </div>
+      </div>
+      <p class="nota">Regulă: montează doar ce îți trebuie. Fiecare accesoriu adaugă greutate, cabluri și puncte care se pot defecta.</p>
+    </section>
+
+    <!-- 4. CONFIGURAȚII -->
+    <section class="sectiune sectiune--deschis" id="configuratii-tipice" aria-labelledby="titlu-configuratii">
+      <div class="sectiune__antet">
+        <p class="sectiune__nr" aria-hidden="true">04</p>
+        <h2 id="titlu-configuratii">Configurații tipice</h2>
+        <p class="sectiune__detaliu">aceeași cameră, alte accesorii</p>
+      </div>
+      <ul class="grila grila--config">
+        <li class="config-card">
+          <p class="card__antet"><span>K01</span><span>Trepied</span></p>
+          <h3>Interviu („cap vorbitor”)</h3>
+          <ul class="config-card__lista">
+            <li>Trepied cu cap fluid</li>
+            <li>Monitor extern</li>
+            <li>Receptor wireless pentru lavalieră</li>
+            <li>Baterie V-mount sau alimentare de la rețea</li>
+          </ul>
+          <button class="buton-contur" type="button" data-config="interviu">
+            <svg class="iconita" aria-hidden="true"><use href="#i-3d"></use></svg><span>Arată în 3D</span>
+          </button>
+        </li>
+        <li class="config-card">
+          <p class="card__antet"><span>K02</span><span>Din mână</span></p>
+          <h3>Reportaj</h3>
+          <ul class="config-card__lista">
+            <li>Mâner superior (sau suport de umăr)</li>
+            <li>Microfon tun pe cameră</li>
+            <li>Monitor sau vizor electronic</li>
+            <li>ND încorporat, pentru lumina care se schimbă</li>
+          </ul>
+          <button class="buton-contur" type="button" data-config="reportaj">
+            <svg class="iconita" aria-hidden="true"><use href="#i-3d"></use></svg><span>Arată în 3D</span>
+          </button>
+        </li>
+        <li class="config-card">
+          <p class="card__antet"><span>K03</span><span>Cinema</span></p>
+          <h3>Echipare completă</h3>
+          <ul class="config-card__lista">
+            <li>Bare de 15 mm, follow focus, matte box</li>
+            <li>Monitor și transmițător video wireless</li>
+            <li>Microfon și receptor wireless</li>
+            <li>Baterie V-mount pentru tot sistemul</li>
+          </ul>
+          <button class="buton-contur" type="button" data-config="complet">
+            <svg class="iconita" aria-hidden="true"><use href="#i-3d"></use></svg><span>Arată în 3D</span>
+          </button>
+        </li>
+      </ul>
+    </section>
+
+    <!-- 5. FORMAREA IMAGINII -->
+    <section class="sectiune" id="imaginea" aria-labelledby="titlu-imaginea">
+      <div class="sectiune__antet">
+        <p class="sectiune__nr" aria-hidden="true">05</p>
+        <h2 id="titlu-imaginea">Drumul imaginii prin cameră</h2>
+        <p class="sectiune__detaliu">de la lumină la fișier, în 5 pași</p>
+      </div>
+      <div class="secventa">
+        <div class="secventa__rigla" aria-hidden="true"><span>00:00</span><span>00:01</span><span>00:02</span><span>00:03</span><span>00:04</span><span>00:05</span></div>
+        <ol class="secventa__pasi">
+          <li style="--culoare: #a78bfa"><span class="timecode">01</span><strong>Obiectivul</strong><span>adună lumina și formează imaginea</span></li>
+          <li style="--culoare: #38bdf8"><span class="timecode">02</span><strong>Filtrul ND</strong><span>reduce lumina, dacă e prea multă</span></li>
+          <li style="--culoare: #38bdf8"><span class="timecode">03</span><strong>Senzorul</strong><span>transformă lumina în semnal electric</span></li>
+          <li style="--culoare: #38bdf8"><span class="timecode">04</span><strong>Procesorul</strong><span>culoare, zgomot, compresie (codec)</span></li>
+          <li style="--culoare: #facc15"><span class="timecode">05</span><strong>Card și ieșiri</strong><span>fișierul pe card, imaginea pe SDI/HDMI</span></li>
+        </ol>
+      </div>
+      <button class="buton-accent" type="button" id="btn-imagine-2">
+        <svg class="iconita" aria-hidden="true"><use href="#i-play"></use></svg><span>Pornește animația în 3D</span>
+      </button>
+    </section>
+
+    <!-- 6. RECAPITULARE -->
+    <section class="sectiune" id="recapitulare" aria-labelledby="titlu-recapitulare">
+      <div class="sectiune__antet">
+        <p class="sectiune__nr" aria-hidden="true">06</p>
+        <h2 id="titlu-recapitulare">Recapitulare</h2>
+        <p class="sectiune__detaliu">termeni-cheie și întrebări de verificare</p>
+      </div>
+      <div class="recap">
+        <dl class="termeni">
+          <div><dt>Cușcă (cage)</dt><dd>Cadru metalic din jurul camerei, cu puncte de montaj.</dd></div>
+          <div><dt>Matte box</dt><dd>„Parasolarul” profesional din fața obiectivului, cu loc pentru filtre.</dd></div>
+          <div><dt>Follow focus</dt><dd>Mecanism cu roată dințată pentru rotirea inelului de focalizare.</dd></div>
+          <div><dt>V-mount</dt><dd>Standard de baterii mari, profesionale.</dd></div>
+          <div><dt>D-Tap</dt><dd>Ieșire de alimentare de pe baterie, pentru accesorii.</dd></div>
+          <div><dt>SDI</dt><dd>Interfață video profesională, pe cablu coaxial cu mufe BNC care se blochează.</dd></div>
+        </dl>
+
+        <div class="intrebari">
+          <details>
+            <summary><span class="timecode">Q1</span>Prin ce se deosebește o cameră de producție de una de amator?</summary>
+            <p>Intrări XLR, filtre ND încorporate, ieșiri SDI și timecode, două sloturi de card, codecuri profesionale (10 biți, 4:2:2, Log, RAW), răcire activă, butoane fizice și construcție modulară.</p>
+          </details>
+          <details>
+            <summary><span class="timecode">Q2</span>La ce folosesc cușca și barele de 15 mm?</summary>
+            <p>Cușca protejează camera și oferă puncte de montaj. Barele țin accesoriile din față, follow focus-ul și matte box-ul, la distanța standard de obiectiv.</p>
+          </details>
+          <details>
+            <summary><span class="timecode">Q3</span>Ce rol are un monitor-recorder?</summary>
+            <p>Arată o imagine mare, cu instrumente pentru focalizare și expunere, și înregistrează în paralel, adesea într-un codec mai bun decât cel intern.</p>
+          </details>
+          <details>
+            <summary><span class="timecode">Q4</span>Ce accesorii alegi pentru un interviu de 40 de minute în birou?</summary>
+            <p>Trepied cu cap fluid, monitor extern, lavalieră cu receptor wireless și alimentare sigură: baterie V-mount mare sau de la rețea. Matte box-ul și follow focus-ul nu sunt necesare.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="subsol" id="final">
+    <div class="subsol__grila">
+      <div class="subsol__mesaj">
+        <p class="eticheta">Prezentare</p>
+        <h2 class="subsol__titlu">Mulțumesc!</h2>
+        <p class="subsol__text">Întrebări? Modelul 3D rămâne pe pagină: poți reveni oricând la orice componentă.</p>
+        <a class="buton-accent" href="#camera">Înapoi la camera 3D</a>
+      </div>
+      <div class="subsol__coloana">
+        <p class="eticheta">Materie</p>
+        <p class="subsol__info">Mijloace tehnice în multimedia</p>
+        <p class="subsol__info subsol__info--gri">Tema 5.1 · Camera de producție și accesorii adiționale</p>
+      </div>
+      <div class="subsol__coloana">
+        <p class="eticheta">Navigare</p>
+        <ul class="subsol__linkuri">
+          <li><a class="subsol__link" href="/universitate.html#materiale"><svg class="iconita" aria-hidden="true"><use href="#i-universitate"></use></svg><span>Materiale</span></a></li>
+          <li><a class="subsol__link" href="/index.html"><svg class="iconita" aria-hidden="true"><use href="#i-portofoliu"></use></svg><span>Portofoliu</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="subsol__final">
+      <p>© <span id="an-curent">2026</span> Tudor Mirca</p>
+      <p aria-hidden="true">Sfârșit de secvență <span id="tc-final">00:05:00:00</span></p>
+    </div>
+  </footer>
+
+  <nav class="navigare-mobil" aria-label="Navigare pe telefon">
+    <span class="navigare-mobil__progres" aria-hidden="true"><span id="progres-mobil"></span></span>
+    <ul id="lista-mobil"></ul>
+  </nav>
+
+  <p class="doar-cititor" id="anunt" role="status"></p>
+
+  <noscript>
+    <p class="fara-js">Modelul 3D are nevoie de JavaScript. Textul prezentării se vede și fără el.</p>
+  </noscript>
+</body>
+</html>

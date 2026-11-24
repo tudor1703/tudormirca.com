@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="color-scheme" content="dark">
+  <title>Admin · Tudor Mirca</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..700&family=Space+Grotesk:wght@400..700&display=swap">
+  <link rel="stylesheet" href="admin.css">
+  <script src="admin.js?v=2" defer></script>
+</head>
+<body>
+  <div id="ecran-incarcare" class="ecran-centru">
+    <p class="mono gri">Se încarcă…</p>
+  </div>
+
+  <!-- Apare doar dacă lipsesc setările din Cloudflare -->
+  <section id="ecran-configurare" class="ecran-centru" hidden>
+    <div class="card-centru">
+      <div class="marca-mare">TM</div>
+      <h1>Adminul mai are nevoie de o setare</h1>
+      <p class="gri">Fă pașii de mai jos o singură dată în Cloudflare, apoi urcă din nou site-ul (zip-ul) și reîncarcă această pagină.</p>
+      <ol class="pasi">
+        <li id="pas-kv"><strong>Spațiu de stocare.</strong> Storage &amp; Databases → <em>Workers KV</em> → <em>Create instance</em>, cu numele <code>tudormirca-date</code>. Apoi Workers &amp; Pages → tudormirca → <em>Settings</em> → <em>Bindings</em> → <em>Add</em> → <em>KV namespace</em>, cu Variable name <code>SITE</code>.</li>
+        <li id="pas-parola"><strong>Parola.</strong> Workers &amp; Pages → tudormirca → <em>Settings</em> → <em>Variables and Secrets</em> → <em>Add</em> → tipul <em>Secret</em> (sau bifa <em>Encrypt</em>), nume <code>ADMIN_PASSWORD</code>, iar la valoare parola ta.</li>
+        <li><strong>Urcă din nou site-ul</strong> (Deployments → <em>Create deployment</em>), ca setările să intre în vigoare.</li>
+      </ol>
+      <p id="stare-configurare" class="mono gri"></p>
+    </div>
+  </section>
+
+  <section id="ecran-login" class="ecran-centru" hidden>
+    <form id="form-login" class="card-centru card-login" novalidate>
+      <div class="marca-mare">TM</div>
+      <h1>Admin</h1>
+      <p class="gri">Intră ca să încarci materiale și să modifici site-ul.</p>
+      <label class="camp">
+        <span class="camp__eticheta">Parola</span>
+        <input id="parola" type="password" autocomplete="current-password" required>
+      </label>
+      <button class="buton buton-accent buton-lat" type="submit">Intră</button>
+      <p id="eroare-login" class="mesaj-eroare" role="alert"></p>
+      <a class="link-gri" href="/">← Înapoi la site</a>
+    </form>
+  </section>
+
+  <div id="aplicatie" hidden>
+    <header class="bara">
+      <a class="bara__marca" href="/admin"><span class="marca-mica">TM</span><span>Admin</span></a>
+      <p class="bara__stare" id="stare-salvare" aria-live="polite"></p>
+      <div class="bara__actiuni">
+        <a class="buton" href="/" target="_blank" rel="noopener">Vezi site-ul ↗</a>
+        <button class="buton buton-accent" id="publica" type="button" disabled>Publică</button>
+        <button class="buton buton-text" id="iesi" type="button">Ieși</button>
+      </div>
+    </header>
+    <div class="cadru">
+      <nav class="meniu" id="meniu" aria-label="Secțiunile adminului"></nav>
+      <main class="continut" id="continut" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <dialog id="dialog-fisiere" class="dialog">
+    <form method="dialog" class="dialog__cap">
+      <h2>Alege un fișier încărcat</h2>
+      <button class="buton buton-text" value="anuleaza" aria-label="Închide">✕</button>
+    </form>
+    <input id="cauta-fisiere" class="dialog__cauta" type="search" placeholder="Caută după nume…">
+    <div id="lista-dialog-fisiere" class="dialog__lista"></div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

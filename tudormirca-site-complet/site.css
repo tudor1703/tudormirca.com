@@ -1,0 +1,3074 @@
+/* ==========================================================================
+   site.css — ASPECTUL PAGINII PRINCIPALE (index.html)
+
+   Cuprins:
+    1. Variabile — aici schimbi culoarea de accent
+    2. Bază
+    3. Fundalul fix
+    4. Elemente reutilizate (butoane, etichete, REC)
+    5. Navigarea
+    6. Hero: titlul, eclipsa și studioul de montaj
+    7. Banda cu skills
+    8. Secțiuni și titluri
+    9. Despre mine (bento)
+   10. Skills
+   11. Creații și fereastra de detalii
+   12. Parcurs (studii, organizații, cursuri, platforme) și experiență
+   13. Contact și footer
+   14. Animații: intrarea în pagină și apariția la scroll
+   15. Responsive
+   16. Mișcare redusă
+
+   Toate animațiile mută doar transform și opacity: acestea le calculează
+   placa video, așa că rămân fluide și pe calculatoare mai slabe.
+   ========================================================================== */
+
+/* ---------- 1. VARIABILE ------------------------------------------------- */
+:root {
+  --accent: #ff6b2c;
+  --accent-deschis: #ffa46b;
+  --accent-glow: rgba(255, 107, 44, 0.5);
+  --pe-accent: #1a0800;
+
+  --fundal: #050507;
+  --placa: #0b0c10;
+  --placa-2: #101117;
+  --linie: rgba(255, 255, 255, 0.075);
+  --linie-tare: rgba(255, 255, 255, 0.14);
+
+  --text: #f4f5f8;
+  --text-gri: #9ca2b0;
+  --text-stins: #626876;
+
+  --font-titlu: "Space Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, Menlo, monospace;
+
+  --latime: 1240px;
+  --margine: clamp(18px, 4vw, 40px);
+  --raza: 20px;
+  --raza-mica: 12px;
+
+  /* Curbele de mișcare: ieșire lungă și moale, ca în interfețele Apple */
+  --lin: cubic-bezier(0.22, 1, 0.36, 1);
+  --lin-tare: cubic-bezier(0.16, 1, 0.3, 1);
+  --in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* ---------- 2. BAZĂ ------------------------------------------------------ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--fundal);
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: 110px;
+}
+
+/* Fără scroll lin nativ: de el se ocupă Lenis (vezi site.js) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+.lenis [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+body {
+  margin: 0;
+  overflow-x: clip;
+  color: var(--text);
+  font-family: var(--font-titlu);
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(255, 107, 44, 0.35);
+  color: #fff;
+}
+
+img,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+p,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-deschis);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+main:focus {
+  outline: none;
+}
+
+.doar-cititor {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.sari-la-continut {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  z-index: 200;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--pe-accent);
+  font-weight: 700;
+  transform: translateY(-200%);
+}
+
+.sari-la-continut:focus {
+  transform: none;
+}
+
+.fara-js {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 100;
+  padding: 16px;
+  background: var(--placa-2);
+  text-align: center;
+}
+
+/* Eticheta automată pentru [DE COMPLETAT] */
+.de-completat {
+  display: inline-block;
+  padding: 0.05em 0.6em;
+  border: 1px dashed rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: clamp(0.6875rem, 0.62em, 0.8rem);
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  vertical-align: 0.15em;
+  white-space: nowrap;
+  -webkit-text-fill-color: var(--text-gri);
+}
+
+/* ---------- 3. FUNDALUL FIX ---------------------------------------------- */
+/* Static, fără animație: un fundal care se mișcă ar încetini scrollul */
+.fundal {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.fundal__grila {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px) 0 0 / 80px 80px,
+    linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px) 0 0 / 80px 80px;
+  -webkit-mask-image: radial-gradient(80% 60% at 50% 0%, #000 20%, transparent 80%);
+  mask-image: radial-gradient(80% 60% at 50% 0%, #000 20%, transparent 80%);
+}
+
+.fundal__lumina {
+  position: absolute;
+  top: -30vh;
+  left: 50%;
+  width: 120vw;
+  height: 80vh;
+  transform: translateX(-50%);
+  background: radial-gradient(closest-side, rgba(255, 107, 44, 0.09), transparent);
+}
+
+.fundal__grain {
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+}
+
+/* Bara de progres de sus */
+.progres {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+  height: 2px;
+  pointer-events: none;
+}
+
+.progres span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(255, 107, 44, 0.2), var(--accent) 70%, #ffd2b8);
+  box-shadow: 0 0 12px var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  will-change: transform;
+}
+
+/* ---------- 4. ELEMENTE REUTILIZATE -------------------------------------- */
+.iconita {
+  display: block;
+  flex: none;
+  width: 18px;
+  height: 18px;
+}
+
+.eticheta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Punctul roșu de înregistrare, care pulsează */
+.rec {
+  display: inline-block;
+  flex: none;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff3b30;
+  box-shadow: 0 0 10px rgba(255, 59, 48, 0.9);
+  animation: rec 1.8s ease-in-out infinite;
+}
+
+@keyframes rec {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+.buton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 50px;
+  padding: 0 26px;
+  overflow: hidden;
+  isolation: isolate;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  transition: transform 0.5s var(--lin), box-shadow 0.5s var(--lin), background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.buton .iconita {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.5s var(--lin);
+}
+
+.buton:hover .iconita {
+  transform: translateX(3px);
+}
+
+.buton--accent {
+  background: linear-gradient(180deg, #ff8a4c, #ff5c1c);
+  color: var(--pe-accent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+    0 12px 32px -12px var(--accent-glow);
+}
+
+/* Reflexia care trece peste buton la hover */
+.buton--accent::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.5) 50%, transparent 65%);
+  transform: translateX(-110%);
+  transition: transform 0.9s var(--lin);
+}
+
+.buton--accent:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.15),
+    0 18px 44px -12px rgba(255, 107, 44, 0.75),
+    0 0 0 5px rgba(255, 107, 44, 0.12);
+}
+
+.buton--accent:hover::after {
+  transform: translateX(110%);
+}
+
+.buton--sticla {
+  border: 1px solid var(--linie-tare);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+}
+
+.buton--sticla:hover {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.buton--mic {
+  min-height: 40px;
+  padding: 0 18px;
+  font-size: 0.875rem;
+}
+
+.buton:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Butonul rotund doar cu iconiță */
+.buton-rotund {
+  display: inline-grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: 1px solid var(--linie-tare);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-gri);
+  transition: transform 0.5s var(--lin), border-color 0.3s ease, color 0.3s ease, background-color 0.3s ease, box-shadow 0.5s var(--lin);
+}
+
+.buton-rotund:hover {
+  border-color: rgba(255, 107, 44, 0.6);
+  background: rgba(255, 107, 44, 0.1);
+  color: var(--accent-deschis);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 30px -14px var(--accent-glow);
+}
+
+/* Lumina care urmează cursorul în plăci și carduri (--mx, --my din site.js) */
+.lumina-cursor {
+  position: relative;
+  isolation: isolate;
+}
+
+.lumina-cursor::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(380px circle at var(--mx, 50%) var(--my, -20%), rgba(255, 107, 44, 0.12), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.lumina-cursor:hover::before {
+  opacity: 1;
+}
+
+/* ---------- 5. NAVIGAREA ------------------------------------------------- */
+.nav {
+  position: fixed;
+  top: 14px;
+  left: 50%;
+  z-index: 50;
+  width: min(var(--latime), 100% - 2 * var(--margine));
+  transform: translateX(-50%);
+}
+
+.nav__pastila {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 62px;
+  padding: 0 10px 0 16px;
+  border: 1px solid var(--linie);
+  border-radius: 999px;
+  background: rgba(10, 11, 15, 0.55);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.04) inset, 0 20px 50px -30px rgba(0, 0, 0, 0.9);
+  transition: background-color 0.5s ease, border-color 0.5s ease;
+}
+
+.nav--derulat .nav__pastila {
+  border-color: var(--linie-tare);
+  background: rgba(10, 11, 15, 0.78);
+}
+
+.marca {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px 6px 2px;
+  border-radius: 999px;
+}
+
+.marca__semn {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(140deg, #ff9a5e, #ff5a1a 60%, #e2420a);
+  color: #1a0700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4), 0 6px 20px -6px var(--accent-glow);
+  transition: transform 0.6s var(--lin);
+}
+
+.marca__semn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.marca:hover .marca__semn {
+  transform: rotate(-90deg);
+}
+
+.marca__nume {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.nav__linkuri {
+  position: relative;
+  margin: 0 auto;
+}
+
+.nav__linkuri ul {
+  display: flex;
+  gap: 2px;
+}
+
+.nav__link {
+  position: relative;
+  z-index: 1;
+  display: block;
+  padding: 9px 15px;
+  border-radius: 999px;
+  color: var(--text-gri);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav__link:hover,
+.nav__link[aria-current] {
+  color: var(--text);
+}
+
+/* Pastila care alunecă sub secțiunea activă */
+.nav__indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--l, 0px);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  opacity: var(--o, 0);
+  transform: translateX(var(--x, 0px));
+  transition: transform 0.6s var(--lin), width 0.6s var(--lin), opacity 0.4s ease;
+  pointer-events: none;
+}
+
+.nav__indicator::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -1px;
+  width: 16px;
+  height: 2px;
+  margin-left: -8px;
+  border-radius: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent);
+}
+
+.nav__dreapta {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav__pagina {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  color: var(--text-gri);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.nav__pagina .iconita {
+  width: 16px;
+  height: 16px;
+}
+
+.nav__pagina:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+}
+
+.nav__meniu {
+  display: none;
+  position: relative;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.nav__meniu span {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text);
+  transition: transform 0.5s var(--lin);
+}
+
+.nav__meniu span:first-child {
+  transform: translateY(-4px);
+}
+
+.nav__meniu span:last-child {
+  transform: translateY(4px);
+}
+
+.nav__meniu[aria-expanded="true"] span:first-child {
+  transform: rotate(45deg);
+}
+
+.nav__meniu[aria-expanded="true"] span:last-child {
+  transform: rotate(-45deg);
+}
+
+/* Meniul de pe telefon: se desfășoară lin (grid 0fr → 1fr) */
+.nav-mobil {
+  display: none;
+  grid-template-rows: 0fr;
+  margin-top: 8px;
+  transition: grid-template-rows 0.6s var(--lin);
+}
+
+.nav-mobil__interior {
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 26px;
+  background: rgba(12, 13, 18, 0.92);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+  box-shadow: inset 0 0 0 1px var(--linie);
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+  transition: opacity 0.4s ease, transform 0.6s var(--lin);
+}
+
+.nav-mobil--deschis {
+  grid-template-rows: 1fr;
+}
+
+.nav-mobil--deschis .nav-mobil__interior {
+  opacity: 1;
+  transform: none;
+}
+
+.nav-mobil ul {
+  padding: 10px;
+}
+
+.nav-mobil li a {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  font-size: 1.35rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.nav-mobil li a span {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+}
+
+.nav-mobil li a[aria-current] {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-mobil__pagina {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 10px 10px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(255, 107, 44, 0.1);
+  color: var(--accent-deschis);
+  font-weight: 600;
+}
+
+.nav-mobil__pagina .iconita:last-child {
+  margin-left: auto;
+}
+
+/* ---------- 6. HERO ------------------------------------------------------ */
+.hero {
+  position: relative;
+  overflow: clip;
+  padding: clamp(140px, 19vh, 200px) var(--margine) clamp(40px, 6vw, 80px);
+}
+
+.hero__text {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 980px;
+  margin: 0 auto;
+  text-align: center;
+  will-change: transform, opacity;
+}
+
+.insigna {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 26px;
+  padding: 5px 14px 5px 5px;
+  border: 1px solid var(--linie-tare);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--text-gri);
+  font-size: 0.85rem;
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.insigna:hover {
+  border-color: rgba(255, 107, 44, 0.45);
+  background: rgba(255, 107, 44, 0.06);
+}
+
+.insigna__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ff8a4c, #ff5c1c);
+  color: var(--pe-accent);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.insigna__tag .rec {
+  background: #fff;
+  box-shadow: 0 0 8px #fff;
+}
+
+.insigna .iconita {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.5s var(--lin);
+}
+
+.insigna:hover .iconita {
+  transform: translateX(3px);
+}
+
+.hero__titlu {
+  font-size: clamp(3.4rem, 11vw, 9.5rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+}
+
+/* Cuvintele titlurilor stau într-o „mască”: urcă din spatele ei la apariție */
+.cuvant {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0.08em 0.02em 0.14em;
+  margin: -0.08em -0.02em -0.14em;
+  vertical-align: top;
+}
+
+.cuvant__interior {
+  display: inline-block;
+  will-change: transform;
+}
+
+.hero__titlu .cuvant__interior {
+  background: linear-gradient(180deg, #ffffff 35%, #b9bdc7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.hero__rol {
+  margin-top: 22px;
+  color: var(--accent-deschis);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.hero__descriere {
+  max-width: 560px;
+  margin-top: 14px;
+  color: var(--text-gri);
+  font-size: clamp(1rem, 1.4vw, 1.15rem);
+}
+
+.hero__butoane {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 34px;
+}
+
+/* Eclipsa: o planetă uriașă, din care se vede doar arcul de sus */
+.eclipsa {
+  /* --d: diametrul planetei. --sus: spațiu liber deasupra ei, ca lumina
+     să aibă loc să se stingă treptat în loc să fie tăiată de marginea măștii */
+  --d: min(1500px, 175vw);
+  --sus: calc(var(--d) * 0.2 + 40px);
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+  /* Sus lumina se stinge lin în fundal, jos planeta dispare treptat */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 calc(var(--sus) * 0.75), #000 calc(var(--sus) + var(--d) * 0.26), transparent calc(var(--sus) + var(--d) * 0.52));
+  mask-image: linear-gradient(180deg, transparent 0, #000 calc(var(--sus) * 0.75), #000 calc(var(--sus) + var(--d) * 0.26), transparent calc(var(--sus) + var(--d) * 0.52));
+  width: var(--d);
+  height: calc(var(--d) + var(--sus));
+  margin: calc(clamp(-20px, 2vw, 30px) - var(--sus)) auto 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.eclipsa__corp {
+  position: absolute;
+  top: var(--sus);
+  left: 0;
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.eclipsa__halo {
+  position: absolute;
+  top: -12%;
+  left: 10%;
+  right: 10%;
+  height: 46%;
+  border-radius: 50%;
+  /* Fără filter: blur — gradientul e deja moale, iar blur-ul pe un element
+     atât de mare lăsa dreptunghiuri vizibile pe unele telefoane */
+  background: radial-gradient(52% 52% at 50% 60%, rgba(255, 107, 44, 0.40), rgba(255, 90, 30, 0.22) 30%, rgba(255, 80, 20, 0.08) 58%, transparent 80%);
+}
+
+/* Globul: planeta + aura din jurul ei. Animația de intrare se aplică aici,
+   ca aura să urce împreună cu planeta. */
+.eclipsa__glob {
+  position: absolute;
+  inset: 0;
+}
+
+/* Aura de lumină din afara planetei, desenată cu gradient (nu cu box-shadow:
+   umbrele mari cu blur, sub mască, lăsau dungi dreptunghiulare pe telefon) */
+.eclipsa__glob::before {
+  content: "";
+  position: absolute;
+  inset: -12%;
+  border-radius: 50%;
+  background: radial-gradient(50% 50% at 50% 50%,
+    transparent 79.4%,
+    rgba(255, 130, 70, 0.62) 80.6%,
+    rgba(255, 115, 55, 0.34) 82.4%,
+    rgba(255, 107, 44, 0.17) 86%,
+    rgba(255, 107, 44, 0.07) 92%,
+    transparent 100%);
+}
+
+.eclipsa__planeta {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: 50%;
+  /* Strălucirea de pe marginea interioară e tot din gradiente; jos planeta
+     are culoarea fundalului, ca să nu se vadă marginea */
+  background:
+    radial-gradient(62% 19% at 50% 0%, rgba(255, 107, 44, 0.34), rgba(255, 107, 44, 0.12) 55%, transparent 100%),
+    radial-gradient(50% 50% at 50% 50%, transparent 84%, rgba(255, 107, 44, 0.10) 93%, rgba(255, 120, 60, 0.32) 100%),
+    linear-gradient(180deg, #0a0a0e 0%, #050507 22%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 236, 220, 0.85),
+    inset 0 14px 28px -10px rgba(255, 140, 80, 0.75);
+}
+
+/* Lumina e mai puternică spre dreapta, ca un răsărit pe marginea planetei */
+.eclipsa__planeta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(40% 14% at 62% 0%, rgba(255, 245, 235, 0.85), rgba(255, 140, 70, 0.55) 35%, transparent 70%);
+}
+
+.eclipsa__planeta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(30% 10% at 30% 2%, rgba(140, 170, 255, 0.18), transparent 70%);
+}
+
+/* Studioul de montaj: urcă în perspectivă la scroll (vezi site.js) */
+.studio-scena {
+  position: relative;
+  z-index: 2;
+  max-width: var(--latime);
+  margin: calc(-1 * min(1500px, 175vw) + clamp(150px, 20vw, 290px)) auto 0;
+  perspective: 1800px;
+}
+
+.studio {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--raza);
+  background: linear-gradient(180deg, rgba(22, 23, 30, 0.96), rgba(10, 11, 15, 0.98));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    0 -20px 80px -30px rgba(255, 107, 44, 0.55),
+    0 60px 120px -40px rgba(0, 0, 0, 0.95);
+  transform-origin: 50% 0%;
+  transform: rotateX(var(--rx, 0deg)) scale(var(--sc, 1));
+  will-change: transform;
+}
+
+/* Linia de lumină de pe marginea de sus a studioului */
+.studio::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 180, 130, 0.9), transparent);
+  z-index: 2;
+}
+
+.studio__bara {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 44px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--linie);
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.studio__puncte {
+  display: flex;
+  gap: 7px;
+}
+
+.studio__puncte i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.studio__puncte i:first-child {
+  background: #ff5f57;
+}
+
+.studio__puncte i:nth-child(2) {
+  background: #febc2e;
+}
+
+.studio__puncte i:nth-child(3) {
+  background: #28c840;
+}
+
+.studio__fisier {
+  margin: 0 auto;
+  color: var(--text);
+}
+
+.studio__corp {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr) 230px;
+  border-bottom: 1px solid var(--linie);
+}
+
+.studio__bin,
+.studio__inspector {
+  padding: 16px;
+}
+
+.studio__bin {
+  border-right: 1px solid var(--linie);
+}
+
+.studio__inspector {
+  border-left: 1px solid var(--linie);
+}
+
+.studio__bin ul {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+}
+
+.studio__bin li {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 8px;
+  border-radius: 8px;
+  color: var(--text-gri);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.studio__bin li:first-child {
+  background: rgba(255, 107, 44, 0.1);
+  color: var(--text);
+}
+
+.studio__bin li i {
+  flex: none;
+  width: 22px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--culoare, #555);
+  opacity: 0.85;
+}
+
+.studio__bin li span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.studio__inspector dl {
+  display: grid;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.studio__inspector dt {
+  color: var(--text-stins);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.studio__inspector dd {
+  margin-top: 3px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.studio__monitor {
+  padding: 14px;
+}
+
+.monitor__bara {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.monitor__sursa {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.monitor__tc {
+  color: var(--accent);
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 0 16px rgba(255, 107, 44, 0.6);
+}
+
+.monitor__ecran {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 12px;
+  background: #000;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+/* Clipurile secvenței: la mărimea lor naturală (cel mult 1,3×), centrate,
+   ca un GIF mic să nu se vadă pixelat pe tot ecranul */
+.monitor__ecran--secventa {
+  container-type: size;
+}
+
+.monitor__ecran--secventa .aurora {
+  opacity: 0.6;
+}
+
+.monitor__ecran--secventa .monitor__ghid::before,
+.monitor__ecran--secventa .monitor__ghid::after {
+  display: none;
+}
+
+.monitor__clipuri {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.monitor__clip {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  width: min(calc(var(--l, 320) * 1.3px), 58%);
+  width: min(calc(var(--l, 320) * 1.3px), 58cqw, calc(60cqh * var(--l, 16) / var(--h, 9)));
+  height: auto;
+  aspect-ratio: var(--l, 16) / var(--h, 9);
+  object-fit: cover;
+  border-radius: 10px;
+  background: #000;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 30px 70px -24px rgba(0, 0, 0, 0.85),
+    0 0 70px -12px rgba(255, 107, 44, 0.35);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.97);
+  transition: opacity 0.35s ease, transform 0.7s var(--lin);
+}
+
+.monitor__clip.activ {
+  opacity: 1;
+  transform: translate(-50%, -50%);
+}
+
+/* Monitor mic (telefon): clipul ocupă centrul, iar sub el rămâne doar
+   eticheta clipului, fără numele mare, ca să nu se suprapună */
+@container (max-width: 520px) {
+  .monitor__ecran--secventa .monitor__clip {
+    top: 46%;
+    width: min(calc(var(--l, 320) * 1.3px), 70cqw, calc(66cqh * var(--l, 16) / var(--h, 9)));
+  }
+
+  .monitor__ecran--secventa .monitor__nume {
+    display: none;
+  }
+
+  .monitor__ecran--secventa .monitor__titlu {
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  .monitor__ecran--secventa .monitor__titlu small {
+    margin: 0;
+    font-size: 0.5rem;
+  }
+}
+
+.monitor__imagine {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Lumina animată din monitor, când nu e pusă o imagine proprie */
+.aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: radial-gradient(90% 80% at 70% 35%, #1a1016 0%, #0a0b10 60%, #050507 100%);
+}
+
+.aurora i {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.aurora i:nth-child(1) {
+  left: 40%;
+  top: -30%;
+  width: 70%;
+  height: 110%;
+  background: radial-gradient(closest-side, rgba(255, 107, 44, 0.85), transparent);
+  animation: aurora-1 18s ease-in-out infinite alternate;
+}
+
+.aurora i:nth-child(2) {
+  left: -15%;
+  top: 30%;
+  width: 60%;
+  height: 90%;
+  background: radial-gradient(closest-side, rgba(50, 80, 190, 0.6), transparent);
+  animation: aurora-2 22s ease-in-out infinite alternate;
+}
+
+.aurora i:nth-child(3) {
+  left: 45%;
+  top: 45%;
+  width: 55%;
+  height: 80%;
+  background: radial-gradient(closest-side, rgba(150, 50, 200, 0.55), transparent);
+  animation: aurora-3 26s ease-in-out infinite alternate;
+}
+
+.aurora i:nth-child(4) {
+  left: 62%;
+  top: 6%;
+  width: 22%;
+  height: 40%;
+  background: radial-gradient(closest-side, rgba(255, 230, 200, 0.7), transparent);
+  animation: aurora-1 14s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes aurora-1 {
+  to {
+    transform: translate3d(-12%, 10%, 0) scale(1.12);
+  }
+}
+
+@keyframes aurora-2 {
+  to {
+    transform: translate3d(18%, -10%, 0) scale(1.2);
+  }
+}
+
+@keyframes aurora-3 {
+  to {
+    transform: translate3d(-16%, -14%, 0) scale(0.9);
+  }
+}
+
+/* Ghidajele de cadraj și numele „ars” pe imagine */
+.monitor__ghid {
+  position: absolute;
+  inset: 6%;
+  z-index: 2;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.monitor__ghid::before,
+.monitor__ghid::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.monitor__ghid::before {
+  width: 18px;
+  height: 1px;
+  margin-left: -9px;
+}
+
+.monitor__ghid::after {
+  width: 1px;
+  height: 18px;
+  margin-top: -9px;
+}
+
+.monitor__titlu {
+  position: absolute;
+  left: 9%;
+  bottom: 11%;
+  z-index: 3;
+  font-size: clamp(1.1rem, 3.4vw, 2.6rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.monitor__titlu small {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.7);
+  font-family: var(--font-mono);
+  font-size: 0.32em;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.monitor__redare {
+  position: absolute;
+  right: 5%;
+  bottom: 9%;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  font-size: 0.85rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.5s var(--lin);
+}
+
+.monitor__redare:hover {
+  background: var(--accent);
+  color: var(--pe-accent);
+  transform: scale(1.04);
+}
+
+.monitor__redare[hidden] {
+  display: none;
+}
+
+.monitor__video {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  background: #000;
+}
+
+/* Timeline-ul de jos, cu clipurile proiectelor */
+.studio__timeline {
+  position: relative;
+  padding: 10px 16px 16px 60px;
+}
+
+.timeline__rigla {
+  position: relative;
+  height: 22px;
+  margin-bottom: 6px;
+  background: repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.12) 0 1px, transparent 1px 12px) bottom / 100% 6px no-repeat;
+  color: var(--text-stins);
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+}
+
+.timeline__rigla span {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+}
+
+.timeline__pista {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 38px;
+  margin-top: 6px;
+}
+
+.timeline__eticheta {
+  position: absolute;
+  left: -44px;
+  width: 32px;
+  padding: 4px 0;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  text-align: center;
+}
+
+.timeline__clipuri {
+  display: flex;
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+}
+
+.timeline__clip {
+  position: relative;
+  flex: var(--durata, 1) 1 0;
+  min-width: 0;
+  overflow: hidden;
+  padding: 5px 8px;
+  border-radius: 7px;
+  background: color-mix(in srgb, var(--culoare) 30%, #0d0e13);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--culoare) 55%, transparent), inset 3px 0 0 var(--culoare);
+  color: var(--text);
+  font-size: 0.68rem;
+  font-weight: 500;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Clipul de sub capul de redare se aprinde */
+.timeline__clip {
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.timeline__clip--activ {
+  background: color-mix(in srgb, var(--culoare) 52%, #0d0e13);
+  box-shadow: inset 0 0 0 1px var(--culoare), inset 3px 0 0 var(--culoare), 0 0 18px -4px var(--culoare);
+}
+
+.timeline__clip--gol {
+  background: repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0 6px, transparent 6px 12px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.timeline__clipuri--audio .timeline__clip {
+  padding: 0 6px;
+  background: color-mix(in srgb, #2fd6a3 16%, #0d0e13);
+  box-shadow: inset 0 0 0 1px rgba(47, 214, 163, 0.3);
+}
+
+.timeline__clip svg {
+  width: 100%;
+  height: 100%;
+  stroke: rgba(47, 214, 163, 0.7);
+}
+
+/* Capul de redare: se mișcă singur, ca un clip care rulează */
+.timeline__cap {
+  position: absolute;
+  top: 8px;
+  bottom: 12px;
+  left: 60px;
+  width: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 12px var(--accent);
+  transform: translateX(var(--cap, 0px));
+  will-change: transform;
+}
+
+.timeline__cap::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -5px;
+  border-top: 9px solid var(--accent);
+  border-right: 6px solid transparent;
+  border-left: 6px solid transparent;
+}
+
+/* ---------- 7. BANDA CU SKILLS ------------------------------------------- */
+.banda-sectiune {
+  padding: clamp(70px, 9vw, 120px) 0 clamp(20px, 3vw, 40px);
+  text-align: center;
+}
+
+.banda__titlu {
+  justify-content: center;
+}
+
+.banda {
+  margin-top: 26px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+}
+
+.banda__pista {
+  display: flex;
+  width: max-content;
+  animation: banda var(--durata-banda, 40s) linear infinite;
+  will-change: transform;
+}
+
+.banda:hover .banda__pista {
+  animation-play-state: paused;
+}
+
+.banda__grup {
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 4vw, 56px);
+  padding-right: clamp(28px, 4vw, 56px);
+}
+
+.banda__element {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #6f7583;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.banda__element:hover {
+  color: var(--text);
+}
+
+.banda__element .iconita {
+  width: 1em;
+  height: 1em;
+  color: var(--accent);
+  opacity: 0.7;
+}
+
+@keyframes banda {
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+/* ---------- 8. SECȚIUNI ȘI TITLURI --------------------------------------- */
+.sectiune {
+  max-width: var(--latime);
+  margin: 0 auto;
+  padding: clamp(80px, 11vw, 150px) var(--margine) 0;
+}
+
+.sectiune__antet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: clamp(36px, 5vw, 64px);
+  text-align: center;
+}
+
+.sectiune__antet--rand {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  text-align: left;
+}
+
+.sectiune__numar {
+  margin-bottom: 14px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.sectiune__antet h2 {
+  max-width: 900px;
+  font-size: clamp(2.4rem, 6vw, 4.75rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.sectiune__antet h2 .cuvant__interior {
+  background: linear-gradient(180deg, #ffffff 40%, #9097a5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Placa: suprafața de bază pentru carduri */
+.placa {
+  position: relative;
+  border-radius: var(--raza);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+  box-shadow: inset 0 0 0 1px var(--linie), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- 9. DESPRE MINE (BENTO) --------------------------------------- */
+.bento {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.bento .placa {
+  padding: clamp(20px, 2.4vw, 30px);
+  overflow: hidden;
+}
+
+.placa--subtitrari {
+  grid-column: span 4;
+  grid-row: span 2;
+  display: flex;
+  flex-direction: column;
+}
+
+.placa--subtitrari .subtitrari {
+  flex: 1;
+  align-content: center;
+}
+
+.placa--profil {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.placa--cifre {
+  grid-column: span 2;
+}
+
+.placa--acum {
+  grid-column: span 3;
+}
+
+.placa--retele {
+  grid-column: span 3;
+}
+
+.placa__antet {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 26px;
+}
+
+.placa__tc {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Subtitrările: rândurile se aprind pe rând, ca un fișier redat */
+.subtitrari {
+  display: grid;
+  gap: 18px;
+}
+
+.subtitrari li {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  gap: 18px;
+  align-items: baseline;
+  opacity: 0.35;
+  transition: opacity 0.8s var(--lin), transform 0.8s var(--lin);
+}
+
+.subtitrari li.activ {
+  opacity: 1;
+  transform: translateX(6px);
+}
+
+.subtitrari__tc {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.subtitrari__text {
+  font-size: clamp(1.25rem, 2.4vw, 1.9rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.placa--profil img {
+  width: 96px;
+  height: 96px;
+  border-radius: 24px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 0 6px rgba(255, 107, 44, 0.08), 0 16px 40px -16px var(--accent-glow);
+}
+
+.placa__nume {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.fisa {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.fisa dt {
+  color: var(--text-stins);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.fisa dd {
+  margin-top: 2px;
+  font-weight: 500;
+}
+
+.cifre {
+  display: grid;
+  gap: 16px;
+}
+
+.cifre li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--linie);
+}
+
+.cifre li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.cifre strong {
+  font-size: clamp(2rem, 3.6vw, 2.8rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+.cifre span {
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-align: right;
+  text-transform: uppercase;
+}
+
+.placa--acum {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  background:
+    radial-gradient(70% 110% at 100% 0%, rgba(255, 107, 44, 0.16), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.015));
+}
+
+.acum__text {
+  font-size: clamp(1.3rem, 2.4vw, 1.75rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+}
+
+.placa--retele {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.retele {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* ---------- 10. SKILLS --------------------------------------------------- */
+.skills {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 270px), 1fr));
+  gap: 16px;
+}
+
+.skill {
+  height: 100%;
+  padding: 24px;
+  transition: transform 0.7s var(--lin), box-shadow 0.7s var(--lin);
+}
+
+.skill:hover {
+  transform: translateY(-6px);
+  box-shadow: inset 0 0 0 1px rgba(255, 107, 44, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 30px 60px -30px rgba(255, 107, 44, 0.45);
+}
+
+.skill__antet {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.skill__numar {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+}
+
+.skill__iconita {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 107, 44, 0.1);
+  color: var(--accent);
+  box-shadow: inset 0 0 0 1px rgba(255, 107, 44, 0.25);
+  transition: transform 0.7s var(--lin);
+}
+
+.skill:hover .skill__iconita {
+  transform: rotate(-8deg) scale(1.08);
+}
+
+.skill__titlu {
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.skill__detaliu {
+  margin-top: 6px;
+  color: var(--text-gri);
+}
+
+.skill .unda {
+  width: 100%;
+  height: 40px;
+  margin-top: 26px;
+  stroke: rgba(255, 255, 255, 0.18);
+  transition: stroke 0.4s ease;
+}
+
+.skill:hover .unda {
+  stroke: var(--accent-deschis);
+}
+
+/* ---------- 11. CREAȚII (în date: „proiecte”) ----------------------------- */
+.filtre {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filtru {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: inset 0 0 0 1px var(--linie);
+  color: var(--text-gri);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filtru i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--culoare, var(--accent));
+}
+
+.filtru:hover {
+  color: var(--text);
+}
+
+.filtru[aria-pressed="true"] {
+  background: var(--text);
+  box-shadow: none;
+  color: #0a0a0c;
+}
+
+.proiecte {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 20px;
+}
+
+.proiect {
+  transition: opacity 0.5s ease, transform 0.6s var(--lin);
+}
+
+.proiect[hidden] {
+  display: none;
+}
+
+.proiect__buton {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 10px 10px 20px;
+  border-radius: var(--raza);
+  text-align: left;
+  transition: transform 0.7s var(--lin), box-shadow 0.7s var(--lin);
+}
+
+.proiect__buton:hover {
+  transform: translateY(-6px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 34px 70px -34px rgba(255, 107, 44, 0.5);
+}
+
+.proiect__cadru {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 14px;
+  background: #0d0e13;
+}
+
+.proiect__cadru img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 1.2s var(--lin);
+}
+
+.proiect__buton:hover .proiect__cadru img {
+  transform: scale(1.08);
+}
+
+.proiect__cadru::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.55));
+  pointer-events: none;
+}
+
+.proiect__sageata {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(10, 10, 14, 0.55);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  transition: background-color 0.3s ease, transform 0.6s var(--lin);
+}
+
+.proiect__buton:hover .proiect__sageata {
+  background: var(--accent);
+  color: var(--pe-accent);
+  transform: rotate(45deg);
+}
+
+.proiect__durata {
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  z-index: 2;
+  padding: 3px 9px;
+  border-radius: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.proiect__date {
+  display: block;
+  padding: 18px 10px 0;
+}
+
+.proiect__meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.proiect__meta i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--culoare);
+  box-shadow: 0 0 10px var(--culoare);
+}
+
+.proiect__titlu {
+  display: block;
+  margin-top: 10px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.proiect__descriere {
+  display: -webkit-box;
+  margin-top: 8px;
+  overflow: hidden;
+  color: var(--text-gri);
+  font-size: 0.95rem;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.gol {
+  grid-column: 1 / -1;
+  padding: 40px;
+  border-radius: var(--raza);
+  box-shadow: inset 0 0 0 1px var(--linie);
+  color: var(--text-gri);
+  text-align: center;
+}
+
+/* Fereastra de detalii: se deschide lin, cu fundal estompat */
+.fereastra {
+  width: min(880px, 100% - 32px);
+  max-height: min(90dvh, 900px);
+  margin: auto;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 26px;
+  background: #0d0e13;
+  color: var(--text);
+  box-shadow: inset 0 0 0 1px var(--linie-tare), 0 50px 120px -30px rgba(0, 0, 0, 0.95);
+  opacity: 0;
+  transform: translateY(24px) scale(0.97);
+  transition: opacity 0.45s ease, transform 0.6s var(--lin), overlay 0.6s allow-discrete, display 0.6s allow-discrete;
+}
+
+.fereastra[open] {
+  opacity: 1;
+  transform: none;
+}
+
+@starting-style {
+  .fereastra[open] {
+    opacity: 0;
+    transform: translateY(24px) scale(0.97);
+  }
+}
+
+.fereastra::backdrop {
+  background: rgba(3, 3, 5, 0);
+  -webkit-backdrop-filter: blur(0);
+  backdrop-filter: blur(0);
+  transition: background-color 0.5s ease, backdrop-filter 0.5s ease, overlay 0.6s allow-discrete, display 0.6s allow-discrete;
+}
+
+.fereastra[open]::backdrop {
+  background: rgba(3, 3, 5, 0.7);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+@starting-style {
+  .fereastra[open]::backdrop {
+    background: rgba(3, 3, 5, 0);
+    -webkit-backdrop-filter: blur(0);
+    backdrop-filter: blur(0);
+  }
+}
+
+.fereastra__continut {
+  max-height: min(90dvh, 900px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.fereastra__cadru {
+  aspect-ratio: 16 / 9;
+  background: #000;
+}
+
+.fereastra__cadru img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.fereastra__corp {
+  padding: clamp(22px, 4vw, 38px);
+}
+
+.fereastra__corp h3 {
+  margin: 12px 0 14px;
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+}
+
+.fereastra__corp > p {
+  color: var(--text-gri);
+  font-size: 1.05rem;
+}
+
+.fereastra__date {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1px;
+  margin: 24px 0;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--linie);
+}
+
+.fereastra__date div {
+  padding: 12px 14px;
+  background: #0d0e13;
+}
+
+.fereastra__date dt {
+  color: var(--text-stins);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.fereastra__date dd {
+  margin-top: 3px;
+  font-weight: 500;
+}
+
+.taguri {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.taguri li {
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.fereastra__linkuri {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.fereastra__inchide {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(10, 10, 14, 0.6);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  transition: background-color 0.3s ease, transform 0.5s var(--lin);
+}
+
+.fereastra__inchide:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: rotate(90deg);
+}
+
+/* ---------- 12. PARCURS ȘI EXPERIENȚĂ ------------------------------------ */
+.experienta {
+  position: relative;
+  max-width: 980px;
+  margin: 0 auto;
+  padding-left: 48px;
+}
+
+.experienta__linie {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 15px;
+  width: 2px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+}
+
+/* Linia se umple pe măsură ce derulezi (scaleY din site.js) */
+.experienta__linie span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(180deg, var(--accent-deschis), var(--accent));
+  box-shadow: 0 0 14px var(--accent);
+  transform: scaleY(var(--umplere, 0));
+  transform-origin: top;
+  will-change: transform;
+}
+
+.experienta__lista {
+  display: grid;
+  gap: 16px;
+}
+
+.post {
+  position: relative;
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  gap: 6px 28px;
+  padding: 26px 28px;
+  transition: transform 0.7s var(--lin), box-shadow 0.7s var(--lin);
+}
+
+.post:hover {
+  transform: translateX(6px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 26px 60px -34px rgba(255, 107, 44, 0.45);
+}
+
+.post::after {
+  content: "";
+  position: absolute;
+  top: 32px;
+  left: -40px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--fundal);
+  box-shadow: inset 0 0 0 2px var(--accent), 0 0 0 5px rgba(255, 107, 44, 0.1), 0 0 18px rgba(255, 107, 44, 0.6);
+  transition: background-color 0.4s ease;
+}
+
+.post:hover::after {
+  background: var(--accent);
+}
+
+.post__perioada {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+}
+
+.post__rol {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.post__companie {
+  margin-top: 2px;
+  color: var(--text-gri);
+  font-weight: 500;
+}
+
+.post__descriere {
+  margin-top: 10px;
+  color: var(--text-gri);
+}
+
+/* Parcursul: aceleași carduri ca la experiență, cu mai multe detalii */
+.post__lateral {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.post__tip {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 107, 44, 0.1);
+  box-shadow: inset 0 0 0 1px rgba(255, 107, 44, 0.25);
+  color: var(--accent-deschis);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.post__oras {
+  color: var(--text-stins);
+  font-size: 0.85rem;
+}
+
+.post__corp {
+  min-width: 0;
+}
+
+.post__puncte {
+  display: grid;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.post__puncte li {
+  position: relative;
+  padding-left: 18px;
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.post__puncte li::before {
+  content: "";
+  position: absolute;
+  top: 0.62em;
+  left: 2px;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: rotate(45deg);
+}
+
+.post__grup {
+  margin-top: 16px;
+}
+
+.post__grup-titlu {
+  margin-bottom: 8px;
+  color: var(--text-stins);
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.post__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  color: var(--accent-deschis);
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  transition: color 0.3s ease;
+}
+
+.post__link .iconita {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.5s var(--lin);
+}
+
+.post__link:hover {
+  color: var(--text);
+}
+
+.post__link:hover .iconita {
+  transform: translate(2px, -2px);
+}
+
+/* Cardurile din linia de timp au toate aceeași înălțime: textul lung se
+   scurtează aici, iar totul se vede în fereastra de la „Detalii” */
+#lista-parcurs {
+  grid-auto-rows: 1fr;
+}
+
+.post--parcurs .post__corp {
+  display: flex;
+  flex-direction: column;
+}
+
+.post--parcurs .post__rol,
+.post--parcurs .post__companie {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+}
+
+.post--parcurs .post__rol {
+  -webkit-line-clamp: 2;
+}
+
+.post--parcurs .post__companie {
+  -webkit-line-clamp: 1;
+}
+
+.post--parcurs .post__descriere {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.post__subsol {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 16px;
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+.post__rezumat {
+  color: var(--text-stins);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+}
+
+.post__subsol .buton .iconita {
+  width: 15px;
+  height: 15px;
+  transition: transform 0.5s var(--lin);
+}
+
+.post__subsol .buton:hover .iconita {
+  transform: translateX(3px);
+}
+
+/* Sub linia de timp: cursurile și platformele, carduri egale */
+.parcurs__carduri {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  grid-auto-rows: 1fr;
+  gap: 16px;
+  max-width: 980px;
+  margin: 28px auto 0;
+  padding-left: 48px; /* aliniat cu cardurile de pe linia de timp */
+}
+
+.parcurs__carduri[hidden] {
+  display: none;
+}
+
+.extra {
+  display: flex;
+  flex-direction: column;
+  padding: 10px 10px 22px;
+  transition: transform 0.7s var(--lin), box-shadow 0.7s var(--lin);
+}
+
+.extra:hover {
+  transform: translateY(-4px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 30px 64px -34px rgba(255, 107, 44, 0.45);
+}
+
+.extra__coperta {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.extra__coperta--certificat {
+  background: #fff;
+}
+
+.extra__coperta--certificat img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transition: transform 1.2s var(--lin);
+}
+
+.extra:hover .extra__coperta--certificat img {
+  transform: scale(1.04);
+}
+
+.extra__coperta--platforma {
+  background:
+    radial-gradient(60% 90% at 80% 10%, rgba(255, 164, 107, 0.45), transparent 70%),
+    radial-gradient(70% 100% at 10% 100%, rgba(255, 107, 44, 0.35), transparent 70%),
+    #120b09;
+  box-shadow: inset 0 0 0 1px rgba(255, 107, 44, 0.2);
+}
+
+.extra__iconita {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 22px;
+  background: rgba(10, 10, 14, 0.45);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+.extra__iconita .iconita {
+  width: 32px;
+  height: 32px;
+}
+
+.extra__corp {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 18px 12px 0;
+}
+
+.extra__titlu {
+  display: -webkit-box;
+  margin-top: 12px;
+  overflow: hidden;
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.extra__text {
+  display: -webkit-box;
+  margin-top: 8px;
+  overflow: hidden;
+  color: var(--text-gri);
+  font-size: 0.92rem;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.extra .post__subsol {
+  align-self: stretch;
+}
+
+.fereastra__subtitlu {
+  margin: -4px 0 14px;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.fereastra__corp .post__grup + .post__grup,
+.fereastra__date + .post__grup {
+  margin-top: 0;
+}
+
+.fereastra__corp .post__grup {
+  margin-bottom: 18px;
+}
+
+/* Certificatul se vede întreg în fereastră, pe alb */
+.fereastra--certificat .fereastra__cadru {
+  aspect-ratio: auto;
+  background: #fff;
+}
+
+.fereastra--certificat .fereastra__cadru img {
+  height: auto;
+  object-fit: contain;
+}
+
+/* ---------- 13. CONTACT ȘI FOOTER ---------------------------------------- */
+.sectiune--contact {
+  padding-bottom: clamp(60px, 8vw, 110px);
+}
+
+.contact {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(60px, 9vw, 120px) clamp(22px, 5vw, 60px) clamp(240px, 26vw, 330px);
+  border-radius: 32px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  box-shadow: inset 0 0 0 1px var(--linie), inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  text-align: center;
+}
+
+/* O a doua eclipsă, mai mică, la baza cardului de contact */
+.contact__eclipsa {
+  position: absolute;
+  left: 50%;
+  top: calc(100% - clamp(170px, 19vw, 240px));
+  width: max(900px, 120%);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(60% 60% at 50% 40%, #0b0b0f, #050507 70%);
+  box-shadow:
+    inset 0 2px 0 rgba(255, 236, 220, 0.85),
+    inset 0 60px 110px -50px rgba(255, 107, 44, 0.6),
+    0 -6px 36px -4px rgba(255, 120, 60, 0.7),
+    0 -40px 140px -20px rgba(255, 107, 44, 0.5);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.contact .sectiune__numar {
+  position: relative;
+}
+
+.contact__titlu {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  font-size: clamp(2.6rem, 7vw, 5.5rem);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  background: linear-gradient(120deg, #ffffff 40%, #ffc19b 75%, var(--accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  padding-bottom: 0.05em;
+}
+
+.contact__text {
+  position: relative;
+  max-width: 560px;
+  margin: 18px auto 0;
+  color: var(--text-gri);
+  font-size: 1.1rem;
+}
+
+.contact__butoane {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 34px;
+}
+
+.subsol {
+  position: relative;
+  overflow: hidden;
+  max-width: var(--latime);
+  margin: 0 auto;
+  padding: 0 var(--margine) 0;
+}
+
+.subsol__grila {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 1fr);
+  gap: 32px;
+  padding: 44px 0 36px;
+  border-top: 1px solid var(--linie);
+}
+
+.subsol__nume {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.subsol__rol {
+  max-width: 380px;
+  margin-top: 6px;
+  color: var(--text-gri);
+}
+
+.subsol__linkuri {
+  display: grid;
+  gap: 4px;
+  margin-top: 14px;
+}
+
+.subsol__linkuri a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+  color: var(--text-gri);
+  transition: color 0.3s ease, transform 0.5s var(--lin);
+}
+
+.subsol__linkuri a:hover {
+  color: var(--text);
+  transform: translateX(4px);
+}
+
+.subsol__linkuri .iconita {
+  width: 16px;
+  height: 16px;
+}
+
+.subsol__final {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+  padding: 20px 0;
+  border-top: 1px solid var(--linie);
+  color: var(--text-stins);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+.subsol__tc span {
+  color: var(--accent);
+}
+
+.subsol__sus {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-gri);
+  transition: color 0.3s ease;
+}
+
+.subsol__sus:hover {
+  color: var(--text);
+}
+
+.subsol__sus .iconita {
+  width: 14px;
+  height: 14px;
+}
+
+/* Numele uriaș, tăiat de marginea de jos a paginii */
+.subsol__gigant {
+  margin: 10px 0 -0.24em;
+  font-size: clamp(3rem, 12vw, 11rem); /* site.js îl potrivește exact pe lățime */
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  text-align: center;
+  white-space: nowrap;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  user-select: none;
+}
+
+.toast {
+  position: fixed;
+  inset: auto auto 28px 50%;
+  margin: 0;
+  padding: 11px 20px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(244, 245, 248, 0.95);
+  color: #0a0a0c;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7);
+  transform: translateX(-50%);
+}
+
+/* ---------- 14. ANIMAȚII ------------------------------------------------- */
+/* Intrarea în pagină. Cât timp html are „asteapta”, piesele hero-ului stau
+   ascunse; site.js pune „gata” după intro (sau imediat, dacă nu e intro). */
+.js .hero__titlu .cuvant__interior {
+  transform: translate3d(0, 110%, 0);
+}
+
+.js [data-intra] {
+  opacity: 0;
+  transform: translate3d(0, 22px, 0);
+}
+
+.js .eclipsa__glob,
+.js .eclipsa__halo {
+  opacity: 0;
+}
+
+.js .eclipsa__glob {
+  transform: translate3d(0, 18%, 0);
+}
+
+.js .studio-scena {
+  opacity: 0;
+  transform: translate3d(0, 80px, 0);
+}
+
+.js .nav {
+  opacity: 0;
+  transform: translate(-50%, -24px);
+}
+
+.gata .hero__titlu .cuvant__interior,
+.gata [data-intra],
+.gata .eclipsa__glob,
+.gata .eclipsa__halo,
+.gata .studio-scena {
+  opacity: 1;
+  transform: none;
+}
+
+.gata .nav {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  transition: opacity 0.9s ease 0.2s, transform 1.2s var(--lin) 0.2s;
+}
+
+.gata .hero__titlu .cuvant__interior {
+  transition: transform 1.4s var(--lin-tare) calc(0.25s + var(--i, 0) * 0.09s);
+}
+
+.gata [data-intra] {
+  transition: opacity 1.1s ease calc(var(--intra, 1) * 0.1s + 0.25s), transform 1.3s var(--lin) calc(var(--intra, 1) * 0.1s + 0.25s);
+}
+
+.gata [data-intra="1"] { --intra: 0; }
+.gata [data-intra="3"] { --intra: 4; }
+.gata [data-intra="4"] { --intra: 5; }
+.gata [data-intra="5"] { --intra: 6; }
+
+.gata .eclipsa__halo {
+  transition: opacity 2.2s ease 0.3s;
+}
+
+.gata .eclipsa__glob {
+  transition: opacity 1.6s ease 0.2s, transform 2.2s var(--lin-tare) 0.15s;
+}
+
+.gata .studio-scena {
+  transition: opacity 1.2s ease 0.75s, transform 1.8s var(--lin-tare) 0.65s;
+}
+
+/* Apariția la scroll: site.js pune „.vizibil” când elementul intră în ecran */
+.js [data-apare] {
+  opacity: 0;
+  transform: translate3d(0, 40px, 0);
+  transition: opacity 1s ease calc(var(--i, 0) * 90ms), transform 1.3s var(--lin) calc(var(--i, 0) * 90ms);
+}
+
+.js [data-apare].vizibil {
+  opacity: 1;
+  transform: none;
+}
+
+/* Titlurile de secțiune: cuvintele urcă din mască */
+.js .titlu-split .cuvant__interior {
+  transform: translate3d(0, 110%, 0);
+  transition: transform 1.3s var(--lin-tare) calc(var(--i, 0) * 70ms);
+}
+
+.js .titlu-split.vizibil .cuvant__interior {
+  transform: none;
+}
+
+/* ---------- 15. RESPONSIVE ----------------------------------------------- */
+@media (max-width: 1100px) {
+  .nav__pagina span {
+    display: none;
+  }
+
+  .nav__link {
+    padding: 9px 11px;
+  }
+
+  .studio__corp {
+    grid-template-columns: 170px minmax(0, 1fr);
+  }
+
+  .studio__inspector {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+
+  .nav__linkuri,
+  .nav__pagina,
+  .nav__dreapta .buton {
+    display: none;
+  }
+
+  .nav__dreapta {
+    margin-left: auto;
+  }
+
+  .nav__meniu,
+  .nav-mobil {
+    display: grid;
+  }
+
+  .nav__meniu {
+    display: block;
+  }
+
+  .studio__corp {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .studio__bin {
+    display: none;
+  }
+
+  .bento {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .placa--subtitrari {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .placa--profil,
+  .placa--cifre,
+  .placa--acum,
+  .placa--retele {
+    grid-column: span 1;
+  }
+
+  .subsol__grila {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+
+  .subsol__brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .nav {
+    top: 10px;
+  }
+
+  .nav__pastila {
+    height: 58px;
+    padding-left: 10px;
+  }
+
+  .hero {
+    padding-top: 120px;
+  }
+
+  .hero__butoane {
+    width: 100%;
+  }
+
+  .hero__butoane .buton {
+    flex: 1 1 100%;
+  }
+
+  .studio__bara {
+    gap: 10px;
+    padding: 0 12px;
+  }
+
+  .studio__info {
+    display: none;
+  }
+
+  .studio__monitor {
+    padding: 10px;
+  }
+
+  .studio__timeline {
+    padding: 8px 10px 12px 46px;
+  }
+
+  .timeline__eticheta {
+    left: -38px;
+    width: 28px;
+  }
+
+  .timeline__cap {
+    left: 46px;
+  }
+
+  .bento {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .placa--profil,
+  .placa--cifre,
+  .placa--acum,
+  .placa--retele {
+    grid-column: 1 / -1;
+  }
+
+  .subtitrari li {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+  }
+
+  .post {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 22px;
+  }
+
+  .post__lateral {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .post--parcurs .post__rol {
+    -webkit-line-clamp: 3;
+  }
+
+  /* Pe telefon rezumatul și „Detalii” stau mereu pe același rând */
+  .post__subsol {
+    flex-wrap: nowrap;
+    gap: 10px;
+  }
+
+  .post__rezumat {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .post__subsol .buton {
+    flex: none;
+  }
+
+  .post--parcurs .post__companie {
+    -webkit-line-clamp: 2;
+  }
+
+  .experienta,
+  .parcurs__carduri {
+    padding-left: 36px;
+  }
+
+  .experienta__linie {
+    left: 9px;
+  }
+
+  .post::after {
+    left: -33px;
+  }
+
+  .subsol__grila {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact__butoane .buton {
+    flex: 1 1 100%;
+  }
+
+  .subsol__final {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ---------- 16. MIȘCARE REDUSĂ ------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+
+  .js [data-apare],
+  .js [data-intra],
+  .js .titlu-split .cuvant__interior,
+  .js .hero__titlu .cuvant__interior,
+  .js .studio-scena,
+  .js .eclipsa__glob,
+  .js .eclipsa__halo,
+  .js .nav {
+    opacity: 1;
+  }
+
+  .js [data-apare],
+  .js [data-intra],
+  .js .titlu-split .cuvant__interior,
+  .js .hero__titlu .cuvant__interior,
+  .js .studio-scena,
+  .js .eclipsa__glob {
+    transform: none;
+  }
+
+  .js .nav {
+    transform: translateX(-50%);
+  }
+}

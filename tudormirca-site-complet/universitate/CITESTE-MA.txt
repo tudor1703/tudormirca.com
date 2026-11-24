@@ -1,0 +1,9 @@
+Cel mai simplu: încarci fișierele de la universitate din tudormirca.com/admin,
+secțiunea „Materiale universitate” (le tragi în zona punctată).
+
+Varianta veche merge în continuare: pui fișierul în acest folder și scrii
+calea lui în data.js (de ex. "universitate/referat-istorie.pdf"), apoi urci
+din nou site-ul.
+
+Ține fiecare fișier sub 25 MB.
+Tot ce încarci e public: nu încărca acte personale.

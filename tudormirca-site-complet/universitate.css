@@ -1,0 +1,605 @@
+/* ==========================================================================
+   universitate.css — CE E NOU PE PAGINA UNIVERSITATE
+
+   Culorile, fonturile, antetul, monitorul, cardurile, footerul și bottom
+   sheet-ul vin din style.css. Dacă schimbi --accent acolo, se schimbă și aici.
+
+   Cuprins:
+    1. Monitorul și carnetul de student
+    2. Parcursul pe semestre
+    3. Bin-uri, filtre și grila de materiale
+    4. Coperta desenată după tip
+    5. Materii
+    6. Responsive
+   ========================================================================== */
+
+/* ---------- 1. MONITORUL ȘI CARNETUL DE STUDENT -------------------------- */
+/* Numele universității e mai lung decât un nume de persoană */
+.pagina-universitate .monitor__nume {
+  font-size: clamp(2rem, 7cqi, 5.5rem);
+  line-height: 1;
+  text-wrap: balance;
+}
+
+.carnet__fisa {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 6px;
+}
+
+.carnet__randuri {
+  display: grid;
+  gap: 8px;
+  padding-top: 14px;
+  border-top: 1px solid var(--linie);
+}
+
+.carnet__randuri div {
+  display: grid;
+  grid-template-columns: 104px minmax(0, 1fr);
+  gap: 12px;
+  align-items: baseline;
+}
+
+.carnet__randuri dd {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.progres {
+  margin-top: auto;
+  padding-top: 14px;
+  border-top: 1px solid var(--linie);
+}
+
+.progres__antet {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.progres__procent {
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 1.375rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* O bucată pentru fiecare semestru, în culoarea anului de studiu */
+.progres__bara {
+  display: flex;
+  gap: 3px;
+  height: 10px;
+  margin-top: 8px;
+}
+
+.progres__semestru {
+  flex: 1;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--culoare) 16%, transparent);
+}
+
+.progres__semestru span {
+  display: block;
+  height: 100%;
+  background: var(--culoare);
+}
+
+.progres__stare {
+  margin-top: 8px;
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+}
+
+/* ---------- 2. PARCURSUL PE SEMESTRE ------------------------------------- */
+/* Un timeline pe toată lățimea: semestrele sunt clipuri așezate după dată,
+   verile sunt goluri, iar ziua de azi e capul de redare. */
+.parcurs {
+  --eticheta-pista: 40px;
+
+  position: relative;
+  grid-column: 1 / -1;
+  padding-bottom: 24px; /* rândul de jos e al etichetei „Azi” */
+  overflow: hidden;
+  border: 1px solid var(--linie);
+  border-radius: var(--raza);
+  background: var(--camp);
+  user-select: none;
+  container: parcurs / inline-size;
+}
+
+.parcurs__rigla {
+  position: relative;
+  height: 24px;
+  margin-left: var(--eticheta-pista);
+  border-bottom: 1px solid var(--linie);
+  /* O gradație pentru fiecare lună */
+  background: repeating-linear-gradient(90deg, var(--linie) 0 1px, transparent 1px calc(100% / var(--luni, 34))) bottom / 100% 5px no-repeat;
+}
+
+/* Doar eticheta de an; textul cu anii calendaristici dinăuntru rămâne simplu */
+.parcurs__rigla > span {
+  position: absolute;
+  top: 4px;
+  padding-left: 5px;
+  border-left: 1px solid var(--linie);
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.parcurs__pista {
+  display: flex;
+  margin-top: 4px;
+}
+
+.parcurs__clipuri {
+  position: relative;
+  flex: 1;
+  height: 46px;
+}
+
+.parcurs__clip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 0 8px;
+  overflow: hidden;
+  border-top: 3px solid var(--culoare);
+  background: color-mix(in srgb, var(--culoare) 26%, #171a21);
+  box-shadow: inset -1px 0 0 var(--camp);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-align: left;
+  white-space: nowrap;
+  transition: background 0.12s ease;
+}
+
+.parcurs__clip:hover {
+  background: color-mix(in srgb, var(--culoare) 42%, #171a21);
+}
+
+.parcurs__clip--acum {
+  background: color-mix(in srgb, var(--culoare) 50%, #171a21);
+}
+
+/* Semestrele care urmează: contur punctat, ca un clip încă neîncărcat */
+.parcurs__clip--viitor {
+  border-top-style: dashed;
+  background: color-mix(in srgb, var(--culoare) 8%, #12151b);
+  color: var(--text-gri);
+}
+
+.parcurs__clip--ales {
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+
+.parcurs__nume {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.parcurs__numar {
+  flex: none;
+  min-width: 18px;
+  padding: 0 4px;
+  border-radius: 2px;
+  background: rgba(0, 0, 0, 0.35);
+  text-align: center;
+}
+
+.parcurs__vacanta {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: repeating-linear-gradient(135deg, transparent 0 4px, rgba(158, 178, 220, 0.07) 4px 8px);
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+}
+
+.parcurs__azi {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--eticheta-pista) + (100% - var(--eticheta-pista)) * var(--pozitie, 0));
+  width: 1px;
+  background: var(--accent);
+  pointer-events: none;
+}
+
+.parcurs__azi[hidden] {
+  display: none;
+}
+
+.parcurs__azi::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -5px;
+  border-top: 8px solid var(--accent);
+  border-right: 5.5px solid transparent;
+  border-left: 5.5px solid transparent;
+}
+
+.parcurs__azi span {
+  position: absolute;
+  bottom: 4px;
+  left: 6px;
+  padding: 0 5px;
+  background: var(--accent);
+  color: var(--pe-accent);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+/* Aproape de capăt, eticheta „Azi” trece în stânga liniei */
+.parcurs__azi--stanga span {
+  right: 6px;
+  left: auto;
+}
+
+/* Pe lățimi mici: doar „Anul 1” pe riglă și fără numărul de materiale */
+@container parcurs (max-width: 640px) {
+  .parcurs__ani,
+  .parcurs__numar {
+    display: none;
+  }
+}
+
+/* ---------- 3. BIN-URI, FILTRE ȘI GRILA DE MATERIALE --------------------- */
+.pool {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr) var(--panou);
+  gap: 16px;
+  align-items: start;
+}
+
+.binuri {
+  position: sticky;
+  top: calc(var(--antet) + 12px);
+  padding: 10px;
+  border: 1px solid var(--linie);
+  border-radius: var(--raza);
+  background: var(--suprafata);
+}
+
+.binuri__titlu {
+  margin: 2px 4px 8px;
+}
+
+#lista-binuri {
+  display: grid;
+  gap: 2px;
+}
+
+.binuri__an {
+  margin: 10px 4px 4px;
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.bin {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 36px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 2px;
+  color: var(--text-gri);
+  font-size: 0.875rem;
+  text-align: left;
+  transition: background 0.12s ease, color 0.12s ease;
+}
+
+.bin .iconita {
+  width: 16px;
+  height: 16px;
+  color: var(--culoare);
+}
+
+.bin__nume {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bin__numar {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.bin__acum {
+  padding: 0 5px;
+  border: 1px solid var(--accent);
+  border-radius: 2px;
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.bin--gol {
+  opacity: 0.55;
+}
+
+.bin:hover {
+  background: var(--suprafata-hover);
+  color: var(--text);
+}
+
+.bin[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--suprafata-hover);
+  color: var(--text);
+  opacity: 1;
+}
+
+/* Filtrele după tip */
+.filtre {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.filtru {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--linie);
+  border-radius: var(--raza);
+  color: var(--text-gri);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  transition: border-color 0.12s ease, color 0.12s ease;
+}
+
+.filtru .iconita {
+  width: 14px;
+  height: 14px;
+  color: var(--culoare, var(--text-gri));
+}
+
+.filtru__numar {
+  opacity: 0.75;
+}
+
+.filtru:hover {
+  border-color: var(--culoare, var(--accent));
+  color: var(--text);
+}
+
+.filtru[aria-pressed="true"] {
+  border-color: var(--accent);
+  background: var(--suprafata-hover);
+  color: var(--text);
+}
+
+/* Grila de materiale, ca thumbnail-urile dintr-un media pool */
+.grila-materiale {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.grila-materiale[hidden],
+.grila-materiale li[hidden] {
+  display: none;
+}
+
+.material {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+  border: 1px solid var(--linie);
+  border-radius: var(--raza);
+  background: var(--suprafata);
+  text-align: left;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.material:hover {
+  background: var(--suprafata-hover);
+}
+
+.material--activ {
+  border-color: var(--accent);
+  background: var(--suprafata-hover);
+}
+
+.material__cadru {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  margin-bottom: 6px;
+  overflow: hidden;
+  border-top: 3px solid var(--culoare);
+  background: #000;
+}
+
+.material__cadru img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.material__arsura {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  padding: 1px 5px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+}
+
+.material__titlu {
+  display: block;
+  color: var(--text);
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.material__meta,
+.material__materie {
+  display: block;
+  overflow: hidden;
+  color: var(--text-gri);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.material__meta {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+}
+
+.material__materie {
+  font-size: 0.8125rem;
+}
+
+/* ---------- 4. COPERTA DESENATĂ DUPĂ TIP --------------------------------- */
+.coperta {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--culoare) 32%, transparent), transparent 72%),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 9px),
+    #12151c;
+  color: var(--culoare);
+}
+
+.coperta .iconita {
+  width: clamp(28px, 24%, 72px);
+  height: auto;
+  aspect-ratio: 1;
+}
+
+.coperta__ext {
+  position: absolute;
+  right: 6px;
+  bottom: 6px;
+  padding: 0 5px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+/* Animația de „cut” din style.css, aplicată și pe copertă */
+.cu-taietura .clip__cadru .coperta {
+  animation: cut-imagine 0.2s steps(1, end) backwards;
+}
+
+/* ---------- 5. MATERII --------------------------------------------------- */
+.grila--materii {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+}
+
+/* Bara cu tipurile de materiale ale materiei, proporțional cu numărul lor */
+.bara-tipuri {
+  display: flex;
+  gap: 2px;
+  height: 6px;
+  margin-top: 14px;
+}
+
+.bara-tipuri span {
+  min-width: 6px;
+  background: var(--culoare);
+}
+
+/* ---------- 6. RESPONSIVE ------------------------------------------------ */
+/* Laptop mic: bin-urile urcă deasupra grilei, ca un rând de taburi */
+@media (max-width: 1199px) {
+  .pool {
+    grid-template-columns: minmax(0, 1fr) var(--panou);
+  }
+
+  .binuri {
+    position: static;
+    grid-column: 1 / -1;
+    padding: 6px;
+  }
+
+  .binuri__titlu,
+  .binuri__an {
+    display: none;
+  }
+
+  #lista-binuri {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-color: var(--linie) transparent;
+    scrollbar-width: thin;
+  }
+
+  .bin {
+    flex: none;
+    width: auto;
+  }
+}
+
+/* Tabletă: panoul din dreapta dispare (din style.css), materialul se deschide jos */
+@media (max-width: 999px) {
+  .pool {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .grila-materiale {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 8px;
+  }
+
+  .material__materie {
+    display: none;
+  }
+
+  .carnet__randuri div {
+    grid-template-columns: 96px minmax(0, 1fr);
+  }
+
+  .parcurs__clipuri {
+    height: 40px;
+  }
+}
