@@ -52,7 +52,9 @@
   main.innerHTML = `
     <article class="voce-pagina" aria-labelledby="titlu-voce">
       <div class="voce__foto">
-        ${v.foto
+        ${v.oglinda && window.Oglinda
+          ? window.Oglinda.cadru(douaCifre(index + 1))
+          : v.foto
           ? `<figure class="voce__cadru">
           <img src="${escapa(cale(v.foto))}" srcset="${escapa(cale(v.fotoMica || v.foto))} 760w, ${escapa(cale(v.foto))} 1400w" sizes="(max-width: 760px) 94vw, 46vw" alt="${escapa(v.alt || "")}" width="1400" height="2008" fetchpriority="high">
           <span class="voce__index">${douaCifre(index + 1)}</span>
@@ -81,6 +83,9 @@
         </nav>` : ""}
       </div>
     </article>`;
+
+  // Vocea-oglindă: termenii pentru cameră apar înainte de orice
+  if (v.oglinda && window.Oglinda) window.Oglinda.leaga(main.querySelector("[data-oglinda]"), v.titlu, true);
 
   // Titlul mare nu iese niciodată din coloană, oricât de lung e cuvântul
   const titlu = document.getElementById("titlu-voce");

@@ -57,6 +57,7 @@ const EXPOZITIE = {
        descriereEn   textul în engleză de pe poster
        efect         ce poate lăsa violența în urmă
        relevanta     de ce contează pentru campania 16 zile
+       oglinda       opțional: true = în locul fotografiei apare camera vizitatorului
        poster/foto   imaginile din img/ (posterul întreg și doar fotografia).
                      Cât timp sunt goale (""), pagina arată un loc pentru fotografie.
      ------------------------------------------------------------------------ */
@@ -383,6 +384,7 @@ const EXPOZITIE = {
     },
     {
       slug: "eisoptrophobia",
+      oglinda: true, // în locul fotografiei: camera vizitatorului, ca o oglindă (vezi oglinda.js)
       alias: ["eisoptrofobia"],
       titlu: "EISOPTROPHOBIA",
       titluRo: "Eisoptrofobia",

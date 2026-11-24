@@ -1471,3 +1471,219 @@ ol {
     overflow-x: auto;
   }
 }
+
+/* ---------- 17. OGLINDA (vocea EISOPTROPHOBIA: camera în locul fotografiei) ---------- */
+.oglinda {
+  position: relative;
+  display: block;
+  overflow: hidden;
+  aspect-ratio: 3749 / 5378;
+  background: var(--cerneala);
+  color: #fff;
+  container-type: inline-size;
+  cursor: default;
+}
+
+.oglinda video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transform: scaleX(-1); /* ca într-o oglindă */
+  filter: grayscale(1) contrast(1.08);
+  transition: opacity 0.8s ease;
+}
+
+.oglinda--pornita .oglinda__video {
+  opacity: 1;
+}
+
+/* un al doilea chip, ușor deplasat și încețoșat: reflexia „străină” */
+.oglinda--pornita .oglinda__ecou {
+  opacity: 0.26;
+  filter: grayscale(1) blur(3px);
+  mix-blend-mode: screen;
+  transform: scaleX(-1) translate(3%, 0) scale(1.04);
+  animation: oglinda-ecou 7s ease-in-out infinite alternate;
+}
+
+@keyframes oglinda-ecou {
+  to {
+    transform: scaleX(-1) translate(-3%, 1%) scale(1.07);
+  }
+}
+
+.oglinda::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55));
+  pointer-events: none;
+}
+
+.oglinda__repaus {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 16px;
+  padding: 6cqi;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 18px, rgba(255, 255, 255, 0.035) 18px 19px),
+    var(--cerneala);
+}
+
+.oglinda--pornita .oglinda__repaus {
+  display: none;
+}
+
+.oglinda__text {
+  font-size: clamp(1.2rem, 8cqi, 2.2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.08;
+}
+
+.oglinda__repaus .buton {
+  border-color: #fff;
+  background: #fff;
+  color: var(--cerneala);
+}
+
+.oglinda__repaus .buton:hover,
+.oglinda__repaus .buton:focus-visible {
+  background: var(--oranj);
+  border-color: var(--oranj);
+  color: #fff;
+}
+
+.oglinda__stare {
+  position: absolute;
+  top: 6cqi;
+  left: 6cqi;
+  right: 6cqi;
+  z-index: 2;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.12);
+  border-left: 3px solid var(--oranj);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.oglinda__opreste {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  display: none;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font: 700 0.78rem/1 var(--font);
+  cursor: pointer;
+}
+
+.oglinda__nota {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 2;
+  display: none;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.oglinda--pornita .oglinda__opreste,
+.oglinda--pornita .oglinda__nota {
+  display: block;
+}
+
+/* fereastra cu termenii pentru cameră */
+html.cu-acord {
+  overflow: hidden;
+}
+
+.acord {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  overflow: auto;
+  background: rgba(10, 10, 10, 0.94);
+}
+
+.acord__cutie {
+  width: min(560px, 100%);
+  padding: clamp(22px, 4vw, 36px);
+  background: var(--hartie);
+  color: var(--cerneala);
+}
+
+.acord__eticheta {
+  color: var(--oranj-inchis);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.acord__titlu {
+  margin: 10px 0 14px;
+  font-size: clamp(1.6rem, 8.5vw, 3rem);
+}
+
+.acord__intro {
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+.acord__termeni {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 18px;
+  padding-left: 1.1em;
+  font-size: 0.95rem;
+  list-style: disc;
+}
+
+.acord__bifa {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.acord__bifa input {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--cerneala);
+}
+
+.acord__butoane {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.acord .buton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oglinda--pornita .oglinda__ecou {
+    animation: none;
+  }
+}

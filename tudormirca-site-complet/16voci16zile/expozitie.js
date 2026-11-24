@@ -100,7 +100,9 @@
       (v, i) => `
       <article class="voce" id="voce-${escapa(v.slug)}" aria-labelledby="titlu-${escapa(v.slug)}">
         <div class="voce__foto" data-apare>
-          ${v.foto
+          ${v.oglinda && window.Oglinda
+            ? window.Oglinda.cadru(douaCifre(i + 1))
+            : v.foto
             ? `<button class="voce__cadru" type="button" data-poster="${i}" aria-label="Vezi posterul ${escapa(v.titlu)}">
             <img src="${escapa(v.foto)}" srcset="${escapa(v.fotoMica || v.foto)} 760w, ${escapa(v.foto)} 1400w" sizes="(max-width: 760px) 92vw, 46vw" alt="${escapa(v.alt || "")}" loading="lazy" width="1400" height="2008">
             <span class="voce__index">${douaCifre(i + 1)}</span>
@@ -124,6 +126,9 @@
       </article>`
     )
     .join("");
+
+  // Vocea-oglindă: camera pornește doar la cerere, după termeni
+  if (window.Oglinda) voci.forEach((v) => v.oglinda && window.Oglinda.leaga(document.querySelector(`#voce-${v.slug} [data-oglinda]`), v.titlu, false));
 
   /* ---------- fereastra cu posterul întreg ---------- */
   const fereastra = $("#fereastra");
