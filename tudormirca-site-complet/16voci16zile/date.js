@@ -439,6 +439,16 @@ const EXPOZITIE = {
     { nume: "", rol: "", foto: "img/echipa/student-15.jpg" },
     { nume: "", rol: "", foto: "img/echipa/student-16.jpg" },
     { nume: "", rol: "", foto: "img/echipa/student-17.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-18.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-19.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-20.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-21.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-22.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-23.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-24.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-25.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-26.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-27.jpg" },
   ],
 
   sprijin: [
