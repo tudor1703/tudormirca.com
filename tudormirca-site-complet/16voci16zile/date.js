@@ -434,7 +434,7 @@ const EXPOZITIE = {
     { nume: "", rol: "", foto: "img/echipa/student-10.jpg?v=2" },
     { nume: "", rol: "", foto: "img/echipa/student-11.jpg?v=2" },
     { nume: "", rol: "", foto: "img/echipa/student-12.jpg?v=2" },
-    { nume: "", rol: "", foto: "img/echipa/student-13.jpg?v=2" },
+    { nume: "", rol: "", foto: "img/echipa/student-13.jpg?v=3" },
     { nume: "", rol: "", foto: "img/echipa/student-14.jpg?v=2" },
     { nume: "", rol: "", foto: "img/echipa/student-15.jpg?v=2" },
     { nume: "", rol: "", foto: "img/echipa/student-16.jpg?v=2" },
@@ -449,6 +449,9 @@ const EXPOZITIE = {
     { nume: "", rol: "", foto: "img/echipa/student-25.jpg?v=2" },
     { nume: "", rol: "", foto: "img/echipa/student-26.jpg?v=2" },
     { nume: "", rol: "", foto: "img/echipa/student-27.jpg?v=2" },
+    { nume: "", rol: "", foto: "img/echipa/student-28.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-29.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-30.jpg" },
   ],
 
   sprijin: [
