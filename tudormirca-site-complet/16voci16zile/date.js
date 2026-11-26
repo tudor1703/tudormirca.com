@@ -251,9 +251,9 @@ const EXPOZITIE = {
         "Alexitimia explică de ce unele victime povestesc despre violență calm, aproape fără emoție. Asta nu înseamnă că mint sau că nu le-a durut. Campania ne învață să credem victimele, chiar și atunci când nu reacționează cum ne-am aștepta.",
       poster: "", // img/alexithymia-poster.jpg
       posterMic: "",
-      foto: "", // img/alexithymia-foto.jpg
-      fotoMica: "",
-      alt: "",
+      foto: "img/alexithymia-foto.jpg",
+      fotoMica: "img/alexithymia-foto-mic.jpg",
+      alt: "Colaj alb-negru din fâșii de hârtie ruptă: ochi în lacrimi, o gură care țipă și o mână care apasă buzele.",
     },
     {
       slug: "lypemania",
@@ -452,6 +452,7 @@ const EXPOZITIE = {
     { nume: "", rol: "", foto: "img/echipa/student-28.jpg" },
     { nume: "", rol: "", foto: "img/echipa/student-29.jpg" },
     { nume: "", rol: "", foto: "img/echipa/student-30.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-31.jpg" },
   ],
 
   sprijin: [
