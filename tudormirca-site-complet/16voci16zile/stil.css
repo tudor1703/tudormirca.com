@@ -1093,6 +1093,71 @@ html[data-tema="intunecat"] .tema-buton .tema__soare {
   font-weight: 700;
 }
 
+/* Cine a dus greul: sub linie, înaintea grilei; poza are lățimea unei coloane din grilă */
+.echipa__principal {
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 2px solid var(--cerneala);
+}
+
+.principal {
+  display: grid;
+  grid-template-columns: calc((100% - 80px) / 9) minmax(0, 1fr);
+  gap: 12px 20px;
+  align-items: end;
+}
+
+.principal__rol {
+  color: var(--gri);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.principal__nume {
+  margin-top: 6px;
+  font-size: clamp(1.15rem, 2.2vw, 1.9rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  overflow-wrap: anywhere;
+}
+
+.principal__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--linie);
+  color: var(--gri);
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.principal__link svg {
+  width: 16px;
+  height: 16px;
+}
+
+.principal__link:hover,
+.principal__link:focus-visible {
+  border-color: var(--oranj);
+  color: var(--oranj);
+}
+
+.principal:hover .om__foto img {
+  transform: scale(1.04);
+}
+
+.echipa__principal:not([hidden]) + .echipa__grila {
+  padding-top: 0;
+  border-top: 0;
+}
+
 /* Meet the team: toți studenții într-o singură grilă */
 .echipa__grila {
   display: grid;
@@ -1113,11 +1178,24 @@ html[data-tema="intunecat"] .tema-buton .tema__soare {
   .echipa__grila {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
+
+  .principal {
+    grid-template-columns: calc((100% - 40px) / 5) minmax(0, 1fr);
+  }
 }
 
 @media (max-width: 760px) {
   .echipa__grila {
     gap: 14px 6px;
+  }
+
+  .principal {
+    grid-template-columns: calc((100% - 24px) / 5) minmax(0, 1fr);
+    gap: 10px 12px;
+  }
+
+  .principal__rol {
+    font-size: 0.7rem;
   }
 
   .echipa__grila .om__nume {

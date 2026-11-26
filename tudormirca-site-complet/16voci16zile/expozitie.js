@@ -159,8 +159,34 @@
 
   const silueta = `<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#i-om"></use></svg>`;
   const libere = Math.max(0, studenti - echipa.length);
+
+  // Cine a dus greul proiectului: separat, mare, sub linie, înaintea celorlalți
+  const principali = echipa.filter((m) => m.principal);
+  const ceilalti = echipa.filter((m) => !m.principal);
+  const cutiePrincipal = $("#echipa-principal");
+  if (principali.length) {
+    cutiePrincipal.hidden = false;
+    cutiePrincipal.innerHTML = principali
+      .map((m) => {
+        const ig = (m.instagram || "").replace(/^@/, "");
+        const nume = m.nume || (ig ? `@${ig}` : "");
+        const link = ig
+          ? `<a class="principal__link" href="https://www.instagram.com/${encodeURIComponent(ig)}/" target="_blank" rel="noopener">${iconita("i-ig")}<span>@${escapa(ig)}</span><span aria-hidden="true">↗</span></a>`
+          : "";
+        return `<article class="principal">
+          <div class="om__foto principal__foto">${m.foto ? `<img src="${escapa(m.foto)}" alt="${escapa(nume || "Membru al echipei")}" loading="lazy">` : silueta}</div>
+          <div class="principal__text">
+            ${m.rol ? `<p class="principal__rol">${escapa(m.rol)}</p>` : ""}
+            ${nume ? `<p class="principal__nume">${escapa(nume)}</p>` : ""}
+            ${link}
+          </div>
+        </article>`;
+      })
+      .join("");
+  }
+
   $("#echipa-grila").innerHTML =
-    echipa
+    ceilalti
       .map(
         (m) => `<li class="om">
           <div class="om__foto">${m.foto ? `<img src="${escapa(m.foto)}" alt="${escapa(m.nume || "Membru al echipei")}" loading="lazy">` : silueta}</div>
