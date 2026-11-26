@@ -168,7 +168,7 @@
           ${m.rol ? `<p class="om__rol">${escapa(m.rol)}</p>` : ""}</li>`
       )
       .join("") +
-    Array.from({ length: libere }, () => `<li class="om om--liber" aria-hidden="true"><div class="om__foto">${silueta}</div></li>`).join("");
+    (libere ? `<li class="om om--restul"><div class="om__foto" role="img" aria-label="Încă ${libere} colegi din echipă"><span>+${libere}</span></div></li>` : "");
 
   /* ---------- sprijin ---------- */
   $("#linii").innerHTML = (E.sprijin || [])

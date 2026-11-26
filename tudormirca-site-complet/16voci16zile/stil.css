@@ -1044,6 +1044,37 @@ html[data-tema="intunecat"] .tema-buton .tema__soare {
   fill: var(--silueta);
 }
 
+/* Restul echipei, fără fotografie: un singur card „+N” */
+/* același fundal ca oglinda (vocea 17) în repaus: dungi fine pe negru și vignetă */
+.om--restul .om__foto {
+  position: relative;
+  display: grid;
+  place-items: center;
+  background:
+    repeating-linear-gradient(135deg, transparent 0 18px, rgba(255, 255, 255, 0.035) 18px 19px),
+    var(--bloc);
+  color: var(--pe-bloc);
+}
+
+.om--restul .om__foto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.55));
+  pointer-events: none;
+}
+
+.om--restul span {
+  position: relative;
+  z-index: 1;
+}
+
+.om--restul span {
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
 /* Departamentele: doar o listă, nu butoane */
 .dep-lista {
   display: flex;
