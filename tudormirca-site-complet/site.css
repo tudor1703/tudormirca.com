@@ -820,9 +820,14 @@ main:focus {
   /* Sus lumina se stinge lin în fundal, jos planeta dispare treptat */
   -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 calc(var(--sus) * 0.75), #000 calc(var(--sus) + var(--d) * 0.26), transparent calc(var(--sus) + var(--d) * 0.52));
   mask-image: linear-gradient(180deg, transparent 0, #000 calc(var(--sus) * 0.75), #000 calc(var(--sus) + var(--d) * 0.26), transparent calc(var(--sus) + var(--d) * 0.52));
-  width: var(--d);
+  /* Mai lată decât planeta, ca aura (care iese cu 12% în afară) să se stingă
+     complet înainte de marginea măștii, în loc să fie tăiată vertical */
+  width: calc(var(--d) * 1.3);
   height: calc(var(--d) + var(--sus));
-  margin: calc(clamp(-20px, 2vw, 30px) - var(--sus)) auto 0;
+  /* Centrată doar prin left + translateX (site.js păstrează translateX-ul la
+     scroll). Fără margin auto: pe ecrane late se aduna cu left: 50% și
+     împingea planeta spre dreapta */
+  margin: calc(clamp(-20px, 2vw, 30px) - var(--sus)) 0 0;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -830,8 +835,9 @@ main:focus {
 .eclipsa__corp {
   position: absolute;
   top: var(--sus);
-  left: 0;
-  width: 100%;
+  left: 50%;
+  width: var(--d);
+  margin-left: calc(var(--d) / -2);
   aspect-ratio: 1;
 }
 
