@@ -988,77 +988,74 @@ main:focus {
 
 .studio__corp {
   display: grid;
-  grid-template-columns: 200px minmax(0, 1fr) 230px;
+  grid-template-columns: 280px minmax(0, 1fr);
   border-bottom: 1px solid var(--linie);
 }
 
-.studio__bin,
-.studio__inspector {
-  padding: 16px;
-}
-
-.studio__bin {
+/* Panoul „Despre mine”, despărțit de monitor printr-o linie, ca un panou de montaj */
+.studio__despre {
+  padding: 16px 20px 20px 16px;
   border-right: 1px solid var(--linie);
 }
 
-.studio__inspector {
-  border-left: 1px solid var(--linie);
-}
-
-.studio__bin ul {
-  display: grid;
-  gap: 4px;
-  margin-top: 12px;
-}
-
-.studio__bin li {
+.studio__profil {
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 7px 8px;
-  border-radius: 8px;
-  color: var(--text-gri);
-  font-size: 0.8rem;
-  white-space: nowrap;
+  gap: 12px;
+  margin-top: 16px;
 }
 
-.studio__bin li:first-child {
-  background: rgba(255, 107, 44, 0.1);
-  color: var(--text);
-}
-
-.studio__bin li i {
+.studio__profil img {
   flex: none;
-  width: 22px;
-  height: 14px;
-  border-radius: 3px;
-  background: var(--culoare, #555);
-  opacity: 0.85;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  object-fit: cover;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 0 0 4px rgba(255, 107, 44, 0.08), 0 10px 26px -10px var(--accent-glow);
 }
 
-.studio__bin li span {
-  overflow: hidden;
-  text-overflow: ellipsis;
+.studio__nume {
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
 }
 
-.studio__inspector dl {
-  display: grid;
-  gap: 14px;
-  margin-top: 12px;
-}
-
-.studio__inspector dt {
-  color: var(--text-stins);
+.studio__rol {
+  margin-top: 5px;
+  color: var(--accent-deschis);
   font-family: var(--font-mono);
-  font-size: 0.65rem;
+  font-size: 0.66rem;
+  font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.studio__inspector dd {
+.studio__rol .de-completat {
+  letter-spacing: 0.02em;
+}
+
+.studio__fisa {
+  display: grid;
+  gap: 13px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--linie);
+}
+
+.studio__fisa dt {
+  color: var(--text-stins);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.studio__fisa dd {
   margin-top: 3px;
-  font-size: 0.9rem;
+  font-size: 0.86rem;
   font-weight: 500;
+  line-height: 1.35;
 }
 
 .studio__monitor {
@@ -2854,11 +2851,7 @@ main:focus {
   }
 
   .studio__corp {
-    grid-template-columns: 170px minmax(0, 1fr);
-  }
-
-  .studio__inspector {
-    display: none;
+    grid-template-columns: 240px minmax(0, 1fr);
   }
 }
 
@@ -2883,12 +2876,20 @@ main:focus {
     display: block;
   }
 
+  /* Panoul „Despre mine” trece deasupra monitorului, despărțit printr-o linie orizontală */
   .studio__corp {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .studio__bin {
-    display: none;
+  .studio__despre {
+    padding: 14px;
+    border-right: 0;
+    border-bottom: 1px solid var(--linie);
+  }
+
+  .studio__fisa {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 18px;
   }
 
   .bento {
@@ -2945,6 +2946,10 @@ main:focus {
 
   .studio__info {
     display: none;
+  }
+
+  .studio__despre {
+    padding: 12px 10px 14px;
   }
 
   .studio__monitor {

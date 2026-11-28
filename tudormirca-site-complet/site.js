@@ -27,6 +27,7 @@
   const experienta = Array.isArray(DATE_SITE.experienta) ? DATE_SITE.experienta : [];
   const proiecte = Array.isArray(DATE_SITE.proiecte) ? DATE_SITE.proiecte : []; // „Creații de ale mele”
   const parcurs = Array.isArray(DATE_SITE.parcurs) ? DATE_SITE.parcurs : [];
+  const universitate = DATE_SITE.universitate || {};
   const cursuri = Array.isArray(DATE_SITE.cursuri) ? DATE_SITE.cursuri : [];
   const platforme = Array.isArray(DATE_SITE.platforme) ? DATE_SITE.platforme : [];
   // „Pe unde am lucrat” apare doar când data.js / adminul o cere și are ce arăta
@@ -199,12 +200,6 @@
     $("#studio-fisier").textContent = `${fisier || "portofoliu"}.prproj`;
     $("#studio-info").textContent = `${FPS} fps · 16:9 · 4K`;
 
-    // Bin-ul: proiectele, ca fișiere media
-    const bin = proiecte.length
-      ? proiecte.slice(0, 7).map((p) => `<li style="--culoare:${culoareCategorie(p.categorie)}"><i></i><span>${escapa(curat(p.titlu) || "Creație")}</span></li>`)
-      : ["Showreel", "Interviu", "B-roll", "Muzică"].map((t, i) => `<li style="--culoare:${culori[i]}"><i></i><span>${t}</span></li>`);
-    $("#studio-bin").innerHTML = bin.join("");
-
     // Monitorul: imaginea proprie sau lumina animată
     const { imagine = "", alt = "", video = "" } = profil.showreel || {};
     const ecran = $("#monitor-ecran");
@@ -255,15 +250,25 @@
       });
     }
 
-    // Inspectorul: fișa scurtă
+    // Panoul „Despre mine” din stânga monitorului: poza, numele, rolul, vârsta, studiile.
+    // Studiile se iau din „universitate” (aceleași date ca pe pagina Universitate).
+    const avatarStudio = $("#studio-avatar");
+    avatarStudio.src = profil.avatar || "assets/avatar.svg";
+    avatarStudio.alt = `Portret ${nume}`;
+    $("#studio-nume").textContent = nume;
+    $("#studio-rol").innerHTML = text(profil.rol || MARCAJ);
+    const varsta = Number(curat(profil.varsta));
     const ani = Number(curat(profil.aniExperienta));
     const textAni = Number.isFinite(ani) && curat(profil.aniExperienta) !== "" ? numara(ani, "an", "ani") : text(profil.aniExperienta || MARCAJ);
+    const faraPrefix = (v) => text(v).replace(/^Facultatea (de |a )?/i, "");
     $("#studio-fisa").innerHTML = [
-      ["Rol", text(profil.rol || MARCAJ)],
+      ["Vârstă", Number.isFinite(varsta) && varsta > 0 ? numara(varsta, "an", "ani") : profil.varsta ? text(profil.varsta) : ""],
+      ["Studiez la", universitate.institutie ? text(universitate.institutie) : ""],
+      ["Facultatea", universitate.facultate ? faraPrefix(universitate.facultate) : ""],
+      ["Specialitatea", universitate.specialitate ? text(universitate.specialitate) : ""],
       ["Experiență", textAni],
-      ["Creații", String(proiecte.length)],
-      ["Skills", String(skills.length)],
     ]
+      .filter(([, valoare]) => valoare)
       .map(([eticheta, valoare]) => `<div><dt>${eticheta}</dt><dd>${valoare}</dd></div>`)
       .join("");
 

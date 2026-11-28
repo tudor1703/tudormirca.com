@@ -42,6 +42,7 @@ const DATE = {
     initiale: "TM", // apar în pătratul din stânga sus
     rol: "[DE COMPLETAT]", // ex: "Video editor", "Designer", "Developer"
     aniExperienta: "[DE COMPLETAT]", // pune doar numărul, ex: 5
+    varsta: 20, // doar numărul; apare în fișa din studio ca „20 de ani”
     avatar: "assets/avatar.svg", // înlocuiește cu poza ta, ex: "assets/tudor.jpg"
     descriereScurta: "[DE COMPLETAT] O propoziție despre ce faci și pentru cine.",
 
@@ -335,9 +336,9 @@ const DATE = {
      UNIVERSITATE — conținutul paginii universitate.html
      ======================================================================== */
   universitate: {
-    institutie: "[DE COMPLETAT] Numele universității",
-    facultate: "[DE COMPLETAT] Facultatea",
-    specialitate: "[DE COMPLETAT] Specialitatea",
+    institutie: "Universitatea de Stat din Moldova",
+    facultate: "Facultatea de Jurnalism și Științe ale Comunicării",
+    specialitate: "Producție multimedia",
     ciclu: "Licență [DE COMPLETAT]", // ex: "Licență", "Master"
     descriere: "[DE COMPLETAT] Ce studiezi, pe scurt, și ce te interesează cel mai mult.",
     site: "[DE COMPLETAT]", // adresa site-ului universității, ex: "https://usm.md"

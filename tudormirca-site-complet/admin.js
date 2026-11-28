@@ -386,6 +386,7 @@
           { k: "profil.initiale", t: "text", eticheta: "Inițiale", ajutor: "Apar în pătratul din stânga sus." },
           { k: "profil.rol", t: "text", eticheta: "Rol", placeholder: "ex: Video editor" },
           { k: "profil.aniExperienta", t: "text", eticheta: "Ani de experiență", placeholder: "ex: 3" },
+          { k: "profil.varsta", t: "text", eticheta: "Vârstă", placeholder: "ex: 20", ajutor: "Apare în fișa din studio, lângă clipuri. Studiile se iau din secțiunea Universitate." },
           { k: "profil.descriereScurta", t: "textarea", eticheta: "Descriere scurtă", lat: true, rows: 3 },
           { k: "profil.avatar", t: "fisier", eticheta: "Poza ta", lat: true, accept: "image/*" },
           { k: "profil.cv", t: "fisier", eticheta: "CV (PDF)", lat: true, accept: ".pdf,application/pdf" },

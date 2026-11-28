@@ -455,6 +455,7 @@ const EXPOZITIE = {
     { nume: "", rol: "", foto: "img/echipa/student-30.jpg" },
     { nume: "", rol: "", foto: "img/echipa/student-31.jpg" },
     { nume: "", rol: "", foto: "img/echipa/student-32.jpg" },
+    { nume: "", rol: "", foto: "img/echipa/student-33.jpg" },
   ],
 
   sprijin: [

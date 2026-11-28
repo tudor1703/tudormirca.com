@@ -35,14 +35,14 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400..700&family=Space+Grotesk:wght@400..700&display=swap">
 
   <!-- ?v=... obligă browserele să ia versiunea nouă. Schimbă numărul când modifici fișierul. -->
-  <link rel="stylesheet" href="site.css?v=2">
+  <link rel="stylesheet" href="site.css?v=3">
   <link rel="stylesheet" href="intro.css?v=2">
 
   <!-- data.js primul: celelalte scripturi citesc conținutul din el -->
   <script src="data.js" defer></script>
   <script src="intro.js?v=2" defer></script>
   <script src="vendor/lenis.min.js" defer></script>
-  <script src="site.js?v=1" defer></script>
+  <script src="site.js?v=2" defer></script>
 </head>
 <body>
   <a class="sari-la-continut" href="#continut">Sari la conținut</a>
@@ -159,9 +159,17 @@
             <span class="studio__info" id="studio-info">25 fps · 16:9</span>
           </div>
           <div class="studio__corp">
-            <aside class="studio__bin" aria-label="Proiecte în bin">
-              <p class="eticheta">Media</p>
-              <ul id="studio-bin"></ul>
+            <!-- Panoul din stânga: pe scurt despre mine (poza, rolul, vârsta, studiile) -->
+            <aside class="studio__despre" aria-label="Pe scurt despre mine">
+              <p class="eticheta">Despre mine</p>
+              <div class="studio__profil">
+                <img id="studio-avatar" src="assets/avatar.svg" alt="" width="52" height="52">
+                <div>
+                  <p class="studio__nume" id="studio-nume"></p>
+                  <p class="studio__rol" id="studio-rol"></p>
+                </div>
+              </div>
+              <dl class="studio__fisa" id="studio-fisa"></dl>
             </aside>
             <div class="studio__monitor">
               <div class="monitor__bara" aria-hidden="true">
@@ -176,10 +184,6 @@
                 </button>
               </div>
             </div>
-            <aside class="studio__inspector" aria-label="Fișa">
-              <p class="eticheta">Inspector</p>
-              <dl id="studio-fisa"></dl>
-            </aside>
           </div>
           <div class="studio__timeline" aria-hidden="true">
             <div class="timeline__rigla" id="timeline-rigla"></div>
